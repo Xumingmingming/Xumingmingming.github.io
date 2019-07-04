@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>xxh&#39;s blog</title>
+  
+  <subtitle>未来属于我们</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://xumingmingming.github.io/"/>
+  <updated>2019-06-29T15:30:17.853Z</updated>
+  <id>https://xumingmingming.github.io/</id>
+  
+  <author>
+    <name>xuxinghua</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>外网SSH连接内网Windows上linux虚拟机</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/wai-wang-ssh-lian-jie-nei-wang-windows-shang-linux-xu-ni-ji/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/wai-wang-ssh-lian-jie-nei-wang-windows-shang-linux-xu-ni-ji/</id>
+    <published>2019-06-28T15:28:20.000Z</published>
+    <updated>2019-06-29T15:30:17.853Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;需求&quot;&gt;&lt;a href=&quot;#需求&quot; class=&quot;headerlink&quot; title=&quot;需求&quot;&gt;&lt;/a&gt;需求&lt;/h1&gt;&lt;p&gt;外网SSH连接学校内网的Windows科研电脑上的linux虚拟机&lt;/p&gt;
+&lt;h1 id=&quot;思路&quot;&gt;&lt;a href=&quot;#思路&quot; class=&quot;headerlink&quot; title=&quot;思路&quot;&gt;&lt;/a&gt;思路&lt;/h1&gt;&lt;p&gt;学校网络之外的外网机器 SSH远程连接 内网电脑对应的外网IP，内网电脑接受到外网SSH连接请求，再通过虚拟机的NAT模式（端口转发模式），即宿主PC机转发外网SSH请求到虚拟机对应的端口号，间接的访问虚拟机的Linux。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="奇淫异术" scheme="https://xumingmingming.github.io/tags/%E5%A5%87%E6%B7%AB%E5%BC%82%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>给老婆的故事</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/gei-lao-po-de-gu-shi/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/gei-lao-po-de-gu-shi/</id>
+    <published>2019-06-28T15:16:12.000Z</published>
+    <updated>2019-06-29T08:21:16.910Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;有一天，他又去森林里看太阳。他发现在草丛里有一个小女孩，小女孩长得漂亮极了，长长的睫毛看起来好像从童话里走出来的小公主，但是她不知道怎么了，他叫了她几次都没反应，小男孩很担心。于是他那天没有等到太阳落下就背着小女孩回家了。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="给老婆讲故事" scheme="https://xumingmingming.github.io/tags/%E7%BB%99%E8%80%81%E5%A9%86%E8%AE%B2%E6%95%85%E4%BA%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搭建个人博客</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/da-jian-ge-ren-bo-ke/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/da-jian-ge-ren-bo-ke/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-06-30T11:23:33.734Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;搭建个人博客&quot;&gt;&lt;a href=&quot;#搭建个人博客&quot; class=&quot;headerlink&quot; title=&quot;搭建个人博客&quot;&gt;&lt;/a&gt;搭建个人博客&lt;/h1&gt;
+    
+    </summary>
+    
+    
+      <category term="个人博客" scheme="https://xumingmingming.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的第一篇博客文章</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/wo-de-di-yi-pian-bo-ke-wen-zhang/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/wo-de-di-yi-pian-bo-ke-wen-zhang/</id>
+    <published>2019-06-28T11:30:08.000Z</published>
+    <updated>2019-06-29T08:21:30.516Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;老婆老婆&quot;&gt;&lt;a href=&quot;#老婆老婆&quot; class=&quot;headerlink&quot; title=&quot;老婆老婆~~&quot;&gt;&lt;/a&gt;老婆老婆~~&lt;/h2&gt;&lt;p&gt;  老婆老婆我爱你!&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="我们永远在一起" scheme="https://xumingmingming.github.io/tags/%E6%88%91%E4%BB%AC%E6%B0%B8%E8%BF%9C%E5%9C%A8%E4%B8%80%E8%B5%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第7章 交易优化技术之缓存库存</title>
+    <link href="https://xumingmingming.github.io/2019/06/19/di-7-zhang-jiao-yi-you-hua-ji-zhu-zhi-huan-cun-ku-cun/"/>
+    <id>https://xumingmingming.github.io/2019/06/19/di-7-zhang-jiao-yi-you-hua-ji-zhu-zhi-huan-cun-ku-cun/</id>
+    <published>2019-06-19T15:04:26.000Z</published>
+    <updated>2019-07-03T15:09:35.097Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;本章目标&quot;&gt;&lt;a href=&quot;#本章目标&quot; class=&quot;headerlink&quot; title=&quot;本章目标&quot;&gt;&lt;/a&gt;本章目标&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;掌握高效交易验证方式&lt;/li&gt;
+&lt;li&gt;掌握缓存库存模型(解决库存行锁的性能问题)&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="秒杀项目" scheme="https://xumingmingming.github.io/tags/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="springboot" scheme="https://xumingmingming.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第6章 查询优化技术之页面静态化</title>
+    <link href="https://xumingmingming.github.io/2019/06/18/di-6-zhang-cha-xun-you-hua-ji-zhu-zhi-ye-mian-jing-tai-hua-dong-tai-qing-qiu-jia-jing-tai-ye-mian-yi-tong-jing-tai-hua/"/>
+    <id>https://xumingmingming.github.io/2019/06/18/di-6-zhang-cha-xun-you-hua-ji-zhu-zhi-ye-mian-jing-tai-hua-dong-tai-qing-qiu-jia-jing-tai-ye-mian-yi-tong-jing-tai-hua/</id>
+    <published>2019-06-18T15:04:26.000Z</published>
+    <updated>2019-07-03T15:09:35.092Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;目标&quot;&gt;&lt;a href=&quot;#目标&quot; class=&quot;headerlink&quot; title=&quot;目标&quot;&gt;&lt;/a&gt;目标&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;优化的是H5(static)，请求走静态资源文件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;将静态资源的请求路由到CDN&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="秒杀项目" scheme="https://xumingmingming.github.io/tags/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="springboot" scheme="https://xumingmingming.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第5章 查询优化技术之多级缓存</title>
+    <link href="https://xumingmingming.github.io/2019/06/17/di-5-zhang-cha-xun-you-hua-ji-zhu-zhi-duo-ji-huan-cun/"/>
+    <id>https://xumingmingming.github.io/2019/06/17/di-5-zhang-cha-xun-you-hua-ji-zhu-zhi-duo-ji-huan-cun/</id>
+    <published>2019-06-17T15:04:26.000Z</published>
+    <updated>2019-07-03T15:09:35.084Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;本章目标&quot;&gt;&lt;a href=&quot;#本章目标&quot; class=&quot;headerlink&quot; title=&quot;本章目标&quot;&gt;&lt;/a&gt;本章目标&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;掌握多级缓存的定义&lt;/li&gt;
+&lt;li&gt;掌握redis缓存，本地缓存：不同应用场景的使用，以及他们的优劣&lt;/li&gt;
+&lt;li&gt;掌握热点nginx lua缓存&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="秒杀项目" scheme="https://xumingmingming.github.io/tags/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="springboot" scheme="https://xumingmingming.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第4章 分布式扩展</title>
+    <link href="https://xumingmingming.github.io/2019/06/16/di-4-zhang-fen-bu-shi-kuo-zhan/"/>
+    <id>https://xumingmingming.github.io/2019/06/16/di-4-zhang-fen-bu-shi-kuo-zhan/</id>
+    <published>2019-06-16T15:04:26.000Z</published>
+    <updated>2019-07-03T15:09:35.078Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h1 id=&quot;本章目标&quot;&gt;&lt;a href=&quot;#本章目标&quot; class=&quot;headerlink&quot; title=&quot;本章目标&quot;&gt;&lt;/a&gt;本章目标&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;nginx反向代理负载均衡&lt;/li&gt;
+&lt;li&gt;分布式会话管理&lt;/li&gt;
+&lt;li&gt;使用redis实现分布式会话存储&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="秒杀项目" scheme="https://xumingmingming.github.io/tags/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="springboot" scheme="https://xumingmingming.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第3章 云端部署 性能压测</title>
+    <link href="https://xumingmingming.github.io/2019/06/14/di-3-zhang-yun-duan-bu-shu-xing-neng-ya-ce/"/>
+    <id>https://xumingmingming.github.io/2019/06/14/di-3-zhang-yun-duan-bu-shu-xing-neng-ya-ce/</id>
+    <published>2019-06-14T15:04:26.000Z</published>
+    <updated>2019-07-03T15:09:35.087Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="秒杀项目" scheme="https://xumingmingming.github.io/tags/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="springboot" scheme="https://xumingmingming.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第2章 秒杀项目框架回顾</title>
+    <link href="https://xumingmingming.github.io/2019/06/12/di-2-zhang-miao-sha-xiang-mu-kuang-jia-hui-gu/"/>
+    <id>https://xumingmingming.github.io/2019/06/12/di-2-zhang-miao-sha-xiang-mu-kuang-jia-hui-gu/</id>
+    <published>2019-06-12T12:52:26.000Z</published>
+    <updated>2019-07-03T15:09:35.094Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;h1 id=&quot;秒杀系统的框架&quot;&gt;&lt;a href=&quot;#秒杀系统的框架&quot; class=&quot;headerlink&quot; title=&quot;秒杀系统的框架&quot;&gt;&lt;/a&gt;秒杀系统的框架&lt;/h1&gt;&lt;p&gt;&lt;img
+        
+      
+    
+    </summary>
+    
+    
+      <category term="秒杀项目" scheme="https://xumingmingming.github.io/tags/%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="springboot" scheme="https://xumingmingming.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一个完整的HTTP请求过程</title>
+    <link href="https://xumingmingming.github.io/2019/04/29/yi-ge-wan-zheng-de-http-qing-qiu-guo-cheng/"/>
+    <id>https://xumingmingming.github.io/2019/04/29/yi-ge-wan-zheng-de-http-qing-qiu-guo-cheng/</id>
+    <published>2019-04-29T12:52:26.000Z</published>
+    <updated>2019-06-30T04:05:00.705Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;整个流程&quot;&gt;&lt;a href=&quot;#整个流程&quot; class=&quot;headerlink&quot; title=&quot;整个流程&quot;&gt;&lt;/a&gt;整个流程&lt;/h1&gt;&lt;p&gt;域名解析 —&amp;gt;与服务器建立连接 —&amp;gt; 发起HTTP请求 —&amp;gt; 服务器响应HTTP请求 —&amp;gt;浏览器得到html代码 —&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片） —&amp;gt; 浏览器对页面进行渲染呈现给用户&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="计算机网络" scheme="https://xumingmingming.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HTTP</title>
+    <link href="https://xumingmingming.github.io/2019/04/29/http/"/>
+    <id>https://xumingmingming.github.io/2019/04/29/http/</id>
+    <published>2019-04-29T12:30:26.000Z</published>
+    <updated>2019-06-29T15:16:30.866Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;#前言：&lt;/p&gt;
+&lt;p&gt;TCP协议实现了==数据流==的可靠传输。然而，人们更加习惯以文件为单位传输资源，比如文本文件，图像文件，超文本文档(hypertext document)。&lt;/p&gt;
+&lt;p&gt;==超文本文档==中包含有超链接，指向其他的资源。超文本文档是万维网(World Wide Web，即www)的基础。&lt;/p&gt;
+&lt;p&gt;HTTP协议==解决文件传输==的问题。HTTP是应用层协议，==主要建立在TCP协议之上==(偶尔也可以UDP为底层)。它随着万维网的发展而流行。HTTP协议目的是，如何在万维网的网络环境下，更好的利用TCP协议，以实现文件，特别是超文本文件的传输。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="计算机网络" scheme="https://xumingmingming.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TCP</title>
+    <link href="https://xumingmingming.github.io/2019/04/29/tcp/"/>
+    <id>https://xumingmingming.github.io/2019/04/29/tcp/</id>
+    <published>2019-04-29T12:28:26.000Z</published>
+    <updated>2019-06-29T15:26:53.818Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;TCP三次握手四次挥手&quot;&gt;&lt;a href=&quot;#TCP三次握手四次挥手&quot; class=&quot;headerlink&quot; title=&quot;TCP三次握手四次挥手&quot;&gt;&lt;/a&gt;TCP三次握手四次挥手&lt;/h1&gt;&lt;p&gt;三次握手需要的信息:&lt;/p&gt;
+&lt;p&gt;==ACK== : TCP 协议规定，只有 ACK=1 时有效，也规定连接建立后所有发送的报文的 ACK 必须为 1。 &lt;/p&gt;
+&lt;p&gt;==SYN==(SYNchronization) : 在连接建立时用来同步序号。当 SYN=1 而 ACK=0 时，表明这是一个连接请求报文。对方若同意建立连接，则应在响应报文中使 SYN=1 和 ACK=1. 因此, SYN 置 1 就表示这是一个连接请求或连接接受报文。 &lt;/p&gt;
+&lt;p&gt;==FIN== (finish)即完，终结的意思， 用来释放一个连接。当 FIN = 1 时，表明此报文段 的发送方的数据已经发送完毕，并要求释放连接 。&lt;/p&gt;
+&lt;p&gt;==seq==(序号):&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="计算机网络" scheme="https://xumingmingming.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>互联网协议入门</title>
+    <link href="https://xumingmingming.github.io/2019/04/28/hu-lian-wang-xie-yi-ru-men/"/>
+    <id>https://xumingmingming.github.io/2019/04/28/hu-lian-wang-xie-yi-ru-men/</id>
+    <published>2019-04-28T12:52:26.000Z</published>
+    <updated>2019-06-29T15:26:18.160Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h1&gt;&lt;h2 id=&quot;五层模型&quot;&gt;&lt;a href=&quot;#五层模型&quot; class=&quot;headerlink&quot; title=&quot;五层模型&quot;&gt;&lt;/a&gt;&lt;strong&gt;五层模型&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;互联网的实现，分成好几层。每一层都有自己的功能，就像建筑物一样，每一层都靠下一层支持。&lt;/p&gt;
+&lt;p&gt;用户接触到的，只是最上面的一层，根本没有感觉到下面的层。要理解互联网，必须从最下层开始，自下而上理解每一层的功能。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="计算机网络" scheme="https://xumingmingming.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设计模式也可以这么简单</title>
+    <link href="https://xumingmingming.github.io/2019/03/25/she-ji-mo-shi/"/>
+    <id>https://xumingmingming.github.io/2019/03/25/she-ji-mo-shi/</id>
+    <published>2019-03-25T12:52:26.000Z</published>
+    <updated>2019-06-29T15:29:47.211Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;一直想写一篇介绍设计模式的文章，让读者可以很快看完，而且一看就懂，看懂就会用，同时不会将各个模式搞混。自认为本文还是写得不错的😂😂😂，花了不少心思来写这文章和做图，力求让读者真的能看着简单同时有所收获。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="design pattern" scheme="https://xumingmingming.github.io/tags/design-pattern/"/>
+    
+  </entry>
+  
+</feed>
