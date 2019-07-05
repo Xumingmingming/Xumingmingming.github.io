@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta name="keywords" content="TCP, xxh&#39;s blog">
     <meta name="description" content="TCP三次握手四次挥手三次握手需要的信息:
-==ACK== : TCP 协议规定，只有 ACK=1 时有效，也规定连接建立后所有发送的报文的 ACK 必须为 1。 
-==SYN==(SYNchronization) : 在连接建立时用来同步">
+ACK : TCP 协议规定，只有 ACK=1 时有效，也规定连接建立后所有发送的报文的 ACK 必须为 1。 
+SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -316,14 +316,23 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/计算机网络/" target="_blank">
-                                <span class="chip bg-color">计算机网络</span>
+                            <a href="/tags/TCP/" target="_blank">
+                                <span class="chip bg-color">TCP</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/计算机网络/" class="post-category" target="_blank">
+                                计算机网络
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -357,10 +366,10 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="TCP三次握手四次挥手"><a href="#TCP三次握手四次挥手" class="headerlink" title="TCP三次握手四次挥手"></a>TCP三次握手四次挥手</h1><p>三次握手需要的信息:</p>
-<p>==ACK== : TCP 协议规定，只有 ACK=1 时有效，也规定连接建立后所有发送的报文的 ACK 必须为 1。 </p>
-<p>==SYN==(SYNchronization) : 在连接建立时用来同步序号。当 SYN=1 而 ACK=0 时，表明这是一个连接请求报文。对方若同意建立连接，则应在响应报文中使 SYN=1 和 ACK=1. 因此, SYN 置 1 就表示这是一个连接请求或连接接受报文。 </p>
-<p>==FIN== (finish)即完，终结的意思， 用来释放一个连接。当 FIN = 1 时，表明此报文段 的发送方的数据已经发送完毕，并要求释放连接 。</p>
-<p>==seq==(序号):</p>
+<p>ACK : TCP 协议规定，只有 ACK=1 时有效，也规定连接建立后所有发送的报文的 ACK 必须为 1。 </p>
+<p>SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN=1 而 ACK=0 时，表明这是一个连接请求报文。对方若同意建立连接，则应在响应报文中使 SYN=1 和 ACK=1. 因此, SYN 置 1 就表示这是一个连接请求或连接接受报文。 </p>
+<p>FIN (finish)即完，终结的意思， 用来释放一个连接。当 FIN = 1 时，表明此报文段 的发送方的数据已经发送完毕，并要求释放连接 。</p>
+<p>seq(序号):</p>
 <a id="more"></a>
 
 <p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151220.jpg" alt="1350984685_4221"></p>
@@ -624,7 +633,7 @@
                 </span> 由
             <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/04/29/tcp/" property="cc:attributionName"
                rel="cc:attributionURL">
-                xuxinghua
+                徐兴华
             </a> 采用
             <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
@@ -711,8 +720,12 @@ TCP协议实现了==数据流==的可靠传输。然而，人们更加习惯以�
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            xuxinghua
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/计算机网络/" class="post-category" target="_blank">
+                                    计算机网络
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -720,8 +733,8 @@ TCP协议实现了==数据流==的可靠传输。然而，人们更加习惯以�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/计算机网络/" target="_blank">
-                        <span class="chip bg-color">计算机网络</span>
+                    <a href="/tags/HTTP/" target="_blank">
+                        <span class="chip bg-color">HTTP</span>
                     </a>
                     
                 </div>
@@ -760,8 +773,12 @@ TCP协议实现了==数据流==的可靠传输。然而，人们更加习惯以�
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            xuxinghua
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/计算机网络/" class="post-category" target="_blank">
+                                    计算机网络
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -769,8 +786,8 @@ TCP协议实现了==数据流==的可靠传输。然而，人们更加习惯以�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/计算机网络/" target="_blank">
-                        <span class="chip bg-color">计算机网络</span>
+                    <a href="/tags/互联网入门/" target="_blank">
+                        <span class="chip bg-color">互联网入门</span>
                     </a>
                     
                 </div>
@@ -928,7 +945,7 @@ I<footer class="page-footer bg-color">
 
             I
                 I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                I<span class="white-color">49.2k</span>
+                I<span class="white-color">49.1k</span>
             I
 
             I
