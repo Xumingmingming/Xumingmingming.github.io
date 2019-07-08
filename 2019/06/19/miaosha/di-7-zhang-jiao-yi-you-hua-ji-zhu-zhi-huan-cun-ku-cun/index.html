@@ -1,0 +1,1262 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="第7章 交易优化技术之缓存库存, xxh&#39;s blog">
+    <meta name="description" content="本章目标
+掌握高效交易验证方式
+掌握缓存库存模型(解决库存行锁的性能问题)
+
+
+
+交易性能瓶颈JMeter压测
+交易验证完全依赖数据库OrderServiceImpl.class:
+    @Override
+    @Transactio">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>第7章 交易优化技术之缓存库存 | xxh&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">xxh's blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">xxh's blog</div>
+        <div class="logo-desc">
+            
+            这是xxh同学的个人博客
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        第7章 交易优化技术之缓存库存
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/秒杀项目/" target="_blank">
+                                <span class="chip bg-color">秒杀项目</span>
+                            </a>
+                        
+                            <a href="/tags/springboot/" target="_blank">
+                                <span class="chip bg-color">springboot</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/秒杀项目/" class="post-category" target="_blank">
+                                秒杀项目
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-06-19
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        2.3k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        10 分
+                    </div>
+                    
+                
+				
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="本章目标"><a href="#本章目标" class="headerlink" title="本章目标"></a>本章目标</h1><ul>
+<li>掌握高效交易验证方式</li>
+<li>掌握缓存库存模型(解决库存行锁的性能问题)</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="交易性能瓶颈"><a href="#交易性能瓶颈" class="headerlink" title="交易性能瓶颈"></a>交易性能瓶颈</h1><h2 id="JMeter压测"><a href="#JMeter压测" class="headerlink" title="JMeter压测"></a>JMeter压测</h2><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130651.png" alt="屏幕快照 2019-07-02 下午7.05.46"></p>
+<h2 id="交易验证完全依赖数据库"><a href="#交易验证完全依赖数据库" class="headerlink" title="交易验证完全依赖数据库"></a>交易验证完全依赖数据库</h2><p>OrderServiceImpl.class:</p>
+<pre><code class="java">    @Override
+    @Transactional
+    public OrderModel createOrder(Integer userId, Integer itemId, Integer promoId, Integer amount) throws BusinessException {
+        //1.校验下单状态,下单的商品是否存在，用户是否合法，购买数量是否正确
+        ItemModel itemModel = itemService.getItemById(itemId);
+        if(itemModel == null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,&quot;商品信息不存在&quot;);
+        }
+        //校验用户
+        UserModel userModel = userService.getUserById(userId);
+        if(userModel == null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,&quot;用户信息不存在&quot;);
+        }
+        if(amount &lt;= 0 || amount &gt; 99){//不能不买，也不能一次买多个
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,&quot;数量信息不正确&quot;);
+        }
+
+        //校验活动信息--&gt;是内存操作
+        if(promoId != null){
+            //（1）校验对应活动是否存在这个适用商品
+            if(promoId.intValue() != itemModel.getPromoModel().getId()){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,&quot;活动信息不正确&quot;);
+                //（2）校验活动是否正在进行中
+            }else if(itemModel.getPromoModel().getStatus().intValue() != 2) {
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,&quot;活动信息还未开始&quot;);
+            }
+        }
+
+        //2.落单减库存
+        boolean result = itemService.decreaseStock(itemId,amount);
+        if(!result){
+            throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);
+        }
+
+        //3.订单入库
+        OrderModel orderModel = new OrderModel();
+        orderModel.setUserId(userId);
+        orderModel.setItemId(itemId);
+        orderModel.setAmount(amount);
+        if(promoId != null){
+            orderModel.setItemPrice(itemModel.getPromoModel().getPromoItemPrice());
+        }else{
+            orderModel.setItemPrice(itemModel.getPrice());
+        }
+        orderModel.setPromoId(promoId);
+        orderModel.setOrderPrice(orderModel.getItemPrice().multiply(new BigDecimal(amount)));
+
+        //3.1生成交易流水号,订单号
+        orderModel.setId(generateOrderNo());
+        OrderDO orderDO = convertFromOrderModel(orderModel);
+        orderDOMapper.insertSelective(orderDO);
+
+        //加上商品的销量
+        itemService.increaseSales(itemId,amount);
+        //4.返回前端
+        return orderModel;
+    }</code></pre>
+<p>分析：</p>
+<ul>
+<li><p>1.校验下单状态 中的<code>itemService.getItemById(itemId);</code>中，其实操作了3次数据库：</p>
+<ul>
+<li>根据商品id查询<code>item</code>表：<code>itemDOMapper.selectByPrimaryKey(id);</code></li>
+<li>根据商品信息查询库存<code>item_stock</code>表：<code>itemStockDOMapper.selectByItemId(itemDO.getId());</code></li>
+<li>根据商品id查询活动商品信息<code>promo</code>表：<code>promoService.getPromoByItemId(itemModel.getId());</code></li>
+</ul>
+</li>
+<li><p>校验用户</p>
+<ul>
+<li>查询user表：<code>userDOMapper.selectByPrimaryKey(id);</code></li>
+<li>查询use_password表：<code>userPasswordDOMapper.selectByUserId(userDO.getId());</code></li>
+</ul>
+</li>
+<li><p>2.落单减库存 这将会是个热点操作</p>
+<p>最终在<code>item_stock</code>表中完成减库存操作<code>itemStockDOMapper.decreaseStock(itemId,amount);</code></p>
+<p>对应sql语句：有一个<code>item_id = #{itemId}</code>，比如说传入的itemId=6，就会在6这一行加入行锁</p>
+<pre><code class="html">&lt;update id=&quot;decreaseStock&quot;&gt;
+    update item_stock
+    set stock = stock - #{amount}
+    where item_id = #{itemId} and stock &gt;= #{amount}
+  &lt;/update&gt;</code></pre>
+</li>
+<li><p>3.订单入库</p>
+<ul>
+<li>3.1生成交易流水号 对<code>order_info</code>表：<code>orderDOMapper.insertSelective(orderDO);</code></li>
+<li>加销量，对<code>item</code>表：<code>itemService.increaseSales(itemId,amount);</code></li>
+</ul>
+</li>
+</ul>
+<p>可以看出这里有8次查询数据库的IO操作，而且减库存的操作有一个行锁等待。</p>
+<h2 id="库存行锁"><a href="#库存行锁" class="headerlink" title="库存行锁"></a>库存行锁</h2><p>落单减库存：</p>
+<pre><code class="java">boolean result = itemService.decreaseStock(itemId,amount);</code></pre>
+<p>最终在<code>item_stock</code>表中完成减库存操作<code>itemStockDOMapper.decreaseStock(itemId,amount);</code></p>
+<p>对应sql语句：有一个<code>item_id = #{itemId}</code>，比如说传入的itemId=6，就会在6这一行加入行锁</p>
+<p>ItemStockDOMapper.xml：</p>
+<pre><code class="html">&lt;update id=&quot;decreaseStock&quot;&gt;
+    update item_stock
+    set stock = stock - #{amount}
+    where item_id = #{itemId} and stock &gt;= #{amount}
+  &lt;/update&gt;</code></pre>
+<p>补充：</p>
+<pre><code class="mysql">update from table set xx=&#39;aa&#39; where yy=&#39;bb&#39;</code></pre>
+<p>这里的yy字段不是主键，但值都是唯一的，这样的话，不加 rowlock时update是锁行还是锁表？</p>
+<blockquote>
+<p>锁表。</p>
+<p>若指定的yy为索引（主键是特殊的索引），只有一条记录，则锁行。<br>若不指定yy为索引，则锁表。</p>
+</blockquote>
+<h2 id="后置处理逻辑"><a href="#后置处理逻辑" class="headerlink" title="后置处理逻辑"></a>后置处理逻辑</h2><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130652.png" alt="未命名文件"></p>
+<h1 id="交易链路优化"><a href="#交易链路优化" class="headerlink" title="交易链路优化"></a>交易链路优化</h1><h2 id="交易验证优化"><a href="#交易验证优化" class="headerlink" title="交易验证优化"></a>交易验证优化</h2><ul>
+<li>用户风控策略优化：策略缓存模型优化</li>
+<li>活动校验策略优化：引入活动发布流程，模型缓存化，紧急下限能力</li>
+</ul>
+<h3 id="UserModel和ItemModel缓存模型"><a href="#UserModel和ItemModel缓存模型" class="headerlink" title="UserModel和ItemModel缓存模型"></a>UserModel和ItemModel缓存模型</h3><ul>
+<li><p>增加<code>UserService.getUserByIdInCache(Integer id);</code>方法</p>
+<p>UserServiceImpl.class：</p>
+<pre><code class="java">@Override
+    public UserModel getUserByIdInCache(Integer id) {
+        UserModel userModel= (UserModel) redisTemplate.opsForValue().get(&quot;user_validate_&quot;+id);
+        if (userModel==null){
+            userModel=this.getUserById(id);
+            redisTemplate.opsForValue().set(&quot;user_validate_&quot;+id,userModel);
+            redisTemplate.expire(&quot;user_validate_&quot;+id,10, TimeUnit.MINUTES);
+        }
+
+        return userModel;
+    }</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>增加<code>ItemService.getItemByIdInCache(Integer id);</code>方法</p>
+<p>ItemServiceImpl.class:</p>
+<pre><code class="java">@Override
+    public ItemModel getItemByIdInCache(Integer id) {
+        ItemModel itemModel= (ItemModel) redisTemplate.opsForValue().get(&quot;item_validate_&quot;+id);
+        if (itemModel==null){
+            itemModel=this.getItemById(id);
+            redisTemplate.opsForValue().set(&quot;item_validate_&quot;+id,itemModel);
+            redisTemplate.expire(&quot;item_validate_&quot;+id,10, TimeUnit.MINUTES);
+        }
+        return itemModel;
+    }</code></pre>
+</li>
+</ul>
+<h2 id="库存行锁优化"><a href="#库存行锁优化" class="headerlink" title="库存行锁优化"></a>库存行锁优化</h2><p>再回顾下我们的减库存操作：</p>
+<p>ItemStockDOMapper.xml：</p>
+<pre><code class="html">&lt;update id=&quot;decreaseStock&quot;&gt;
+    update item_stock
+    set stock = stock - #{amount}
+    where item_id = #{itemId} and stock &gt;= #{amount}
+  &lt;/update&gt;</code></pre>
+<p>mysql将会在<code>item_id = #{itemId}</code>的地方加上一个行锁，前提是<code>item_id</code>在数据库里是必须是有索引的。如果没有索引是会锁表的。</p>
+<p>默认<code>item_stock</code>表中的item_id字段是没有索引的，设置索引：</p>
+<pre><code class="mysql">ALTER table item_stock add UNIQUE INDEX
+item_id_index(item_id)</code></pre>
+<h3 id="扣减库存缓存化"><a href="#扣减库存缓存化" class="headerlink" title="扣减库存缓存化"></a>扣减库存缓存化</h3><p>在内存中肯定比在磁盘中扣减库存快。</p>
+<p>方案：</p>
+<ul>
+<li>活动发布同步库存进缓存</li>
+<li>下单交易减缓存中库存</li>
+</ul>
+<h4 id="动发布同步库存进缓存"><a href="#动发布同步库存进缓存" class="headerlink" title="动发布同步库存进缓存"></a>动发布同步库存进缓存</h4><p>PromoServiceImpl.class</p>
+<pre><code class="java">@Override
+    public void publishPromo(Integer promoId) {
+        //通过活动id获取活动
+        PromoDO promoDO=promoDOMapper.selectByItemId(promoId);
+        if (promoDO.getItemId()==null||promoDO.getItemId().intValue()==0){//说明对应的操作不存在，这个活动没有适应的商品
+            return;
+        }
+        ItemModel itemModel=itemService.getItemById(promoDO.getItemId());
+
+        //将库存同步到redis内
+        redisTemplate.opsForValue().set(&quot;promo_item_stock_&quot;+itemModel.getId(),itemModel.getStock());
+
+    }</code></pre>
+<p>在ItemController.class中完成发布promo的操作</p>
+<pre><code class="java">@RequestMapping(value = &quot;/publicpromo&quot;,method = {RequestMethod.GET})
+    @ResponseBody
+    public CommonReturnType publicpromo(@RequestParam(name = &quot;id&quot;)Integer id){
+        promoService.publishPromo(id);
+        return CommonReturnType.create(null);
+    }</code></pre>
+<h4 id="下单交易减缓存中库存"><a href="#下单交易减缓存中库存" class="headerlink" title="下单交易减缓存中库存"></a>下单交易减缓存中库存</h4><p>ItemServiceImpl.class中</p>
+<pre><code class="java">    @Override
+    @Transactional
+    public boolean decreaseStock(Integer itemId, Integer amount) throws BusinessException {
+       // int affectedRow =  itemStockDOMapper.decreaseStock(itemId,amount);
+        Long result=redisTemplate.opsForValue().increment(&quot;promo_item_stock_&quot;+itemId,amount.intValue()*-1);
+        if(result &gt;= 0){
+            //更新库存成功
+            return true;
+        }else{
+            //更新库存失败
+            return false;
+        }
+
+    }</code></pre>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
+<li><p>数据库记录不一致</p>
+<p>内存毕竟是不可靠的，如果宕机，库存信息就会全部消失</p>
+</li>
+</ul>
+<h3 id="异步同步数据库"><a href="#异步同步数据库" class="headerlink" title="异步同步数据库"></a>异步同步数据库</h3><p>采用异步消息队列的方式，将对应的异步扣减的消息同步给消息的<code>consumer</code>端，由这个<code>consumer</code>端完成数据库的扣减操作。</p>
+<h4 id="方案-前两种步骤不变"><a href="#方案-前两种步骤不变" class="headerlink" title="方案(前两种步骤不变)"></a>方案(前两种步骤不变)</h4><ul>
+<li>活动发布同步库存进缓存</li>
+<li>下单交易减缓存中库存</li>
+<li>异步消息扣减数据库内库存</li>
+</ul>
+<p>异步扣减数据库：既能保证用户的一个高效的购买体验，又可以保证数据库最终一致性。</p>
+<h4 id="异步消息队列中间件rocketmq"><a href="#异步消息队列中间件rocketmq" class="headerlink" title="异步消息队列中间件rocketmq"></a>异步消息队列中间件rocketmq</h4><ul>
+<li>高性能，高并发，分布式消息中间件</li>
+<li>典型应用场景：分布式事物，异步解耦</li>
+</ul>
+<h5 id="rocketmq概念模型"><a href="#rocketmq概念模型" class="headerlink" title="rocketmq概念模型"></a>rocketmq概念模型</h5><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130653.png" alt="屏幕快照 2019-07-02 下午10.04.57"></p>
+<h5 id="部署模型"><a href="#部署模型" class="headerlink" title="部署模型"></a>部署模型</h5><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130654.png" alt="屏幕快照 2019-07-02 下午10.07.58"></p>
+<h3 id="分布式事物"><a href="#分布式事物" class="headerlink" title="分布式事物"></a>分布式事物</h3><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130657-1.png" alt="屏幕快照 2019-07-02 下午10.26.37"></p>
+<h4 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h4><p>C：一致性</p>
+<p>A：可用性</p>
+<p>P：分区容忍性</p>
+<p>分布式事物中，p分区容忍性是必须的，所以必须在<code>C一致性</code>和<code>A可用性</code>之间做一个选择</p>
+<h4 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h4><p>不追求瞬时状态的强一致，追求的是最终的一致性，也就是我的数据最终会达到一致。</p>
+<p>B：基础可用</p>
+<p>S：软状态</p>
+<p>E：最终一致性</p>
+<p>软状态：在我们的应用当中，会瞬时的存在有数据不一致的情况，比如说一部分数据成功，另外一部分数据还在处理中，那我们的业务认为这些数据是可以容忍的。</p>
+<h4 id="结合到我们缓存库存的模型当中，我们怎么解决这些问题？"><a href="#结合到我们缓存库存的模型当中，我们怎么解决这些问题？" class="headerlink" title="结合到我们缓存库存的模型当中，我们怎么解决这些问题？"></a>结合到我们缓存库存的模型当中，我们怎么解决这些问题？</h4><p>在我们缓存库存当中，我们的redis的状态是正确的状态，比如redis中的库存从87减到86，redis中的86是正确的，但是我们数据库中库存状态由于异步消息队列的consumer端还没有被触发，因此在consumer没有消费完消息之前，数据库里的库存数错的，比如还是87。但是只要这个分布式的消息投递成功了，consumer端消费了这个消息，最终我们数据库中的状态会从87减到86，达到最终一致性。</p>
+<p>这样的话，只要我们使用的消息中间件的高可用性达到99.99%，那至少有99.99%以上的概率，我们数据库里的状态可以和redis中的数据保持一致的。</p>
+<h3 id="数据库中库存数据和缓存中保持最终一致性"><a href="#数据库中库存数据和缓存中保持最终一致性" class="headerlink" title="数据库中库存数据和缓存中保持最终一致性"></a>数据库中库存数据和缓存中保持最终一致性</h3><h4 id="缓存库存接入异步化"><a href="#缓存库存接入异步化" class="headerlink" title="缓存库存接入异步化"></a>缓存库存接入异步化</h4><h5 id="ItemServiceImpl-java"><a href="#ItemServiceImpl-java" class="headerlink" title="ItemServiceImpl.java"></a>ItemServiceImpl.java</h5><pre><code class="java">@Override
+    @Transactional
+    public boolean decreaseStock(Integer itemId, Integer amount) throws BusinessException {
+       // int affectedRow =  itemStockDOMapper.decreaseStock(itemId,amount);
+        Long result=redisTemplate.opsForValue().increment(&quot;promo_item_stock_&quot;+itemId,amount.intValue()*-1);
+        if(result &gt;= 0){
+            //更新库存成功
+            boolean mqResult= mQproducer.ausncReduceStock(itemId,amount);
+            if (!mqResult){
+                redisTemplate.opsForValue().increment(&quot;promo_item_stock_&quot;+itemId,amount.intValue());
+                return false;
+            }
+            return true;
+        }else{
+            redisTemplate.opsForValue().increment(&quot;promo_item_stock_&quot;+itemId,amount.intValue());
+            //更新库存失败
+            return false;
+        }
+
+    }</code></pre>
+<p>在redis中扣减完库存后，将扣减库存的消息发送给MQ。使用的是<code>mQproducer.ausncReduceStock(itemId,amount)</code>方法：</p>
+<h5 id="引入消息生产者MQproducer-java"><a href="#引入消息生产者MQproducer-java" class="headerlink" title="引入消息生产者MQproducer.java"></a>引入消息生产者MQproducer.java</h5><pre><code class="java">//同步库存扣减消息
+    public boolean ausncReduceStock(Integer itemId,Integer amount)  {
+        Map&lt;String,Object&gt; bodyMap=new HashMap&lt;&gt;();
+        bodyMap.put(&quot;itemId&quot;,itemId);
+        bodyMap.put(&quot;amount&quot;,amount);
+        Message message=new Message(topicName,&quot;increase&quot;, JSON.toJSON(bodyMap).toString().getBytes(Charset.forName(&quot;UTF-8&quot;)));
+        try {
+            producer.send(message);
+        } catch (MQClientException e) {
+            return false;
+        } catch (RemotingException e) {
+            return false;
+        } catch (MQBrokerException e) {
+            return false;
+        } catch (InterruptedException e) {
+            return false;
+        }
+        return true;
+    }</code></pre>
+<h5 id="引入MQconsumer-java"><a href="#引入MQconsumer-java" class="headerlink" title="引入MQconsumer.java"></a>引入MQconsumer.java</h5><pre><code class="java">@Component
+public class MQconsumer {
+
+    private DefaultMQPushConsumer consumer;
+
+    @Value(&quot;${mq.nameserver.addr}&quot;)
+    private String nameAddr;
+
+    @Value(&quot;${mq.topicname}&quot;)
+    private String topicName;
+
+    @Autowired
+    private ItemStockDOMapper itemStockDOMapper;
+
+    @PostConstruct
+    public void init() throws MQClientException {
+        consumer=new DefaultMQPushConsumer(&quot;stock_consumer_group&quot;);
+        consumer.setNamesrvAddr(nameAddr);
+        consumer.subscribe(topicName,&quot;*&quot;);
+
+        consumer.registerMessageListener(new MessageListenerConcurrently() {
+            @Override
+            public ConsumeConcurrentlyStatus consumeMessage(List&lt;MessageExt&gt; msgs, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+               //实现库存真正到数据库内扣减的逻辑
+                Message message=msgs.get(0);
+                String jsonstring=new String(message.getBody());
+                Map&lt;String,Object&gt; map= JSON.parseObject(jsonstring, Map.class);
+                Integer itemId= (Integer) map.get(&quot;itemId&quot;);
+                Integer amount= (Integer) map.get(&quot;amount&quot;);
+
+                itemStockDOMapper.decreaseStock(itemId,amount);
+
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+            }
+        });
+        consumer.start();
+    }
+}</code></pre>
+<h4 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h4><ul>
+<li><p>异步消息发送失败</p>
+<p><code>MQproducer.java</code>中的<code>producer.send(message)</code>消息发送失败了，我们现在没有解决。</p>
+</li>
+<li><p>扣减操作失败</p>
+<p>若库存扣减这个操作执行失败了，这条扣减消息应该怎么处理</p>
+</li>
+<li><p>下单失败无法正确回补库存</p>
+<p>若用户取消订单了，我们怎么回滚库存呢</p>
+</li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《第7章 交易优化技术之缓存库存》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/06/19/miaosha/di-7-zhang-jiao-yi-you-hua-ji-zhu-zhi-huan-cun-ku-cun/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                徐兴华
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Wed Jun 19 2019 23:04:26 GMT+0800',
+    owner: 'Xumingmingming',
+    repo: 'Xumingmingming.github.io',
+    oauth: {
+        client_id: '245a2e1eb55054628f5c',
+        client_secret: 'd97a71996cc30d009cf61d4ccbe64b1e2897338a'
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/06/28/linux/linux-shang-an-zhuang-rabbitmq/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="linux上安装RabbitMQ">
+                        
+                        <span class="card-title">linux上安装RabbitMQ</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            记录了一些linux小技巧
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-28
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/linux/" class="post-category" target="_blank">
+                                    linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/linux/" target="_blank">
+                        <span class="chip bg-color">linux</span>
+                    </a>
+                    
+                    <a href="/tags/RabbitMQ/" target="_blank">
+                        <span class="chip bg-color">RabbitMQ</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/18/miaosha/di-6-zhang-cha-xun-you-hua-ji-zhu-zhi-ye-mian-jing-tai-hua-dong-tai-qing-qiu-jia-jing-tai-ye-mian-yi-tong-jing-tai-hua/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="第6章 查询优化技术之页面静态化">
+                        
+                        <span class="card-title">第6章 查询优化技术之页面静态化</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            目标
+优化的是H5(static)，请求走静态资源文件。
+
+将静态资源的请求路由到CDN
+
+
+
+
+
+静态请求CDN
+结构图
+
+DNS用CNAME解析源站回源缓存设置cache control响应头Request Headers：
+例：
+GE
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/秒杀项目/" class="post-category" target="_blank">
+                                    秒杀项目
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/秒杀项目/" target="_blank">
+                        <span class="chip bg-color">秒杀项目</span>
+                    </a>
+                    
+                    <a href="/tags/springboot/" target="_blank">
+                        <span class="chip bg-color">springboot</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: xxh's blog<br />'
+            + '作者: xuxinghua<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+I<footer class="page-footer bg-color">
+    I<div class="container row center-align">
+        I<div class="col s12 m8 l8 copy-right">
+            I本站由&copy;<a href="https://xumingmingming.github.io/" target="_blank">xuxinghua</a>基于
+            I<a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            I<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            I
+                I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                I<span class="white-color">52.4k</span>
+            I
+
+            I
+			I
+        I</div>
+        I<div class="col s12 m4 l4 social-link ">
+
+
+    <a href="mailto:393782936@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=393782936" class="tooltipped" data-tooltip="QQ联系我: 393782936" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    I</div>
+I</footer>
+
+I<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+
+
+</body>
+</html>

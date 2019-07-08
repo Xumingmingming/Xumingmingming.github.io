@@ -1,0 +1,1086 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="第6章 查询优化技术之页面静态化, xxh&#39;s blog">
+    <meta name="description" content="目标
+优化的是H5(static)，请求走静态资源文件。
+
+将静态资源的请求路由到CDN
+
+
+
+
+
+静态请求CDN
+结构图
+
+DNS用CNAME解析源站回源缓存设置cache control响应头Request Headers：
+例：
+GE">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>第6章 查询优化技术之页面静态化 | xxh&#39;s blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">xxh's blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">xxh's blog</div>
+        <div class="logo-desc">
+            
+            这是xxh同学的个人博客
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        第6章 查询优化技术之页面静态化
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/秒杀项目/" target="_blank">
+                                <span class="chip bg-color">秒杀项目</span>
+                            </a>
+                        
+                            <a href="/tags/springboot/" target="_blank">
+                                <span class="chip bg-color">springboot</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/秒杀项目/" class="post-category" target="_blank">
+                                秒杀项目
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-06-18
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        1.7k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        6 分
+                    </div>
+                    
+                
+				
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><ul>
+<li><p>优化的是H5(static)，请求走静态资源文件。</p>
+</li>
+<li><p>将静态资源的请求路由到CDN</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130535.png" alt="秒杀结构图"></p>
+<h1 id="静态请求CDN"><a href="#静态请求CDN" class="headerlink" title="静态请求CDN"></a>静态请求CDN</h1><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130539.jpg" alt="v2-2080dfe83dd76bd079dbf3e7348ca795_hd"></p>
+<p>结构图</p>
+<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130540.png" alt="秒杀结构图"></p>
+<h2 id="DNS用CNAME解析源站"><a href="#DNS用CNAME解析源站" class="headerlink" title="DNS用CNAME解析源站"></a>DNS用CNAME解析源站</h2><h2 id="回源缓存设置"><a href="#回源缓存设置" class="headerlink" title="回源缓存设置"></a>回源缓存设置</h2><h3 id="cache-control响应头"><a href="#cache-control响应头" class="headerlink" title="cache control响应头"></a>cache control响应头</h3><p>Request Headers：</p>
+<p>例：</p>
+<pre><code class="properties">GET / HTTP/1.1
+Host: localhost:4000
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+Cookie: Hm_lvt_512065947708a980c982b4401d14c2f5=1551084094; SESSION=OGQzOGIzMGEtZGYyNy00MjQ4LWI1ZGYtMjc2OTAxYjJmNjEz</code></pre>
+<p>###cache control有几种取值：</p>
+<ul>
+<li><p>private：客户端可以缓存(请求发起的浏览器才可以缓存)</p>
+</li>
+<li><p>public：客户端和代理服务器（反向或正向代理）都可以缓存</p>
+</li>
+<li><p>max-age=xxx：缓存的内容将在xxx秒之后失效</p>
+<p>也就是说我们对应缓存的内容，从收到服务端的这个max-age返回数据开始，存储xxx秒后这个请求就失效，客户端必须往对应的服务端上面再次发起请求，用来验证和结束对应的请求体</p>
+</li>
+<li><p>no-cache：强制向服务端再验证一次(<strong>会将对应的缓存存储在客户端，但是在下次用的时候要向服务端验证一次这个缓存到底是能用还是不能用，no-store是压根不存</strong>)</p>
+</li>
+<li><p>no-store：不缓存请求的任何返回内容</p>
+</li>
+</ul>
+<h4 id="怎么选择HTTP-cache-control头？"><a href="#怎么选择HTTP-cache-control头？" class="headerlink" title="怎么选择HTTP cache control头？"></a>怎么选择HTTP cache control头？</h4><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130542-1.png" alt="未命名文件-2"></p>
+<h3 id="有效性判断"><a href="#有效性判断" class="headerlink" title="有效性判断"></a>有效性判断</h3><ul>
+<li>ETag：资源唯一标识</li>
+<li>If-None-Match：客户端发送的匹配ETag标识符</li>
+<li>Last-modified：资源最后被修改时间</li>
+<li>If-Modified-Since：客户端发送的匹配资源最后修改时间的标识符</li>
+</ul>
+<p>补充：</p>
+<p>ETag：</p>
+<p>一般是将请求的资源做一个MD5或者类似hash操作，生成一个ETag的唯一标识，服务端在第一次返回内容中加上这个ETag的唯一标识，一起返回给浏览器，浏览器会存储下来这个ETag；下一次请求的时候，所谓的有效性判断，是浏览器将之前缓存下来内容的ETag的值一起带到服务器上，用来验证说它不发送具体的响应，而是发送一个对应的HTTP请求并且带上这个ETag的值，服务端会将这个ETag的值和我本地的文件ETag内容做比较，若比较是一致的，就返回304 not-modified，告诉客户端说服务端这个内容是有效的，直接使用浏览器里的缓存即可</p>
+<p>若If-Modified-Since的值早于Last-modified的值，证明是无效的；若晚于Last-modified的值，则是有效的，说明这段时间资源没有被修改过。</p>
+<h3 id="用户请求浏览器资源的网站路径"><a href="#用户请求浏览器资源的网站路径" class="headerlink" title="用户请求浏览器资源的网站路径"></a>用户请求浏览器资源的网站路径</h3><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130544.png" alt="未命名文件"></p>
+<h3 id="浏览器三种刷新方式"><a href="#浏览器三种刷新方式" class="headerlink" title="浏览器三种刷新方式"></a>浏览器三种刷新方式</h3><ul>
+<li>回车刷新或者a链接(get请求跳转)：看cache-control对应的max-age是否仍然有效，有效则直接从cache取对应的数据，若cache-control中为no-cache，则进入缓存协商逻辑</li>
+<li>F5刷新(Windows)或者command+R(macOS)刷新：去掉cache-control中的max-age或者直接设置max-age为0，然后进入缓存协商逻辑</li>
+<li>ctrl+F5或commond+shift+R刷新：去掉cache-control和协商头，强制刷新 (强制从服务端拿内容)</li>
+</ul>
+<p>对应的协商机制：</p>
+<p>比较Last-modified和ETag到服务端，若服务端判断没变化则304不返回数据，否则200返回数据</p>
+<h3 id="CDN自定义缓存策略"><a href="#CDN自定义缓存策略" class="headerlink" title="CDN自定义缓存策略"></a>CDN自定义缓存策略</h3><ul>
+<li>可自定义目录过期时间</li>
+<li>可自定义后缀名过期时间</li>
+<li>可自定义对应权重</li>
+<li>可通过界面或api强制cdn对应目录刷新(不一定保证成功)</li>
+</ul>
+<h4 id="阿里云CDN配置"><a href="#阿里云CDN配置" class="headerlink" title="阿里云CDN配置"></a>阿里云CDN配置</h4><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130545.png" alt="屏幕快照 2019-07-01 下午9.20.29"></p>
+<h3 id="静态资源部署策略-1"><a href="#静态资源部署策略-1" class="headerlink" title="静态资源部署策略(1)"></a>静态资源部署策略(1)</h3><ol>
+<li>css,js,img等元素使用带版本号部署，例如<code>a.js？=v1.0</code>不便利，且维护困难</li>
+<li>css,js,img等元素使用带摘要（hash获得）部署，例如a<code>.js？=45edw</code>，存在先部署html还是先部署资源的覆盖问题</li>
+<li>css,js,img等元素使用带摘要做文件名部署，例如<code>45edw.js</code>，新老版本并存且可回滚，资源部署完后再部署HTML</li>
+</ol>
+<p>采用第三种</p>
+<h3 id="静态资源部署策略-2"><a href="#静态资源部署策略-2" class="headerlink" title="静态资源部署策略(2)"></a>静态资源部署策略(2)</h3><ol>
+<li><p>对静态资源保持生命周期内不会变，max-age可设置很长，无视失效更新周期</p>
+</li>
+<li><p>html文件设置no-cache或较短max-age，以便更新</p>
+</li>
+<li><p>html文件仍然设置较长的max-age，依靠动态的获取版本号请求发送到后端，异步下载最新的版本号的html展示渲染在前端</p>
+<p>将html文件缓存。html每次都能展示缓存离的内容，没有问题，但是html文件里面每次在启动的时候有一个很小很小的<code>ajax</code>请求头，ajax请求做的事情就是带着本地的html版本号去我的服务端调用一个动态的接口，这个动态的接口比较ajax中html版本号和后端的版本号是否是最新的；如果是的话，对应的html渲染到前端即可；如果不是，就需要在后端从新下载最新版本号的html(<strong>异步更新策略</strong>)</p>
+</li>
+</ol>
+<p>第三种方式是最好的，但是一般第二种也足够使用</p>
+<h3 id="静态资源部署策略-3"><a href="#静态资源部署策略-3" class="headerlink" title="静态资源部署策略(3)"></a>静态资源部署策略(3)</h3><p>上面讨论的都是静态资源文件</p>
+<ol>
+<li>动态请求可以静态化成json资源推送到cdn上</li>
+<li>依靠异步请求获取后端节点对应资源状态做紧急下架处理</li>
+<li>可通过跑批紧急推送cdn内容以使其下架等操作</li>
+</ol>
+<h2 id="强推失效"><a href="#强推失效" class="headerlink" title="强推失效"></a>强推失效</h2><h1 id="全页面静态化"><a href="#全页面静态化" class="headerlink" title="全页面静态化"></a>全页面静态化</h1><ul>
+<li>html，css，js静态资源cdn化</li>
+<li>js，ajax动态请求cdn化</li>
+<li>全页面静态化</li>
+</ul>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>在服务端完成html，css，甚至js的load；并且渲染成纯html文件后直接以静态资源的方式部署到cdn上</p>
+<h2 id="phantomjs"><a href="#phantomjs" class="headerlink" title="phantomjs"></a>phantomjs</h2><p>可以理解为无头浏览器，可以借助其模拟webkit js的执行</p>
+<ul>
+<li>演示样例</li>
+</ul>
+<p>js:</p>
+<pre><code class="js">var page = require(&#39;webpage&#39;).create();
+page.open(&#39;http://www.baidu.com&#39;, function() {
+    setTimeout(function() {
+        page.render(&#39;baidu.png&#39;);
+        phantom.exit();
+    }, 200);
+});</code></pre>
+<ul>
+<li>运行：</li>
+</ul>
+<pre><code class="bash">phantomjs spiderbaidu.js</code></pre>
+<ul>
+<li>结果：</li>
+</ul>
+<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130545-1.png" alt="baidu"></p>
+<h2 id="phantomjs应用"><a href="#phantomjs应用" class="headerlink" title="phantomjs应用"></a>phantomjs应用</h2><ul>
+<li>修改需要全页面静态化的实现，采用<code>initView</code>和<code>hasInit</code>方式防止多次初始化</li>
+<li>编写对应轮询生成内容方式</li>
+<li>将全静态化页面生成后推送到CDN</li>
+</ul>
+<p>1.在<code>/usr/local/Caskroom/phantomjs/2.1.1/phantomjs-2.1.1-macosx/js/</code>下创建<code>getitem.js</code></p>
+<pre><code class="js">var page = require(&quot;webpage&quot;).create();
+var fs = require(&quot;fs&quot;);
+page.open(&quot;http://localhost/resources/getitem.html?id=6&quot;,function(status){
+    console.log(&quot;status= &quot;+status);
+
+   fs.write(&quot;getitem.html&quot;,page.content,&quot;w&quot;);
+   phantom.exit();
+});</code></pre>
+<p>2.执行</p>
+<pre><code class="bash">xuxinghua@xxhdemac:/usr/local/Caskroom/phantomjs/2.1.1/phantomjs-2.1.1-macosx/js$ phantomjs getitem.js
+status= success</code></pre>
+<p>成功后会在当前目录生成<code>getitem.html</code></p>
+<pre><code class="bash">xuxinghua@xxhdemac:/usr/local/Caskroom/phantomjs/2.1.1/phantomjs-2.1.1-macosx/js$ ls
+getitem.html  getitem.js</code></pre>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《第6章 查询优化技术之页面静态化》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/06/18/miaosha/di-6-zhang-cha-xun-you-hua-ji-zhu-zhi-ye-mian-jing-tai-hua-dong-tai-qing-qiu-jia-jing-tai-ye-mian-yi-tong-jing-tai-hua/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                徐兴华
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Tue Jun 18 2019 23:04:26 GMT+0800',
+    owner: 'Xumingmingming',
+    repo: 'Xumingmingming.github.io',
+    oauth: {
+        client_id: '245a2e1eb55054628f5c',
+        client_secret: 'd97a71996cc30d009cf61d4ccbe64b1e2897338a'
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/06/19/miaosha/di-7-zhang-jiao-yi-you-hua-ji-zhu-zhi-huan-cun-ku-cun/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="第7章 交易优化技术之缓存库存">
+                        
+                        <span class="card-title">第7章 交易优化技术之缓存库存</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            本章目标
+掌握高效交易验证方式
+掌握缓存库存模型(解决库存行锁的性能问题)
+
+
+
+交易性能瓶颈JMeter压测
+交易验证完全依赖数据库OrderServiceImpl.class:
+    @Override
+    @Transactio
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-19
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/秒杀项目/" class="post-category" target="_blank">
+                                    秒杀项目
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/秒杀项目/" target="_blank">
+                        <span class="chip bg-color">秒杀项目</span>
+                    </a>
+                    
+                    <a href="/tags/springboot/" target="_blank">
+                        <span class="chip bg-color">springboot</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/17/miaosha/di-5-zhang-cha-xun-you-hua-ji-zhu-zhi-duo-ji-huan-cun/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="第5章 查询优化技术之多级缓存">
+                        
+                        <span class="card-title">第5章 查询优化技术之多级缓存</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            本章目标
+掌握多级缓存的定义
+掌握redis缓存，本地缓存：不同应用场景的使用，以及他们的优劣
+掌握热点nginx lua缓存
+
+
+
+缓存设计原则
+用快速存取设备，用内存
+将缓存推到离用户最近的地方
+脏缓存清理
+
+补：
+1.为什么将缓存推到
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/秒杀项目/" class="post-category" target="_blank">
+                                    秒杀项目
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/秒杀项目/" target="_blank">
+                        <span class="chip bg-color">秒杀项目</span>
+                    </a>
+                    
+                    <a href="/tags/springboot/" target="_blank">
+                        <span class="chip bg-color">springboot</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: xxh's blog<br />'
+            + '作者: xuxinghua<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+I<footer class="page-footer bg-color">
+    I<div class="container row center-align">
+        I<div class="col s12 m8 l8 copy-right">
+            I本站由&copy;<a href="https://xumingmingming.github.io/" target="_blank">xuxinghua</a>基于
+            I<a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            I<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            I
+                I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                I<span class="white-color">52.4k</span>
+            I
+
+            I
+			I
+        I</div>
+        I<div class="col s12 m4 l4 social-link ">
+
+
+    <a href="mailto:393782936@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=393782936" class="tooltipped" data-tooltip="QQ联系我: 393782936" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    I</div>
+I</footer>
+
+I<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+
+
+</body>
+</html>

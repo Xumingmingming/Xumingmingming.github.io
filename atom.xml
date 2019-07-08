@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xumingmingming.github.io/"/>
-  <updated>2019-07-05T04:59:44.844Z</updated>
+  <updated>2019-07-08T14:52:19.008Z</updated>
   <id>https://xumingmingming.github.io/</id>
   
   <author>
@@ -17,11 +17,69 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>部署linux服务器遇到的坑</title>
+    <link href="https://xumingmingming.github.io/2019/06/30/linux/bu-shu-linux-fu-wu-qi-yu-dao-de-keng/"/>
+    <id>https://xumingmingming.github.io/2019/06/30/linux/bu-shu-linux-fu-wu-qi-yu-dao-de-keng/</id>
+    <published>2019-06-30T12:52:26.000Z</published>
+    <updated>2019-07-08T14:52:19.008Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;解决ubuntu终端无法输入中文的问题&quot;&gt;&lt;a href=&quot;#解决ubuntu终端无法输入中文的问题&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+    
+      <category term="阿里云服务器" scheme="https://xumingmingming.github.io/tags/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>博客搭建过程细节记录</title>
+    <link href="https://xumingmingming.github.io/2019/06/29/blog/bo-ke-da-jian-guo-cheng-de-xi-jie/"/>
+    <id>https://xumingmingming.github.io/2019/06/29/blog/bo-ke-da-jian-guo-cheng-de-xi-jie/</id>
+    <published>2019-06-29T12:52:26.000Z</published>
+    <updated>2019-07-08T14:07:37.113Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;怎么直接修改-blog-source-posts下的-md文章&quot;&gt;&lt;a href=&quot;#怎么直接修改-blog-source-posts下的-md文章&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="个人博客" scheme="https://xumingmingming.github.io/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+      <category term="个人博客" scheme="https://xumingmingming.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+      <category term="hexo" scheme="https://xumingmingming.github.io/tags/hexo/"/>
+    
+      <category term="图床" scheme="https://xumingmingming.github.io/tags/%E5%9B%BE%E5%BA%8A/"/>
+    
+  </entry>
+  
+  <entry>
     <title>外网SSH连接内网Windows上linux虚拟机</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/wai-wang-ssh-lian-jie-nei-wang-windows-shang-linux-xu-ni-ji/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/wai-wang-ssh-lian-jie-nei-wang-windows-shang-linux-xu-ni-ji/</id>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/wai-wang-ssh-lian-jie-nei-wang-windows-shang-linux-xu-ni-ji/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/wai-wang-ssh-lian-jie-nei-wang-windows-shang-linux-xu-ni-ji/</id>
     <published>2019-06-28T15:28:20.000Z</published>
-    <updated>2019-07-05T04:59:44.844Z</updated>
+    <updated>2019-07-08T13:06:58.249Z</updated>
     
     <summary type="html">
     
@@ -40,29 +98,11 @@
   </entry>
   
   <entry>
-    <title>给老婆的故事</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/gei-lao-po-de-gu-shi/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/gei-lao-po-de-gu-shi/</id>
-    <published>2019-06-28T15:16:12.000Z</published>
-    <updated>2019-06-29T08:21:16.910Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;有一天，他又去森林里看太阳。他发现在草丛里有一个小女孩，小女孩长得漂亮极了，长长的睫毛看起来好像从童话里走出来的小公主，但是她不知道怎么了，他叫了她几次都没反应，小男孩很担心。于是他那天没有等到太阳落下就背着小女孩回家了。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="给老婆讲故事" scheme="https://xumingmingming.github.io/tags/%E7%BB%99%E8%80%81%E5%A9%86%E8%AE%B2%E6%95%85%E4%BA%8B/"/>
-    
-  </entry>
-  
-  <entry>
     <title>搭建个人博客</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/da-jian-ge-ren-bo-ke/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/da-jian-ge-ren-bo-ke/</id>
+    <link href="https://xumingmingming.github.io/2019/06/28/blog/da-jian-ge-ren-bo-ke/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/blog/da-jian-ge-ren-bo-ke/</id>
     <published>2019-06-28T12:52:26.000Z</published>
-    <updated>2019-07-05T04:57:13.989Z</updated>
+    <updated>2019-07-08T13:06:58.236Z</updated>
     
     <summary type="html">
     
@@ -80,29 +120,155 @@
   </entry>
   
   <entry>
-    <title>我的第一篇博客文章</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/wo-de-di-yi-pian-bo-ke-wen-zhang/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/wo-de-di-yi-pian-bo-ke-wen-zhang/</id>
-    <published>2019-06-28T11:30:08.000Z</published>
-    <updated>2019-06-29T08:21:30.516Z</updated>
+    <title>linux上安装Redis</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-08T14:54:39.609Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;老婆老婆&quot;&gt;&lt;a href=&quot;#老婆老婆&quot; class=&quot;headerlink&quot; title=&quot;老婆老婆~~&quot;&gt;&lt;/a&gt;老婆老婆~~&lt;/h2&gt;&lt;p&gt;  老婆老婆我爱你!&lt;/p&gt;
+      
+      
+        
+        
+          &lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo apt-get install
+        
+      
     
     </summary>
     
+      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
     
-      <category term="我们永远在一起" scheme="https://xumingmingming.github.io/tags/%E6%88%91%E4%BB%AC%E6%B0%B8%E8%BF%9C%E5%9C%A8%E4%B8%80%E8%B5%B7/"/>
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+    
+      <category term="redis" scheme="https://xumingmingming.github.io/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux安装mysql</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-an-zhuang-mysql/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-an-zhuang-mysql/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-08T14:55:27.594Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;linux下安装和配置mysql相对在windows上还是比较简单的，不需要自己创建my.cnf文件等。以下步骤亲测有效&lt;/p&gt;
+&lt;h1 id=&quot;安装MySQL&quot;&gt;&lt;a href=&quot;#安装MySQL&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+    
+      <category term="mysql" scheme="https://xumingmingming.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux平时积累</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-ping-shi-ji-lei/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-ping-shi-ji-lei/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-08T14:51:27.626Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;免密登录&quot;&gt;&lt;a href=&quot;#免密登录&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux上安装rocketmq</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-08T14:54:20.304Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;在官网下载rocketmq的zip包&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在rocketmq目录下，将&lt;code&gt;rocketmq-all-4.3.2-bin-release.zip&lt;/code&gt;变成可以执行的文件&lt;/p&gt;
+&lt;pre&gt;&lt;code
+        
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+    
+      <category term="rocketmq" scheme="https://xumingmingming.github.io/tags/rocketmq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux上安装RabbitMQ</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rabbitmq/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rabbitmq/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-08T14:55:03.818Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;安装RabbitMQ也非常简单，无需自己安装erlang，直接 &lt;code&gt;apt-get install&lt;/code&gt;  即可&lt;/p&gt;
+&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+    
+      <category term="RabbitMQ" scheme="https://xumingmingming.github.io/tags/RabbitMQ/"/>
     
   </entry>
   
   <entry>
     <title>第7章 交易优化技术之缓存库存</title>
-    <link href="https://xumingmingming.github.io/2019/06/19/di-7-zhang-jiao-yi-you-hua-ji-zhu-zhi-huan-cun-ku-cun/"/>
-    <id>https://xumingmingming.github.io/2019/06/19/di-7-zhang-jiao-yi-you-hua-ji-zhu-zhi-huan-cun-ku-cun/</id>
+    <link href="https://xumingmingming.github.io/2019/06/19/miaosha/di-7-zhang-jiao-yi-you-hua-ji-zhu-zhi-huan-cun-ku-cun/"/>
+    <id>https://xumingmingming.github.io/2019/06/19/miaosha/di-7-zhang-jiao-yi-you-hua-ji-zhu-zhi-huan-cun-ku-cun/</id>
     <published>2019-06-19T15:04:26.000Z</published>
-    <updated>2019-07-05T04:58:19.328Z</updated>
+    <updated>2019-07-08T13:06:58.263Z</updated>
     
     <summary type="html">
     
@@ -124,10 +290,10 @@
   
   <entry>
     <title>第6章 查询优化技术之页面静态化</title>
-    <link href="https://xumingmingming.github.io/2019/06/18/di-6-zhang-cha-xun-you-hua-ji-zhu-zhi-ye-mian-jing-tai-hua-dong-tai-qing-qiu-jia-jing-tai-ye-mian-yi-tong-jing-tai-hua/"/>
-    <id>https://xumingmingming.github.io/2019/06/18/di-6-zhang-cha-xun-you-hua-ji-zhu-zhi-ye-mian-jing-tai-hua-dong-tai-qing-qiu-jia-jing-tai-ye-mian-yi-tong-jing-tai-hua/</id>
+    <link href="https://xumingmingming.github.io/2019/06/18/miaosha/di-6-zhang-cha-xun-you-hua-ji-zhu-zhi-ye-mian-jing-tai-hua-dong-tai-qing-qiu-jia-jing-tai-ye-mian-yi-tong-jing-tai-hua/"/>
+    <id>https://xumingmingming.github.io/2019/06/18/miaosha/di-6-zhang-cha-xun-you-hua-ji-zhu-zhi-ye-mian-jing-tai-hua-dong-tai-qing-qiu-jia-jing-tai-ye-mian-yi-tong-jing-tai-hua/</id>
     <published>2019-06-18T15:04:26.000Z</published>
-    <updated>2019-07-05T04:59:07.750Z</updated>
+    <updated>2019-07-08T13:06:58.245Z</updated>
     
     <summary type="html">
     
@@ -151,10 +317,10 @@
   
   <entry>
     <title>第5章 查询优化技术之多级缓存</title>
-    <link href="https://xumingmingming.github.io/2019/06/17/di-5-zhang-cha-xun-you-hua-ji-zhu-zhi-duo-ji-huan-cun/"/>
-    <id>https://xumingmingming.github.io/2019/06/17/di-5-zhang-cha-xun-you-hua-ji-zhu-zhi-duo-ji-huan-cun/</id>
+    <link href="https://xumingmingming.github.io/2019/06/17/miaosha/di-5-zhang-cha-xun-you-hua-ji-zhu-zhi-duo-ji-huan-cun/"/>
+    <id>https://xumingmingming.github.io/2019/06/17/miaosha/di-5-zhang-cha-xun-you-hua-ji-zhu-zhi-duo-ji-huan-cun/</id>
     <published>2019-06-17T15:04:26.000Z</published>
-    <updated>2019-07-05T04:59:42.567Z</updated>
+    <updated>2019-07-08T13:06:58.228Z</updated>
     
     <summary type="html">
     
@@ -177,10 +343,10 @@
   
   <entry>
     <title>第4章 分布式扩展</title>
-    <link href="https://xumingmingming.github.io/2019/06/16/di-4-zhang-fen-bu-shi-kuo-zhan/"/>
-    <id>https://xumingmingming.github.io/2019/06/16/di-4-zhang-fen-bu-shi-kuo-zhan/</id>
+    <link href="https://xumingmingming.github.io/2019/06/16/miaosha/di-4-zhang-fen-bu-shi-kuo-zhan/"/>
+    <id>https://xumingmingming.github.io/2019/06/16/miaosha/di-4-zhang-fen-bu-shi-kuo-zhan/</id>
     <published>2019-06-16T15:04:26.000Z</published>
-    <updated>2019-07-05T05:00:18.146Z</updated>
+    <updated>2019-07-08T13:06:58.216Z</updated>
     
     <summary type="html">
     
@@ -204,10 +370,10 @@
   
   <entry>
     <title>第3章 云端部署 性能压测</title>
-    <link href="https://xumingmingming.github.io/2019/06/14/di-3-zhang-yun-duan-bu-shu-xing-neng-ya-ce/"/>
-    <id>https://xumingmingming.github.io/2019/06/14/di-3-zhang-yun-duan-bu-shu-xing-neng-ya-ce/</id>
+    <link href="https://xumingmingming.github.io/2019/06/14/miaosha/di-3-zhang-yun-duan-bu-shu-xing-neng-ya-ce/"/>
+    <id>https://xumingmingming.github.io/2019/06/14/miaosha/di-3-zhang-yun-duan-bu-shu-xing-neng-ya-ce/</id>
     <published>2019-06-14T15:04:26.000Z</published>
-    <updated>2019-07-05T05:00:44.931Z</updated>
+    <updated>2019-07-08T13:06:58.235Z</updated>
     
     <summary type="html">
     
@@ -226,10 +392,10 @@
   
   <entry>
     <title>第2章 秒杀项目框架回顾</title>
-    <link href="https://xumingmingming.github.io/2019/06/12/di-2-zhang-miao-sha-xiang-mu-kuang-jia-hui-gu/"/>
-    <id>https://xumingmingming.github.io/2019/06/12/di-2-zhang-miao-sha-xiang-mu-kuang-jia-hui-gu/</id>
+    <link href="https://xumingmingming.github.io/2019/06/12/miaosha/di-2-zhang-miao-sha-xiang-mu-kuang-jia-hui-gu/"/>
+    <id>https://xumingmingming.github.io/2019/06/12/miaosha/di-2-zhang-miao-sha-xiang-mu-kuang-jia-hui-gu/</id>
     <published>2019-06-12T12:52:26.000Z</published>
-    <updated>2019-07-05T04:55:59.367Z</updated>
+    <updated>2019-07-08T13:06:58.246Z</updated>
     
     <summary type="html">
     
@@ -256,10 +422,10 @@
   
   <entry>
     <title>一个完整的HTTP请求过程</title>
-    <link href="https://xumingmingming.github.io/2019/04/29/yi-ge-wan-zheng-de-http-qing-qiu-guo-cheng/"/>
-    <id>https://xumingmingming.github.io/2019/04/29/yi-ge-wan-zheng-de-http-qing-qiu-guo-cheng/</id>
+    <link href="https://xumingmingming.github.io/2019/04/29/ji-suan-ji-wang-luo/yi-ge-wan-zheng-de-http-qing-qiu-guo-cheng/"/>
+    <id>https://xumingmingming.github.io/2019/04/29/ji-suan-ji-wang-luo/yi-ge-wan-zheng-de-http-qing-qiu-guo-cheng/</id>
     <published>2019-04-29T12:52:26.000Z</published>
-    <updated>2019-07-05T05:03:04.749Z</updated>
+    <updated>2019-07-08T13:06:58.251Z</updated>
     
     <summary type="html">
     
@@ -276,10 +442,10 @@
   
   <entry>
     <title>HTTP</title>
-    <link href="https://xumingmingming.github.io/2019/04/29/http/"/>
-    <id>https://xumingmingming.github.io/2019/04/29/http/</id>
+    <link href="https://xumingmingming.github.io/2019/04/29/ji-suan-ji-wang-luo/http/"/>
+    <id>https://xumingmingming.github.io/2019/04/29/ji-suan-ji-wang-luo/http/</id>
     <published>2019-04-29T12:30:26.000Z</published>
-    <updated>2019-07-05T05:02:31.767Z</updated>
+    <updated>2019-07-08T13:06:58.154Z</updated>
     
     <summary type="html">
     
@@ -299,10 +465,10 @@
   
   <entry>
     <title>TCP</title>
-    <link href="https://xumingmingming.github.io/2019/04/29/tcp/"/>
-    <id>https://xumingmingming.github.io/2019/04/29/tcp/</id>
+    <link href="https://xumingmingming.github.io/2019/04/29/ji-suan-ji-wang-luo/tcp/"/>
+    <id>https://xumingmingming.github.io/2019/04/29/ji-suan-ji-wang-luo/tcp/</id>
     <published>2019-04-29T12:28:26.000Z</published>
-    <updated>2019-07-05T05:01:51.564Z</updated>
+    <updated>2019-07-08T13:06:58.198Z</updated>
     
     <summary type="html">
     
@@ -323,10 +489,10 @@
   
   <entry>
     <title>互联网协议入门</title>
-    <link href="https://xumingmingming.github.io/2019/04/28/hu-lian-wang-xie-yi-ru-men/"/>
-    <id>https://xumingmingming.github.io/2019/04/28/hu-lian-wang-xie-yi-ru-men/</id>
+    <link href="https://xumingmingming.github.io/2019/04/28/ji-suan-ji-wang-luo/hu-lian-wang-xie-yi-ru-men/"/>
+    <id>https://xumingmingming.github.io/2019/04/28/ji-suan-ji-wang-luo/hu-lian-wang-xie-yi-ru-men/</id>
     <published>2019-04-28T12:52:26.000Z</published>
-    <updated>2019-07-05T05:03:49.060Z</updated>
+    <updated>2019-07-08T15:01:35.263Z</updated>
     
     <summary type="html">
     
@@ -343,22 +509,30 @@
   </entry>
   
   <entry>
-    <title>设计模式也可以这么简单</title>
-    <link href="https://xumingmingming.github.io/2019/03/25/she-ji-mo-shi/"/>
-    <id>https://xumingmingming.github.io/2019/03/25/she-ji-mo-shi/</id>
-    <published>2019-03-25T12:52:26.000Z</published>
-    <updated>2019-07-05T05:04:30.641Z</updated>
+    <title></title>
+    <link href="https://xumingmingming.github.io/2019/04/16/linux/linux-kai-fa-bi-hui-ming-ling/"/>
+    <id>https://xumingmingming.github.io/2019/04/16/linux/linux-kai-fa-bi-hui-ming-ling/</id>
+    <published>2019-04-16T11:21:33.502Z</published>
+    <updated>2019-07-08T14:50:35.696Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;[TOC]&lt;/p&gt;
+      
+      
+        
+        
+          &lt;pre&gt;&lt;code&gt;title: linux开发必会命令
+date: 2019-06-28 20:52:26
+author: 徐兴华
+categories: linux
+summary: 开发人员需要用到的一些linux命令
+tags: 
+ -
+        
+      
     
     </summary>
     
-      <category term="设计模式" scheme="https://xumingmingming.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="design pattern" scheme="https://xumingmingming.github.io/tags/design-pattern/"/>
     
   </entry>
   
