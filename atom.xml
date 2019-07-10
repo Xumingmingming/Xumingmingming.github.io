@@ -98,11 +98,11 @@
   </entry>
   
   <entry>
-    <title>linux上安装rocketmq</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/</id>
+    <title>linux上安装Redis</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/</id>
     <published>2019-06-28T12:52:26.000Z</published>
-    <updated>2019-07-10T07:57:13.075Z</updated>
+    <updated>2019-07-08T14:54:39.609Z</updated>
     
     <summary type="html">
     
@@ -110,11 +110,7 @@
       
         
         
-          &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;在官网下载rocketmq的zip包&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在rocketmq目录下，将&lt;code&gt;rocketmq-all-4.3.2-bin-release.zip&lt;/code&gt;变成可以执行的文件&lt;/p&gt;
-&lt;pre&gt;&lt;code
+          &lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo apt-get install
         
       
     
@@ -125,55 +121,7 @@
     
       <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
     
-      <category term="rocketmq" scheme="https://xumingmingming.github.io/tags/rocketmq/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>搭建个人博客</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/blog/da-jian-ge-ren-bo-ke/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/blog/da-jian-ge-ren-bo-ke/</id>
-    <published>2019-06-28T12:52:26.000Z</published>
-    <updated>2019-07-10T14:45:51.893Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;搭建个人博客&quot;&gt;&lt;a href=&quot;#搭建个人博客&quot; class=&quot;headerlink&quot; title=&quot;搭建个人博客&quot;&gt;&lt;/a&gt;搭建个人博客&lt;/h1&gt;
-    
-    </summary>
-    
-      <category term="个人博客" scheme="https://xumingmingming.github.io/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
-    
-    
-      <category term="个人博客" scheme="https://xumingmingming.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
-    
-      <category term="hexo" scheme="https://xumingmingming.github.io/tags/hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>linux开发必会命令</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-kai-fa-bi-hui-ming-ling/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-kai-fa-bi-hui-ming-ling/</id>
-    <published>2019-06-28T12:52:26.000Z</published>
-    <updated>2019-07-10T07:56:01.190Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;1-查找文件&quot;&gt;&lt;a href=&quot;#1-查找文件&quot; class=&quot;headerlink&quot; title=&quot;1.查找文件&quot;&gt;&lt;/a&gt;1.查找文件&lt;/h2&gt;&lt;p&gt;&lt;code&gt;find / -name filename.txt&lt;/code&gt;
-        
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+      <category term="redis" scheme="https://xumingmingming.github.io/tags/redis/"/>
     
   </entry>
   
@@ -233,6 +181,62 @@
   </entry>
   
   <entry>
+    <title>linux开发必会命令</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-kai-fa-bi-hui-ming-ling/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-kai-fa-bi-hui-ming-ling/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-10T07:56:01.190Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1-查找文件&quot;&gt;&lt;a href=&quot;#1-查找文件&quot; class=&quot;headerlink&quot; title=&quot;1.查找文件&quot;&gt;&lt;/a&gt;1.查找文件&lt;/h2&gt;&lt;p&gt;&lt;code&gt;find / -name filename.txt&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>博客添加hexo-theme-matery主题</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/blog/hexo-theme-matery/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/blog/hexo-theme-matery/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-10T15:06:26.169Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;特性&quot;&gt;&lt;a href=&quot;#特性&quot; class=&quot;headerlink&quot; title=&quot;特性&quot;&gt;&lt;/a&gt;特性&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;简单漂亮，文章内容美观易读&lt;/li&gt;
+&lt;li&gt;Material Design
+        
+      
+    
+    </summary>
+    
+      <category term="个人博客" scheme="https://xumingmingming.github.io/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+      <category term="个人博客" scheme="https://xumingmingming.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+      <category term="hexo-theme-matery" scheme="https://xumingmingming.github.io/tags/hexo-theme-matery/"/>
+    
+  </entry>
+  
+  <entry>
     <title>linux上安装RabbitMQ</title>
     <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rabbitmq/"/>
     <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rabbitmq/</id>
@@ -262,11 +266,11 @@
   </entry>
   
   <entry>
-    <title>linux上安装Redis</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/</id>
+    <title>linux上安装rocketmq</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/</id>
     <published>2019-06-28T12:52:26.000Z</published>
-    <updated>2019-07-08T14:54:39.609Z</updated>
+    <updated>2019-07-10T07:57:13.075Z</updated>
     
     <summary type="html">
     
@@ -274,7 +278,11 @@
       
         
         
-          &lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo apt-get install
+          &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;在官网下载rocketmq的zip包&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在rocketmq目录下，将&lt;code&gt;rocketmq-all-4.3.2-bin-release.zip&lt;/code&gt;变成可以执行的文件&lt;/p&gt;
+&lt;pre&gt;&lt;code
         
       
     
@@ -285,7 +293,29 @@
     
       <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
     
-      <category term="redis" scheme="https://xumingmingming.github.io/tags/redis/"/>
+      <category term="rocketmq" scheme="https://xumingmingming.github.io/tags/rocketmq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搭建个人博客</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/blog/da-jian-ge-ren-bo-ke/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/blog/da-jian-ge-ren-bo-ke/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-10T14:45:51.893Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;搭建个人博客&quot;&gt;&lt;a href=&quot;#搭建个人博客&quot; class=&quot;headerlink&quot; title=&quot;搭建个人博客&quot;&gt;&lt;/a&gt;搭建个人博客&lt;/h1&gt;
+    
+    </summary>
+    
+      <category term="个人博客" scheme="https://xumingmingming.github.io/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+      <category term="个人博客" scheme="https://xumingmingming.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+      <category term="hexo" scheme="https://xumingmingming.github.io/tags/hexo/"/>
     
   </entry>
   
@@ -510,27 +540,6 @@
     
     
       <category term="TCP" scheme="https://xumingmingming.github.io/tags/TCP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>互联网协议入门</title>
-    <link href="https://xumingmingming.github.io/2019/04/28/ji-suan-ji-wang-luo/hu-lian-wang-xie-yi-ru-men/"/>
-    <id>https://xumingmingming.github.io/2019/04/28/ji-suan-ji-wang-luo/hu-lian-wang-xie-yi-ru-men/</id>
-    <published>2019-04-28T12:52:26.000Z</published>
-    <updated>2019-07-08T15:01:35.263Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h1&gt;&lt;h2 id=&quot;五层模型&quot;&gt;&lt;a href=&quot;#五层模型&quot; class=&quot;headerlink&quot; title=&quot;五层模型&quot;&gt;&lt;/a&gt;&lt;strong&gt;五层模型&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;互联网的实现，分成好几层。每一层都有自己的功能，就像建筑物一样，每一层都靠下一层支持。&lt;/p&gt;
-&lt;p&gt;用户接触到的，只是最上面的一层，根本没有感觉到下面的层。要理解互联网，必须从最下层开始，自下而上理解每一层的功能。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="计算机网络" scheme="https://xumingmingming.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="互联网入门" scheme="https://xumingmingming.github.io/tags/%E4%BA%92%E8%81%94%E7%BD%91%E5%85%A5%E9%97%A8/"/>
     
   </entry>
   
