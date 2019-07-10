@@ -79,7 +79,7 @@
     <link href="https://xumingmingming.github.io/2019/06/28/linux/wai-wang-ssh-lian-jie-nei-wang-windows-shang-linux-xu-ni-ji/"/>
     <id>https://xumingmingming.github.io/2019/06/28/linux/wai-wang-ssh-lian-jie-nei-wang-windows-shang-linux-xu-ni-ji/</id>
     <published>2019-06-28T15:28:20.000Z</published>
-    <updated>2019-07-08T13:06:58.249Z</updated>
+    <updated>2019-07-09T12:56:21.038Z</updated>
     
     <summary type="html">
     
@@ -98,11 +98,43 @@
   </entry>
   
   <entry>
+    <title>linux上安装rocketmq</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-10T07:57:13.075Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;在官网下载rocketmq的zip包&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在rocketmq目录下，将&lt;code&gt;rocketmq-all-4.3.2-bin-release.zip&lt;/code&gt;变成可以执行的文件&lt;/p&gt;
+&lt;pre&gt;&lt;code
+        
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+    
+      <category term="rocketmq" scheme="https://xumingmingming.github.io/tags/rocketmq/"/>
+    
+  </entry>
+  
+  <entry>
     <title>搭建个人博客</title>
     <link href="https://xumingmingming.github.io/2019/06/28/blog/da-jian-ge-ren-bo-ke/"/>
     <id>https://xumingmingming.github.io/2019/06/28/blog/da-jian-ge-ren-bo-ke/</id>
     <published>2019-06-28T12:52:26.000Z</published>
-    <updated>2019-07-08T13:06:58.236Z</updated>
+    <updated>2019-07-10T14:45:51.893Z</updated>
     
     <summary type="html">
     
@@ -120,11 +152,11 @@
   </entry>
   
   <entry>
-    <title>linux上安装Redis</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/</id>
+    <title>linux开发必会命令</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-kai-fa-bi-hui-ming-ling/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-kai-fa-bi-hui-ming-ling/</id>
     <published>2019-06-28T12:52:26.000Z</published>
-    <updated>2019-07-08T14:54:39.609Z</updated>
+    <updated>2019-07-10T07:56:01.190Z</updated>
     
     <summary type="html">
     
@@ -132,7 +164,7 @@
       
         
         
-          &lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo apt-get install
+          &lt;h2 id=&quot;1-查找文件&quot;&gt;&lt;a href=&quot;#1-查找文件&quot; class=&quot;headerlink&quot; title=&quot;1.查找文件&quot;&gt;&lt;/a&gt;1.查找文件&lt;/h2&gt;&lt;p&gt;&lt;code&gt;find / -name filename.txt&lt;/code&gt;
         
       
     
@@ -143,8 +175,6 @@
     
       <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
     
-      <category term="redis" scheme="https://xumingmingming.github.io/tags/redis/"/>
-    
   </entry>
   
   <entry>
@@ -152,7 +182,7 @@
     <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-an-zhuang-mysql/"/>
     <id>https://xumingmingming.github.io/2019/06/28/linux/linux-an-zhuang-mysql/</id>
     <published>2019-06-28T12:52:26.000Z</published>
-    <updated>2019-07-08T14:55:27.594Z</updated>
+    <updated>2019-07-10T07:56:28.425Z</updated>
     
     <summary type="html">
     
@@ -203,38 +233,6 @@
   </entry>
   
   <entry>
-    <title>linux上安装rocketmq</title>
-    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/"/>
-    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rocketmq/</id>
-    <published>2019-06-28T12:52:26.000Z</published>
-    <updated>2019-07-08T14:54:20.304Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;在官网下载rocketmq的zip包&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在rocketmq目录下，将&lt;code&gt;rocketmq-all-4.3.2-bin-release.zip&lt;/code&gt;变成可以执行的文件&lt;/p&gt;
-&lt;pre&gt;&lt;code
-        
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
-    
-      <category term="rocketmq" scheme="https://xumingmingming.github.io/tags/rocketmq/"/>
-    
-  </entry>
-  
-  <entry>
     <title>linux上安装RabbitMQ</title>
     <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rabbitmq/"/>
     <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-rabbitmq/</id>
@@ -260,6 +258,34 @@
       <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
     
       <category term="RabbitMQ" scheme="https://xumingmingming.github.io/tags/RabbitMQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux上安装Redis</title>
+    <link href="https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/"/>
+    <id>https://xumingmingming.github.io/2019/06/28/linux/linux-shang-an-zhuang-redis/</id>
+    <published>2019-06-28T12:52:26.000Z</published>
+    <updated>2019-07-08T14:54:39.609Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo apt-get install
+        
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://xumingmingming.github.io/tags/linux/"/>
+    
+      <category term="redis" scheme="https://xumingmingming.github.io/tags/redis/"/>
     
   </entry>
   
@@ -395,7 +421,7 @@
     <link href="https://xumingmingming.github.io/2019/06/12/miaosha/di-2-zhang-miao-sha-xiang-mu-kuang-jia-hui-gu/"/>
     <id>https://xumingmingming.github.io/2019/06/12/miaosha/di-2-zhang-miao-sha-xiang-mu-kuang-jia-hui-gu/</id>
     <published>2019-06-12T12:52:26.000Z</published>
-    <updated>2019-07-08T13:06:58.246Z</updated>
+    <updated>2019-07-10T07:58:11.840Z</updated>
     
     <summary type="html">
     
@@ -505,34 +531,6 @@
     
     
       <category term="互联网入门" scheme="https://xumingmingming.github.io/tags/%E4%BA%92%E8%81%94%E7%BD%91%E5%85%A5%E9%97%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://xumingmingming.github.io/2019/04/16/linux/linux-kai-fa-bi-hui-ming-ling/"/>
-    <id>https://xumingmingming.github.io/2019/04/16/linux/linux-kai-fa-bi-hui-ming-ling/</id>
-    <published>2019-04-16T11:21:33.502Z</published>
-    <updated>2019-07-08T14:50:35.696Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;pre&gt;&lt;code&gt;title: linux开发必会命令
-date: 2019-06-28 20:52:26
-author: 徐兴华
-categories: linux
-summary: 开发人员需要用到的一些linux命令
-tags: 
- -
-        
-      
-    
-    </summary>
-    
     
   </entry>
   
