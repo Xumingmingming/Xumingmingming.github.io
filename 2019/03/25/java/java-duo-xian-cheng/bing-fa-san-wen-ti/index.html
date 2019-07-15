@@ -1,0 +1,1116 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Java 并发基础之内存模型, xxh&#39;s blog">
+    <meta name="description" content="本文的主要目的是让大家对于并发程序中的重排序、内存可见性以及原子性有一定的了解，同时要能准确理解 synchronized、volatile、final 几个关键字的作用。
+另外，本文还对双重检查形式的单例模式为什么需要使用 volatil">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Java 并发基础之内存模型 | xxh&#39;s blog</title>
+    <link rel="icon" type="image/png" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">xxh's blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">xxh's blog</div>
+        <div class="logo-desc">
+            
+            这是xxh同学的个人博客
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/9.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Java 并发基础之内存模型
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/多线程/" target="_blank">
+                                <span class="chip bg-color">多线程</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                Java
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-03-25
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        4.7k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        17 分
+                    </div>
+                    
+                
+				
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>本文的主要目的是让大家对于并发程序中的重排序、内存可见性以及原子性有一定的了解，同时要能准确理解 synchronized、volatile、final 几个关键字的作用。</p>
+<p>另外，本文还对<strong>双重检查形式的单例模式为什么需要使用 volatile</strong> 做了深入的解释。</p>
+<!-- toc -->
+
+<h2 id="并发三问题"><a href="#并发三问题" class="headerlink" title="并发三问题"></a>并发三问题</h2><p>这节将介绍重排序、内存可见性以及原子性相关的知识，这些也是并发程序为什么难写的原因。</p>
+<h3 id="1-重排序"><a href="#1-重排序" class="headerlink" title="1. 重排序"></a>1. 重排序</h3><p>请读者先在自己的电脑上运行一下以下程序：</p>
+<pre><code class="java">public class Test {
+
+    private static int x = 0, y = 0;
+    private static int a = 0, b =0;
+
+    public static void main(String[] args) throws InterruptedException {
+        int i = 0;
+        for(;;) {
+            i++;
+            x = 0; y = 0;
+            a = 0; b = 0;
+            CountDownLatch latch = new CountDownLatch(1);
+
+            Thread one = new Thread(() -&gt; {
+                try {
+                    latch.await();
+                } catch (InterruptedException e) {
+                }
+                a = 1;
+                x = b;
+            });
+
+            Thread other = new Thread(() -&gt; {
+                try {
+                    latch.await();
+                } catch (InterruptedException e) {
+                }
+                b = 1;
+                y = a;
+            });
+            one.start();other.start();
+            latch.countDown();
+            one.join();other.join();
+
+            String result = &quot;第&quot; + i + &quot;次 (&quot; + x + &quot;,&quot; + y + &quot;）&quot;;
+            if(x == 0 &amp;&amp; y == 0) {
+                System.err.println(result);
+                break;
+            } else {
+                System.out.println(result);
+            }
+        }
+    }
+}</code></pre>
+<p>几秒后，我们就可以得到 <code>x == 0 &amp;&amp; y == 0</code> 这个结果，仔细看看代码就会知道，如果不发生重排序的话，这个结果是不可能出现的。</p>
+<p><strong>重排序由以下几种机制引起：</strong></p>
+<ol>
+<li><p>编译器优化：对于没有数据依赖关系的操作，编译器在编译的过程中会进行一定程度的重排。</p>
+<blockquote>
+<p>大家仔细看看线程 1 中的代码，编译器是可以将 a = 1 和 x = b 换一下顺序的，因为它们之间没有数据依赖关系，同理，线程 2 也一样，那就不难得到 x == y == 0 这种结果了。</p>
+</blockquote>
+</li>
+<li><p>指令重排序：CPU 优化行为，也是会对不存在数据依赖关系的指令进行一定程度的重排。</p>
+<blockquote>
+<p>这个和编译器优化差不多，就算编译器不发生重排，CPU 也可以对指令进行重排，这个就不用多说了。</p>
+</blockquote>
+</li>
+<li><p>内存系统重排序：内存系统没有重排序，但是由于有缓存的存在，使得程序整体上会表现出乱序的行为。</p>
+<blockquote>
+<p>假设不发生编译器重排和指令重排，线程 1 修改了 a 的值，但是修改以后，a 的值可能还没有写回到主存中，那么线程 2 得到 a == 0 就是很自然的事了。同理，线程 2 对于 b 的赋值操作也可能没有及时刷新到主存中。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="2-内存可见性"><a href="#2-内存可见性" class="headerlink" title="2. 内存可见性"></a>2. 内存可见性</h3><p>前面在说重排序的时候，也说到了内存可见性的问题，这里再啰嗦一下。</p>
+<p>线程间的对于共享变量的可见性问题<strong>不是直接由多核引起的，而是由多缓存引起的</strong>。如果每个核心共享同一个缓存，那么也就不存在内存可见性问题了。</p>
+<p>现代多核 CPU 中每个核心拥有自己的一级缓存或一级缓存加上二级缓存等，问题就发生在每个核心的独占缓存上。每个核心都会将自己需要的数据读到独占缓存中，数据修改后也是写入到缓存中，然后等待刷入到主存中。所以会导致有些核心读取的值是一个<strong>过期</strong>的值。</p>
+<p>Java 作为高级语言，屏蔽了这些底层细节，用 JMM 定义了一套读写内存数据的规范，虽然我们不再需要关心一级缓存和二级缓存的问题，但是，JMM 抽象了<strong>主内存</strong>和<strong>本地内存</strong>的概念。</p>
+<p>所有的共享变量存在于主内存中，<strong>每个线程有自己的本地内存</strong>，线程读写共享数据也是通过本地内存交换的，所以可见性问题依然是存在的。这里说的本地内存并不是真的是一块给每个线程分配的内存，而是 JMM 的一个抽象，是对于寄存器、一级缓存、二级缓存等的抽象。</p>
+<h3 id="3-原子性"><a href="#3-原子性" class="headerlink" title="3. 原子性"></a>3. 原子性</h3><p>在本文中，原子性不是重点，它将作为并发编程中需要考虑的一部分进行介绍。</p>
+<p>说到原子性的时候，大家应该都能想到 long 和 double，它们的值需要占用 64 位的内存空间，Java 编程语言规范中提到，对于 64 位的值的写入，可以分为两个 32 位的操作进行写入。本来一个整体的赋值操作，被拆分为低 32 位赋值和高 32 位赋值两个操作，中间如果发生了其他线程对于这个值的读操作，必然就会读到一个奇怪的值。</p>
+<p>这个时候我们要使用 volatile 关键字进行控制了，JMM 规定了对于 volatile long 和 volatile double，JVM 需要保证写入操作的原子性。</p>
+<p>另外，对于<strong>引用的读写操作始终是原子的，不管是 32 位的机器还是 64 位的机器</strong>。</p>
+<p>Java 编程语言规范同样提到，鼓励 JVM 的开发者能保证 64 位值操作的原子性，也鼓励使用者尽量使用 volatile 或使用正确的同步方式。关键词是”鼓励“。</p>
+<blockquote>
+<p>在 64 位的 JVM 中，不加 volatile 也是可以的，同样能保证对于 long 和 double 写操作的原子性。关于这一点，我没有找到官方的材料描述它，如果读者有相关的信息，希望可以给我反馈一下。</p>
+</blockquote>
+<h2 id="Java-对于并发的规范约束"><a href="#Java-对于并发的规范约束" class="headerlink" title="Java 对于并发的规范约束"></a>Java 对于并发的规范约束</h2><p>并发问题使得我们的代码有可能会产生各种各样的执行结果，显然这是我们不能接受的，所以 Java 编程语言规范需要规定一些基本规则，JVM 实现者会在这些规则的约束下来实现 JVM，然后开发者也要按照规则来写代码，这样写出来的并发代码我们才能准确预测执行结果。下面进行一些简单的介绍。</p>
+<h3 id="Synchronization-Order"><a href="#Synchronization-Order" class="headerlink" title="Synchronization Order"></a>Synchronization Order</h3><p>Java 语言规范对于同步定义了一系列的规则：<a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-17.html#jls-17.4.4" target="_blank" rel="noopener">17.4.4. Synchronization Order</a>，包括了如下同步关系：</p>
+<ul>
+<li><p>对于监视器 m 的解锁与所有后续操作对于 m 的加锁同步</p>
+</li>
+<li><p>对 volatile 变量 v 的写入，与所有其他线程后续对 v 的读同步</p>
+</li>
+<li><p>启动线程的操作与线程中的第一个操作同步。</p>
+</li>
+<li><p>对于每个属性写入默认值（0， false，null）与每个线程对其进行的操作同步。</p>
+<p>尽管在创建对象完成之前对对象属性写入默认值有点奇怪，但从概念上来说，每个对象都是在程序启动时用默认值初始化来创建的。</p>
+</li>
+<li><p>线程 T1 的最后操作与线程 T2 发现线程 T1 已经结束同步。</p>
+<p>线程 T2 可以通过 T1.isAlive() 或 T1.join() 方法来判断 T1 是否已经终结。</p>
+</li>
+<li><p>如果线程 T1 中断了 T2，那么线程 T1 的中断操作与其他所有线程发现 T2 被中断了同步（通过抛出 InterruptedException 异常，或者调用 Thread.interrupted 或 Thread.isInterrupted ）</p>
+</li>
+</ul>
+<h3 id="Happens-before-Order"><a href="#Happens-before-Order" class="headerlink" title="Happens-before Order"></a>Happens-before Order</h3><p>两个操作可以用 happens-before 来确定它们的执行顺序，如果一个操作 happens-before 于另一个操作，那么我们说第一个操作对于第二个操作是可见的。</p>
+<p>如果我们分别有操作 x 和操作 y，我们写成 <strong>hb(x, y)</strong> 来表示 <strong>x happens-before y</strong>。以下几个规则也是来自于 Java 8 语言规范 <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-17.html#jls-17.4.5" target="_blank" rel="noopener">Happens-before Order</a>：</p>
+<ul>
+<li><p>如果操作 x 和操作 y 是同一个线程的两个操作，并且在代码上操作 x 先于操作 y 出现，那么有 hb(x, y)</p>
+</li>
+<li><p>对象构造方法的最后一行指令 happens-before 于 finalize() 方法的第一行指令。</p>
+</li>
+<li><p>如果操作 x 与随后的操作 y 构成同步，那么 hb(x, y)。这条说的是前面一小节的内容。</p>
+</li>
+<li><p>hb(x, y) 和 hb(y, z)，那么可以推断出 hb(x, z)</p>
+</li>
+</ul>
+<p>这里再提一点，x happens-before y，并不是说 x 操作一定要在 y 操作之前被执行，而是说 x 的执行结果对于 y 是可见的，只要满足可见性，发生了重排序也是可以的。</p>
+<h2 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h2><blockquote>
+<p>monitor，这里翻译成监视器锁，为了大家理解方便。</p>
+</blockquote>
+<p>synchronized 这个关键字大家都用得很多了，这里不会教你怎么使用它，我们来看看它对于内存可见性的影响。</p>
+<p>一个线程在获取到监视器锁以后才能进入 synchronized 控制的代码块，一旦进入代码块，首先，该<strong>线程对于共享变量的缓存就会失效</strong>，因此 <strong>synchronized 代码块中对于共享变量的读取需要从主内存中重新获取</strong>，也就能获取到最新的值。</p>
+<p>退出代码块的时候的，会将该线程写缓冲区中的数据刷到主内存中，所以在 synchronized 代码块之前或 synchronized 代码块中对于共享变量的操作随着该线程退出 synchronized 块，会立即对其他线程可见（<strong>这句话的前提是其他读取共享变量的线程会从主内存读取最新值</strong>）。</p>
+<p>因此，我们可以总结一下：<strong>线程 a 对于进入 synchronized 块之前或在 synchronized 中对于共享变量的操作，对于后续的持有同一个监视器锁的线程 b 可见</strong>。虽然是挺简单的一句话，请读者好好体会。</p>
+<p>注意一点，在进入 <code>synchronized</code> 的时候，<strong>并不会保证之前的写操作刷入到主内存中，synchronized 主要是保证退出的时候能将本地内存的数据刷入到主内存</strong>。</p>
+<h2 id="单例模式中的双重检查"><a href="#单例模式中的双重检查" class="headerlink" title="单例模式中的双重检查"></a>单例模式中的双重检查</h2><p>我们趁热打铁，为大家解决下单例模式中的双重检查问题。关于这个问题，大神们发过<a href="http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html" target="_blank" rel="noopener">文章</a>对此进行阐述了，这里搬运一下。</p>
+<blockquote>
+<p>来膜拜下文章署名中的大神们：<a href="http://www.research.ibm.com/people/d/dfb" target="_blank" rel="noopener">David Bacon</a> (IBM Research) Joshua Bloch (Javasoft), <a href="http://www.cs.ucsb.edu/~bogda/" target="_blank" rel="noopener">Jeff Bogda</a>, Cliff Click (Hotspot JVM project), <a href="http://www.webcom.com/~haahr/" target="_blank" rel="noopener">Paul Haahr</a>, <a href="http://www.cs.oswego.edu/~dl" target="_blank" rel="noopener">Doug Lea</a>, <a href="mailto:tom@go2net.com" target="_blank" rel="noopener">Tom May</a>, <a href="http://www.csg.lcs.mit.edu/~earwig/" target="_blank" rel="noopener">Jan-Willem Maessen</a>, <a href="http://www.cs.umd.edu/~jmanson" target="_blank" rel="noopener">Jeremy Manson</a>, <a href="http://www.jguru.com/johnm" target="_blank" rel="noopener">John D. Mitchell (jGuru)</a> Kelvin Nilsen, <a href="http://www.cs.umd.edu/~pugh" target="_blank" rel="noopener">Bill Pugh</a>, <a href="http://www.cs.washington.edu/homes/egs/" target="_blank" rel="noopener">Emin Gun Sirer</a>，至少 Joshua Bloch 和 Doug Lea 大家都不陌生吧。</p>
+</blockquote>
+<p>废话少说，看以下单例模式的写法：</p>
+<pre><code class="java">public class Singleton {
+
+    private static Singleton instance = null;
+
+    private int v;
+    private Singleton() {
+        this.v = 3;
+    }
+
+    public static Singleton getInstance() {
+        if (instance == null) { // 1. 第一次检查
+            synchronized (Singleton.class) { // 2
+                if (instance == null) { // 3. 第二次检查
+                    instance = new Singleton(); // 4
+                }
+            }
+        }
+        return instance;
+    }
+}</code></pre>
+<p>很多人都知道上述的写法是不对的，但是可能会说不清楚到底为什么不对。</p>
+<p>我们假设有两个线程 a 和 b 调用 getInstance() 方法，假设 a 先走，一路走到 4 这一步，执行  <code>instance = new Singleton()</code> 这句代码。</p>
+<p>instance = new Singleton() 这句代码<strong>首先会申请一段空间</strong>，<strong>然后将各个属性初始化为零值(0/null)</strong>，<strong>执行构造方法中的属性赋值[1]</strong>，<strong>将这个对象的引用赋值给 instance[2]</strong>。在这个过程中，[1] 和 [2] 可能会发生重排序。</p>
+<p>此时，线程 b 刚刚进来执行到 1（看上面的代码块），就有可能会看到 instance 不为 null，然后线程 b 也就不会等待监视器锁，而是直接返回 instance。问题是这个 instance 可能还没执行完构造方法（线程 a 此时还在 4 这一步），所以线程 b 拿到的 instance 是<strong>不完整的</strong>，它里面的属性值可能是初始化的零值(0/false/null)，而不是线程 a 在构造方法中指定的值。</p>
+<blockquote>
+<p>回顾下前面的知识，分析下这里为什么会有这个问题。</p>
+<p>1、编译器可以将构造方法内联过来，之后再发生重排序就很容易理解了。</p>
+<p>2、即使不发生代码重排序，线程 a 对于属性的赋值写入到了线程 a 的本地内存中，此时对于线程 b 不可见。</p>
+</blockquote>
+<p>最后提一点，如果线程 a 从 synchronized 块出来了，那么 instance 一定是正确构造的<strong>完整</strong>实例，这是我们前面说过的 synchronized 的内存可见性保证。</p>
+<p>—————分割线————— </p>
+<p>对于大部分读者来说，这一小节其实可以结束了，很多读者都知道，解决方案是使用 volatile 关键字，这个我们在介绍 volatile 的时候再说。当然，如果你还有耐心，也可以继续看看本小节。</p>
+<p>我们看下下面这段代码，看看它能不能解决我们之前碰到的问题。</p>
+<pre><code class="java">public static Singleton getInstance() {
+    if (instance == null) { //
+        Singleton temp;
+        synchronized (Singleton.class) { //
+            temp = instance;
+            if (temp == null) { //
+                synchronized (Singleton.class) { // 内嵌一个 synchronized 块
+                    temp = new Singleton();
+                }
+                instance = temp; //
+            }
+        }
+    }
+    return instance;
+}</code></pre>
+<p>上面这个代码很有趣，想利用 synchronized 的内存可见性语义，不过这个解决方案还是失败了，我们分析下。</p>
+<p>前面我们也说了，<strong>synchronized 在退出的时候，能保证 synchronized 块中对于共享变量的写入一定会刷入到主内存中</strong>。也就是说，上述代码中，内嵌的 synchronized 结束的时候，temp 一定是完整构造出来的，然后再赋给 instance 的值一定是好的。</p>
+<p>可是，synchronized 保证了释放监视器锁之前的代码一定会在释放锁之前被执行（如 temp 的初始化一定会在释放锁之前执行完 ），但是没有任何规则规定了，释放锁之后的代码不可以在释放锁之前先执行。</p>
+<p>也就是说，代码中释放锁之后的行为 <code>instance = temp</code> 完全可以被提前到前面的 synchronized 代码块中执行，那么前面说的重排序问题就又出现了。</p>
+<p>最后扯一点，如果所有的属性都是使用 final 修饰的，其实之前介绍的双重检查是可行的，不需要加 volatile，这个等到 final 那节再介绍。</p>
+<h2 id="volatile-关键字"><a href="#volatile-关键字" class="headerlink" title="volatile 关键字"></a>volatile 关键字</h2><p>大部分开发者应该都知道怎么使用这个关键字，只是可能不太了解个中缘由。</p>
+<p><strong>如果你下次面试的时候有人问你 volatile 的作用，记住两点：内存可见性和禁止指令重排序。</strong></p>
+<h3 id="volatile-的内存可见性"><a href="#volatile-的内存可见性" class="headerlink" title="volatile 的内存可见性"></a>volatile 的内存可见性</h3><p>我们还是用 JMM 的<strong>主内存</strong>和<strong>本地内存</strong>抽象来描述，这样比较准确。还有，并不是只有 Java 语言才有 volatile 关键字，所以后面的描述一定要建立在 Java 跨平台以后抽象出了内存模型的这个大环境下。</p>
+<p>还记得 synchronized 的语义吗？进入 synchronized 时，使得本地缓存失效，synchronized 块中对共享变量的读取必须从主内存读取；退出 synchronized 时，会将进入 synchronized 块之前和 synchronized 块中的写操作刷入到主存中。</p>
+<p>volatile 有类似的语义，读一个 volatile 变量之前，需要先使相应的本地缓存失效，这样就必须到主内存读取最新值，写一个 volatile 属性会立即刷入到主内存。所以，volatile 读和 monitorenter 有相同的语义，volatile 写和 monitorexit 有相同的语义。</p>
+<h3 id="volatile-的禁止重排序"><a href="#volatile-的禁止重排序" class="headerlink" title="volatile 的禁止重排序"></a>volatile 的禁止重排序</h3><p>大家还记得之前的双重检查的单例模式吧，前面提到，加个 volatile 能解决问题。其实就是利用了 volatile 的禁止重排序功能。</p>
+<p>volatile 的禁止重排序并不局限于两个 volatile 的属性操作不能重排序，而且是 volatile 属性操作和它周围的普通属性的操作也不能重排序。</p>
+<p>之前 instance = new Singleton() 中，如果 instance 是 volatile 的，那么对于 instance 的赋值操作（赋一个引用给 instance 变量）就不会和构造函数中的属性赋值发生重排序，能保证构造方法结束后，才将此对象引用赋值给 instance。</p>
+<p>根据 volatile 的内存可见性和禁止重排序，那么我们不难得出一个推论：线程 a 如果写入一个 volatile 变量，此时线程 b 再读取这个变量，那么此时对于线程 a 可见的所有属性对于线程 b 都是可见的。</p>
+<h3 id="volatile-小结"><a href="#volatile-小结" class="headerlink" title="volatile 小结"></a>volatile 小结</h3><ol>
+<li>volatile 修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值。在并发包的源码中，它使用得非常多。</li>
+<li>volatile 属性的读写操作都是无锁的，它不能替代 synchronized，因为<strong>它没有提供原子性和互斥性</strong>。因为无锁，不需要花费时间在获取锁和释放锁上，所以说它是低成本的。</li>
+<li>volatile 只能作用于属性，我们用 volatile 修饰属性，这样 compilers 就不会对这个属性做指令重排序。</li>
+<li>volatile 提供了可见性，任何一个线程对其的修改将立马对其他线程可见。volatile 属性不会被线程缓存，始终从主存中读取。</li>
+<li>volatile 提供了 happens-before 保证，对 volatile 变量 v 的写入 happens-before 所有其他线程后续对 v 的读操作。</li>
+<li>volatile 可以使得 long 和 double 的赋值是原子的，前面在说原子性的时候提到过。</li>
+</ol>
+<h2 id="final-关键字"><a href="#final-关键字" class="headerlink" title="final 关键字"></a>final 关键字</h2><p><strong>用 final 修饰的类不可以被继承，用 final 修饰的方法不可以被覆写，用 final 修饰的属性一旦初始化以后不可以被修改</strong>。当然，我们不关心这些段子，这节，我们来看看 final 带来的内存可见性影响。</p>
+<p>之前在说双重检查的单例模式的时候，提过了一句，如果所有的属性都使用了 final 修饰，那么 volatile 也是可以不要的，这就是 final 带来的可见性影响。</p>
+<p>在对象的构造方法中设置 final 属性，<strong>同时在对象初始化完成前，不要将此对象的引用写入到其他线程可以访问到的地方</strong>（不要让引用在构造函数中逸出）。如果这个条件满足，当其他线程看到这个对象的时候，那个线程始终可以看到正确初始化后的对象的 final 属性。</p>
+<p>上面说得很明白了，final 属性的写操作不会和此引用的赋值操作发生重排序，如：</p>
+<pre><code class="java">x.finalField = v; ...; sharedRef = x;</code></pre>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>参考资料：</strong></p>
+<p>javadoop:<a href="https://javadoop.com/post/java-memory-model#toc10" target="_blank" rel="noopener">https://javadoop.com/post/java-memory-model#toc10</a></p>
+<p>JSR 133：<a href="https://jcp.org/en/jsr/detail?id=133" target="_blank" rel="noopener">https://jcp.org/en/jsr/detail?id=133</a></p>
+<p>The “Double-Checked Locking is Broken” Declaration：<a href="http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html" target="_blank" rel="noopener">http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html</a></p>
+<p>美团点评技术团队：<a href="https://tech.meituan.com/java-memory-reordering.html" target="_blank" rel="noopener">https://tech.meituan.com/java-memory-reordering.html</a></p>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《Java 并发基础之内存模型》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/03/25/java/java-duo-xian-cheng/bing-fa-san-wen-ti/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                xuxinghua
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Mon Mar 25 2019 20:47:52 GMT+0800',
+    owner: 'Xumingmingming',
+    repo: 'Xumingmingming.github.io',
+    oauth: {
+        client_id: '245a2e1eb55054628f5c',
+        client_secret: 'd97a71996cc30d009cf61d4ccbe64b1e2897338a'
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/03/25/java/java-ji-chu/java-cheng-xu-bian-yi-he-yun-xing-de-guo-cheng/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/9.jpg" class="responsive-img" alt="Java程序编译和运行的过程">
+                        
+                        <span class="card-title">Java程序编译和运行的过程</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            通过一个简单的程序来简单的说明整个Java程序执行流程
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-25
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                    Java
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java基础/" target="_blank">
+                        <span class="chip bg-color">Java基础</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/25/java/java-duo-xian-cheng/guan-yu-synchronized-guan-jian-zi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/3.jpg" class="responsive-img" alt="关于synchronized关键字">
+                        
+                        <span class="card-title">关于synchronized关键字</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            并发程序中synchronized关键字5连击
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java/" class="post-category" target="_blank">
+                                    Java
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/多线程/" target="_blank">
+                        <span class="chip bg-color">多线程</span>
+                    </a>
+                    
+                    <a href="/tags/synchronized/" target="_blank">
+                        <span class="chip bg-color">synchronized</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: xxh's blog<br />'
+            + '作者: xuxinghua<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+I<footer class="page-footer bg-color">
+    I<div class="container row center-align">
+        I<div class="col s12 m8 l8 copy-right">
+            I本站由&copy;<a href="https://xumingmingming.github.io/" target="_blank">xuxinghua</a>基于
+            I<a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            I<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            I
+                I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                I<span class="white-color">117.9k</span>
+            I
+
+            I
+			I
+        I</div>
+        I<div class="col s12 m4 l4 social-link ">
+
+
+    <a href="mailto:393782936@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=393782936" class="tooltipped" data-tooltip="QQ联系我: 393782936" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    I</div>
+I</footer>
+
+I<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+
+
+</body>
+</html>

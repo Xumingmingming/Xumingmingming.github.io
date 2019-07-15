@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta name="keywords" content="TCP, xxh&#39;s blog">
     <meta name="description" content="TCP三次握手四次挥手三次握手需要的信息:
-ACK : TCP 协议规定，只有 ACK=1 时有效，也规定连接建立后所有发送的报文的 ACK 必须为 1。 
-SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
+==ACK== : TCP 协议规定，只有 ACK=1 时有效，也规定连接建立后所有发送的报文的 ACK 必须为 1。 
+==SYN==(SYNchronization) : 在连接建立时用来同步">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,20 +16,20 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>TCP | xxh&#39;s blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/png" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/favicon.png">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/css/lightgallery.min.css">
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     <style type="text/css">
         
     </style>
 
-    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/jquery/jquery-2.2.0.min.js"></script>
 </head>
 
 
@@ -41,7 +41,7 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
             <div class="brand-logo">
                 <a href="/" class="waves-effect waves-light">
                     
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img" alt="LOGO">
                     
                     <span class="logo-span">xxh's blog</span>
                 </a>
@@ -116,7 +116,7 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
 
     <div class="mobile-head bg-color">
         
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img circle responsive-img">
         
         <div class="logo-name">xxh's blog</div>
         <div class="logo-desc">
@@ -199,7 +199,7 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/9.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -218,7 +218,7 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
 <main class="post-container content">
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.css">
 <style>
     #articleContent h1::before,
     #articleContent h2::before,
@@ -366,30 +366,30 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="TCP三次握手四次挥手"><a href="#TCP三次握手四次挥手" class="headerlink" title="TCP三次握手四次挥手"></a>TCP三次握手四次挥手</h1><p>三次握手需要的信息:</p>
-<p>ACK : TCP 协议规定，只有 ACK=1 时有效，也规定连接建立后所有发送的报文的 ACK 必须为 1。 </p>
-<p>SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN=1 而 ACK=0 时，表明这是一个连接请求报文。对方若同意建立连接，则应在响应报文中使 SYN=1 和 ACK=1. 因此, SYN 置 1 就表示这是一个连接请求或连接接受报文。 </p>
-<p>FIN (finish)即完，终结的意思， 用来释放一个连接。当 FIN = 1 时，表明此报文段 的发送方的数据已经发送完毕，并要求释放连接 。</p>
-<p>seq(序号):</p>
+<p>==ACK== : TCP 协议规定，只有 ACK=1 时有效，也规定连接建立后所有发送的报文的 ACK 必须为 1。 </p>
+<p>==SYN==(SYNchronization) : 在连接建立时用来同步序号。当 SYN=1 而 ACK=0 时，表明这是一个连接请求报文。对方若同意建立连接，则应在响应报文中使 SYN=1 和 ACK=1. 因此, SYN 置 1 就表示这是一个连接请求或连接接受报文。 </p>
+<p>==FIN== (finish)即完，终结的意思， 用来释放一个连接。当 FIN = 1 时，表明此报文段 的发送方的数据已经发送完毕，并要求释放连接 。</p>
+<p>==seq==(序号):</p>
 <a id="more"></a>
 
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130449.jpg" alt="1350984685_4221"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151220.jpg" alt="1350984685_4221"></p>
 <p>三次握手：</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130451-1.jpg" alt="1350985085_3123"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151221.jpg" alt="1350985085_3123"></p>
 <ol>
 <li>首先由Client发出请求连接即 SYN=1，ACK=0， TCP规定SYN=1时不能携带数据，但要消耗一个序号,因此声明自己的序号是 seq=x；</li>
 <li>然后 Server 进行回复确认，即 SYN=1 ACK=1 seq=y, ack=x+1；</li>
 <li>再然后 Client 再进行一次确认，但不用SYN了，这时即为 ACK=1, seq=x+1, ack=y+1.然后连接建立。</li>
 </ol>
 <p>四次挥手：</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130452.jpg" alt="1350990937_5362"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151222.jpg" alt="1350990937_5362"></p>
 <p>【注意】中断连接端可以是Client端，也可以是Server端。</p>
 <p>假设Client端发起中断连接请求，也就是发送FIN报文。Server端接到FIN报文后，意思是说”我Client端没有数据要发给你了”，但是如果你还有数据没有发送完成，则不必急着关闭Socket，可以继续发送数据。所以你先发送ACK，”告诉Client端，你的请求我收到了，但是我还没准备好，请继续你等我的消息”。这个时候Client端就进入FIN_WAIT状态，继续等待Server端的FIN报文。当Server端确定数据已发送完成，则向Client端发送FIN报文，”告诉Client端，好了，我这边数据发完了，准备好关闭连接了”。Client端收到FIN报文后，”就知道可以关闭连接了，但是他还是不相信网络，怕Server端不知道要关闭，所以发送ACK后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。“，Server端收到ACK后，”就知道可以断开连接了”。Client端等待了==2MSL==（<em>Maximum Segment Lifetime</em>，中文可以译为“==报文最大生存时间==”）后依然没有收到回复，则证明Server端已正常关闭，那好，我Client端也可以关闭连接了。Ok，TCP连接就这样关闭了！</p>
 <p>整个过程Client端所经历的状态如下：</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130455.gif" alt="0_1312719804oSkK"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151222.gif" alt="0_1312719804oSkK"></p>
 <p>而Server端所经历的过程如下：</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130457.gif" alt="0_1312719833030b"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151223.gif" alt="0_1312719833030b"></p>
 <h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><p>###1.为什么要进行三次握手呢（两次确认）？</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130457.jpg" alt="1350985432_2318"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151223.jpg" alt="1350985432_2318"></p>
 <p>###2.为什么连接的时候是三次握手，关闭的时候却是四次握手？</p>
 <p>答：因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，”你发的FIN报文我收到了”。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。</p>
 <p>###3.为什么TIME_WAIT状态需要经过2MSL(最大报文段生存时间)才能返回到CLOSE状态？</p>
@@ -420,14 +420,14 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
 <p>   在Linux中（BSD Unix和Windows下也是这样）超时以500ms为一个单位进行控制，每次判定超时重发的超时时间都是500ms的整数倍。重发一次后，仍未响应，那么等待2*500ms的时间后，再次重传。等待4*500ms的时间继续重传。以一个指数的形式增长。累计到一定的重传次数，TCP就认为网络或者对端出现异常，强制关闭连接。   </p>
 <h2 id="5-流量控制"><a href="#5-流量控制" class="headerlink" title="5.  流量控制"></a>5.  <strong>流量控制</strong></h2><p>接收端在接收到数据后，对其进行处理。如果发送端的发送速度太快，导致接收端的结束缓冲区很快的填充满了。此时如果发送端仍旧发送数据，那么接下来发送的数据都会丢包，继而导致丢包的一系列连锁反应，超时重传呀什么的。而==TCP根据接收端对数据的处理能力，决定发送端的发送速度，这个机制就是流量控制==。</p>
 <p>在TCP协议的报头信息当中，有一个<strong>16位字段的窗口大小</strong>。在介绍这个窗口大小时我们知道，窗口大小的内容实际上是接收端接收数据缓冲区的剩余大小。这个数字越大，证明接收端接收缓冲区的剩余空间越大，网络的吞吐量越大。接收端会在确认应答发送ACK报文时，将自己的即时窗口大小填入，并跟随ACK报文一起发送过去。而发送方根据ACK报文里的窗口大小的值的改变进而改变自己的发送速度。如果接收到窗口大小的值为0，那么发送方将停止发送数据。并定期的向接收端发送窗口探测数据段，让接收端把窗口大小告诉发送端。</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130458.gif" alt="70"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151224.gif" alt="70"></p>
 <p><strong>注</strong>：16位的窗口大小最大能表示65535个字节（64K），但是TCP的窗口大小最大并不是64K。在TCP首部中40个字节的选项中还包含了一个窗口扩大因子M，实际的窗口大小就是16为窗口字段的值左移M位。每移一位，扩大两倍。</p>
 <h3 id="滑动窗口协议（连续ARQ协议）"><a href="#滑动窗口协议（连续ARQ协议）" class="headerlink" title="滑动窗口协议（连续ARQ协议）"></a>滑动窗口协议（连续ARQ协议）</h3><p><strong>连续ARQ协议</strong></p>
 <p>在ARQ协议发送者每次只能发送一个分组，在应答到来前必须等待。而连续ARQ协议的发送者拥有一个发送窗口，发送者可以在没有得到应答的情况下连续发送窗口中的分组。这样降低了等待时间，提高了传输效率。 </p>
 <p><strong>累计确认</strong></p>
 <p>在连续ARQ协议中，接收者也有个接收窗口，接收者并不需要每收到一个分组就返回一个应答，可以连续收到分组之后统一返回一个应答。这样能节省流量。TCP头部的ack字段就是用来累计确认，它表示已经确认的字节序号+1，也表示期望发送者发送的下一个分组的起始字节号。</p>
 <p>==发送窗口==</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130500.gif" alt="1"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151225.gif" alt="1"></p>
 <p>发送窗口的大小由接收窗口的剩余大小决定。接收者会把当前接收窗口的剩余大小写入应答TCP报文段的头部，发送者收到应答后根据该值和当前网络拥塞情况设置发送窗口的大小。发送窗口的大小是不断变化的。发送窗口由三个指针构成：</p>
 <p>发送者每收到一个应答，后沿就可以向前移动指定的字节。此时若窗口大小仍然没变，前沿也可以向前移动指定字节。当p2和前沿重合时，发送者必须等待确认应答。</p>
 <p><strong>p1</strong></p>
@@ -437,7 +437,7 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
 <p><strong>p3</strong></p>
 <p>p3指向发送窗口的前沿，它前面的字节尚未发送，且不允许发送。</p>
 <p>==接收窗口==</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130501-1.gif" alt="2"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151226.gif" alt="2"></p>
 <p>接收者收到的字节会存入接收窗口，接收者会对已经正确接收的有序字节进行累计确认，发送完确认应答后，接收窗口就可以向前移动指定字节。<br> 如果某些字节并未按序收到，接收者只会确认最后一个有序的字节，从而乱序的字节就会被重新发送。</p>
 <p><strong>连续ARQ的注意点</strong></p>
 <p>同一时刻发送窗口的大小并不一定和接收窗口一样大。虽然发送窗口的大小是根据接收窗口的大小来设定的，但应答在网络中传输是有时间的，有可能t1时间接收窗口大小为m，但当确认应答抵达发送者时，接收窗口的大小已经发生了变化。此外发送窗口的大小还随网络拥塞情况影响。当网络出现拥塞时，发送窗口将被调小。</p>
@@ -446,20 +446,20 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
 <h2 id="6-拥塞控制"><a href="#6-拥塞控制" class="headerlink" title="6. 拥塞控制"></a>6. 拥塞控制</h2><p>TCP传输的过程中，发送端开始发送数据的时候，如果刚开始就发送大量的数据，那么就可能造成一些问题。网络可能在开始的时候就很拥堵，如果给网络中在扔出大量数据，那么这个拥堵就会加剧。拥堵的加剧就会产生大量的丢包，就对大量的超时重传，严重影响传输。</p>
 <p>所以TCP引入了==慢启动的机制==，在开始发送数据时，先发送少量的数据探路。探清当前的网络状态如何，再决定多大的速度进行传输。这时候就引入一个叫做拥塞窗口的概念。发送刚开始定义拥塞窗口为 1，每次收到ACK应答，拥塞窗口加 1。在发送数据之前，首先将拥塞窗口与接收端反馈的窗口大小比对，取较小的值作为实际发送的窗口。 </p>
 <p>拥塞窗口的增长是指数级别的。慢启动的机制只是说明在开始的时候发送的少，发送的慢，但是增长的速度是非常快的。为了控制拥塞窗口的增长，不能使拥塞窗口单纯的加倍，设置一个拥塞窗口的阈值，当拥塞窗口大小超过阈值时，不能再按照指数来增长，而是线性的增长。在慢启动开始的时候，慢启动的阈值等于窗口的最大值，一旦造成网络拥塞，发生超时重传时，慢启动的阈值会为原来的一半（这里的原来指的是发生网络拥塞时拥塞窗口的大小），同时拥塞窗口重置为 1。 </p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130502.gif" alt="70"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151233.gif" alt="70"></p>
 <p>拥塞控制是TCP在传输时尽可能快的将数据传输，并且避免拥塞造成的一系列问题。是可靠性的保证，同时也是维护了传输的高效性。</p>
 <p>##7. 校验和<strong>（</strong>用于接收端检验整个数据包在传输过程中是否出错<strong>）</strong></p>
 <p>计算方式：在数据传输的过程中，将发送的数据段都当做一个16位的整数。将这些整数加起来。并且前面的进位不能丢弃，补在后面，最后取反，得到校验和。 </p>
 <p>发送方：在发送数据之前计算检验和，并进行校验和的填充。 </p>
 <p>接收方：收到数据后，对数据以同样的方式进行计算，求出校验和，与发送方的进行比对。</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130504.gif" alt="71"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151234.gif" alt="71"></p>
 <p>注意：如果接收方比对校验和与发送方不一致，那么数据一定传输有误。但是如果接收方比对校验和与发送方一致，数据不一定传输成功。</p>
 <h1 id="TCP与UDP的区别"><a href="#TCP与UDP的区别" class="headerlink" title="TCP与UDP的区别"></a><strong>TCP与UDP的区别</strong></h1><p>1.基于连接与无连接；</p>
 <p>2.对系统资源的要求（TCP较多，UDP少）；</p>
 <p>3.UDP程序结构较简单；</p>
 <p>4.流模式与数据报模式 ；</p>
 <p>5.TCP保证数据正确性，UDP可能丢包，TCP保证数据顺序，UDP不保证。</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130505.gif" alt="page218image3854176"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-06-29-151235.gif" alt="page218image3854176"></p>
 <p><strong>对应的协议不同</strong> </p>
 <p><strong>TCP</strong> 对应的协议: </p>
 <p>(1) <strong>FTP</strong>:定义了文件传输协议，使用 21 端口。常说某某计算机开了 FTP 服务便是启动了文件传 输服务。下载文件，上传主页，都要用到 FTP 服务。 </p>
@@ -583,10 +583,10 @@ SYN(SYNchronization) : 在连接建立时用来同步序号。当 SYN">
                         <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
                     </ul>
                     <div id="alipay">
-                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
                     </div>
                     <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
                     </div>
                 </div>
             </div>
@@ -701,7 +701,7 @@ gitment.render('gitment-content');
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="HTTP">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/8.jpg" class="responsive-img" alt="HTTP">
                         
                         <span class="card-title">HTTP</span>
                     </div>
@@ -752,7 +752,7 @@ TCP协议实现了==数据流==的可靠传输。然而，人们更加习惯以�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="互联网协议入门">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/9.jpg" class="responsive-img" alt="互联网协议入门">
                         
                         <span class="card-title">互联网协议入门</span>
                     </div>
@@ -856,7 +856,7 @@ TCP协议实现了==数据流==的可靠传输。然而，人们更加习惯以�
 </div>
 
 
-<script src="/libs/tocbot/tocbot.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.min.js"></script>
 <script>
     $(function () {
         tocbot.init({
@@ -945,7 +945,7 @@ I<footer class="page-footer bg-color">
 
             I
                 I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                I<span class="white-color">54.7k</span>
+                I<span class="white-color">117.9k</span>
             I
 
             I
@@ -1002,11 +1002,11 @@ $(function () {
 </div>
 
 
-<script src="/libs/materialize/materialize.min.js"></script>
-<script src="/libs/masonry/masonry.pkgd.min.js"></script>
-<script src="/libs/aos/aos.js"></script>
-<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/js/lightgallery-all.min.js"></script>
 <script src="/js/matery.js"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

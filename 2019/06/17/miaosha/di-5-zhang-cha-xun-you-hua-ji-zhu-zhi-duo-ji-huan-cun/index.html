@@ -27,20 +27,20 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>第5章 查询优化技术之多级缓存 | xxh&#39;s blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/png" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/favicon.png">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/css/lightgallery.min.css">
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     <style type="text/css">
         
     </style>
 
-    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/jquery/jquery-2.2.0.min.js"></script>
 </head>
 
 
@@ -52,7 +52,7 @@
             <div class="brand-logo">
                 <a href="/" class="waves-effect waves-light">
                     
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img" alt="LOGO">
                     
                     <span class="logo-span">xxh's blog</span>
                 </a>
@@ -127,7 +127,7 @@
 
     <div class="mobile-head bg-color">
         
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img circle responsive-img">
         
         <div class="logo-name">xxh's blog</div>
         <div class="logo-desc">
@@ -210,7 +210,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/22.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -229,7 +229,7 @@
 <main class="post-container content">
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.css">
 <style>
     #articleContent h1::before,
     #articleContent h2::before,
@@ -405,10 +405,10 @@
 <p>补：</p>
 <p><strong>==热点内存本地缓存：redis毕竟是有网络对应的开销，可以将热点数据做到jvm内存的本地缓存中==</strong></p>
 <h1 id="redis缓存"><a href="#redis缓存" class="headerlink" title="redis缓存"></a>redis缓存</h1><p>redis具有存储数据库的能力，但是需要允许一定数量数据丢失的。在我们做redis使用的时候，我们其实很少特别关心数据的完整性问题，经常还会把它当做一个易失性的<strong>集中式缓存中间件</strong>并且<strong>基于KV内存级别的存储</strong>。</p>
-<h3 id="redis定位"><a href="#redis定位" class="headerlink" title="redis定位"></a>redis定位</h3><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130518.png" alt="未命名文件"></p>
+<h3 id="redis定位"><a href="#redis定位" class="headerlink" title="redis定位"></a>redis定位</h3><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150861.png" alt="未命名文件"></p>
 <h2 id="redis使用"><a href="#redis使用" class="headerlink" title="redis使用"></a>redis使用</h2><h3 id="单机"><a href="#单机" class="headerlink" title="单机"></a>单机</h3><p>1.单个机子有内存上限</p>
 <p>2.单点故障问题。单机redis服务器出现故障，整个应用程序就不能用了。比如将token存储在redis中的用户登录操作</p>
-<h3 id="sentinal哨兵模式"><a href="#sentinal哨兵模式" class="headerlink" title="sentinal哨兵模式"></a>sentinal哨兵模式</h3><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130520.png" alt="未命名文件-2"></p>
+<h3 id="sentinal哨兵模式"><a href="#sentinal哨兵模式" class="headerlink" title="sentinal哨兵模式"></a>sentinal哨兵模式</h3><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150900.png" alt="未命名文件-2"></p>
 <h3 id="集群cluster模式"><a href="#集群cluster模式" class="headerlink" title="集群cluster模式"></a>集群cluster模式</h3><p>redis cluster数据同步+paxos竞争算法</p>
 <h3 id="商品详情动态内容实现"><a href="#商品详情动态内容实现" class="headerlink" title="商品详情动态内容实现"></a>商品详情动态内容实现</h3><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>在redis中存储对应商品ID的<code>ItemModel</code>对象(JSON序列化后的)</p>
 <p>之后的请求可以根据URL上传来的商品ID在redis中查找对应的<code>ItemModel</code>对象，减少了3次mysql查询操作，加快查询效率</p>
@@ -562,7 +562,7 @@ public class RedisConfig {
 <p>最终结果：</p>
 <pre><code class="bash">202.117.35.220:6379[10]&gt; GEt item_6
 &quot;[\&quot;com.imooc.miaoshaproject.service.model.ItemModel\&quot;,{\&quot;id\&quot;:6,\&quot;title\&quot;:\&quot;iphone99\&quot;,\&quot;price\&quot;:[\&quot;java.math.BigDecimal\&quot;,800],\&quot;stock\&quot;:60,\&quot;description\&quot;:\&quot;\xe6\x9c\x80\xe5\xa5\xbd\xe7\x94\xa8\xe7\x9a\x84\xe8\x8b\xb9\xe6\x9e\x9c\xe6\x89\x8b\xe6\x9c\xba\&quot;,\&quot;sales\&quot;:152,\&quot;imgUrl\&quot;:\&quot;https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3974550569,4161544558&amp;fm=27&amp;gp=0.jpg\&quot;,\&quot;promoModel\&quot;:[\&quot;com.imooc.miaoshaproject.service.model.PromoModel\&quot;,{\&quot;id\&quot;:1,\&quot;status\&quot;:2,\&quot;promoName\&quot;:\&quot;iphone4\xe6\x8a\xa2\xe8\xb4\xad\xe6\xb4\xbb\xe5\x8a\xa8\&quot;,\&quot;startDate\&quot;:\&quot;2018-01-19 00:04:30\&quot;,\&quot;endDate\&quot;:\&quot;2019-12-31 00:00:00\&quot;,\&quot;itemId\&quot;:6,\&quot;promoItemPrice\&quot;:[\&quot;java.math.BigDecimal\&quot;,100]}]}]&quot;</code></pre>
-<h2 id="redis集中式缓存压测效果验证"><a href="#redis集中式缓存压测效果验证" class="headerlink" title="redis集中式缓存压测效果验证"></a>redis集中式缓存压测效果验证</h2><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130521.png" alt="屏幕快照 2019-06-23 下午2.03.04"></p>
+<h2 id="redis集中式缓存压测效果验证"><a href="#redis集中式缓存压测效果验证" class="headerlink" title="redis集中式缓存压测效果验证"></a>redis集中式缓存压测效果验证</h2><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150901.png" alt="屏幕快照 2019-06-23 下午2.03.04"></p>
 <h1 id="本地热点缓存"><a href="#本地热点缓存" class="headerlink" title="本地热点缓存"></a>本地热点缓存</h1><ul>
 <li>存放热点数据</li>
 <li>脏读非常不敏感</li>
@@ -617,7 +617,7 @@ public class RedisConfig {
     }</code></pre>
 <h2 id="本地缓存缺点"><a href="#本地缓存缺点" class="headerlink" title="本地缓存缺点"></a>本地缓存缺点</h2><p>1.当本地热点缓存中数据发生更新时，本地热点缓存没有好的机制去更新</p>
 <p>2.本地热点缓存还有一个JVM容量大小的限制</p>
-<h1 id="nginx缓存"><a href="#nginx缓存" class="headerlink" title="nginx缓存"></a>nginx缓存</h1><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130524.png" alt="秒杀结构图"></p>
+<h1 id="nginx缓存"><a href="#nginx缓存" class="headerlink" title="nginx缓存"></a>nginx缓存</h1><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150902.png" alt="秒杀结构图"></p>
 <p>本地缓存：</p>
 <p>1.nginx将用户请求分发到<code>miaosha.jar</code>中，并经过<code>org.springframework.web.servlet. DispatcherServlet</code>中转发，需要启动java代码完成对应的操作，总规是有消耗 </p>
 <p>2.nginx和miaosha.jar直接的局域网连接</p>
@@ -686,9 +686,9 @@ Date: Sun, 23 Jun 2019 11:22:02 GMT
 <li>自动保持，不阻塞工作进程</li>
 <li>io异步操作完成后还有协程上下文，代码继续执行</li>
 </ul>
-<h3 id="nginx处理阶段"><a href="#nginx处理阶段" class="headerlink" title="nginx处理阶段"></a>nginx处理阶段</h3><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130524-1.png" alt="屏幕快照 2019-06-23 下午8.04.21"></p>
+<h3 id="nginx处理阶段"><a href="#nginx处理阶段" class="headerlink" title="nginx处理阶段"></a>nginx处理阶段</h3><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150903.png" alt="屏幕快照 2019-06-23 下午8.04.21"></p>
 <p>*_handler 用户可以定制</p>
-<h3 id="nginx-lua插载点"><a href="#nginx-lua插载点" class="headerlink" title="nginx lua插载点"></a>nginx lua插载点</h3><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130525.png" alt="屏幕快照 2019-06-23 下午8.07.26"></p>
+<h3 id="nginx-lua插载点"><a href="#nginx-lua插载点" class="headerlink" title="nginx lua插载点"></a>nginx lua插载点</h3><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150904.png" alt="屏幕快照 2019-06-23 下午8.07.26"></p>
 <ol>
 <li>Init_by_lua:系统启动时调用</li>
 <li>init_worker_by_lua:worker进程启动时调用</li>
@@ -708,7 +708,7 @@ Date: Sun, 23 Jun 2019 11:22:02 GMT
 
 content_by_lua_file /usr/local/Cellar/openresty/1.15.8.1/lua/staticitem.lua;
 
-}</code></pre><h5 id="实验-2"><a href="#实验-2" class="headerlink" title="实验"></a>实验</h5><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130528.png" alt="屏幕快照 2019-06-23 下午8.35.18"></p>
+}</code></pre><h5 id="实验-2"><a href="#实验-2" class="headerlink" title="实验"></a>实验</h5><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150905.png" alt="屏幕快照 2019-06-23 下午8.35.18"></p>
 <h4 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h4><p>nginx可以拦截nginx.conf中的location请求，将url路由到我们配置lua脚本做相应的处理。比如上面的例子中nginx就可以将<code>/staticitem/get</code>请求对应到我们编写的taticitem.lua，最终向浏览器返回<code>hello static item lua</code></p>
 <h3 id="OpenResty"><a href="#OpenResty" class="headerlink" title="OpenResty"></a>OpenResty</h3><ul>
 <li>OpenResty由Nginx核心+很多第三方模块组成，默认集成Lua开发环境，使得Nginx可以作为一个Web Server使用。</li>
@@ -735,7 +735,7 @@ content_by_lua_file /usr/local/Cellar/openresty/1.15.8.1/lua/helloworld.lua;
 </ol>
 <p>输入<a href="http://localhost/helloworld" target="_blank" rel="noopener"><code>http://localhost/helloworld</code></a></p>
 <p>显示：</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130529.jpg" alt="11"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150905.jpg" alt="11"></p>
 <h5 id="shared-dic"><a href="#shared-dic" class="headerlink" title="shared dic"></a>shared dic</h5><ol>
 <li><p>在<code>/usr/local/Cellar/openresty/1.15.8.1/lua/</code>目录下创建itemshareddic.lua脚本</p>
 <pre><code class="lua">function get_from_cache(key)
@@ -770,10 +770,10 @@ content_by_lua_file /usr/local/Cellar/openresty/1.15.8.1/lua/itemshareddic.lua;
 }</code></pre></li>
 <li><p>实验</p>
 <p>输入<a href="http://localhost/luaitem/get?id=6" target="_blank" rel="noopener">http://localhost/luaitem/get?id=6</a></p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130530.jpg" alt="实验图"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150906.jpg" alt="实验图"></p>
 </li>
 </ol>
-<h5 id="OpenResty对redis的支持"><a href="#OpenResty对redis的支持" class="headerlink" title="OpenResty对redis的支持"></a>OpenResty对redis的支持</h5><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130531.jpg" alt="openresty对redis支持"></p>
+<h5 id="OpenResty对redis的支持"><a href="#OpenResty对redis的支持" class="headerlink" title="OpenResty对redis的支持"></a>OpenResty对redis的支持</h5><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150907.jpg" alt="openresty对redis支持"></p>
 <ol>
 <li><p>在<code>/usr/local/Cellar/openresty/1.15.8.1/lua/</code>目录下创建itemredi.lua脚本</p>
 <pre><code class="lua">local args=ngx.req.get_uri_args()
@@ -795,7 +795,7 @@ content_by_lua_file /usr/local/Cellar/openresty/1.15.8.1/lua/itemredis.lua;
 }</code></pre></li>
 <li><p>实验</p>
 <p>输入<a href="http://localhost/luaitem/get?id=6" target="_blank" rel="noopener">http://localhost/luaitem/get?id=6</a></p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130530.jpg" alt="实验图"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150906.jpg" alt="实验图"></p>
 </li>
 </ol>
 
@@ -910,10 +910,10 @@ content_by_lua_file /usr/local/Cellar/openresty/1.15.8.1/lua/itemredis.lua;
                         <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
                     </ul>
                     <div id="alipay">
-                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
                     </div>
                     <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
                     </div>
                 </div>
             </div>
@@ -1028,7 +1028,7 @@ gitment.render('gitment-content');
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="第6章 查询优化技术之页面静态化">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/10.jpg" class="responsive-img" alt="第6章 查询优化技术之页面静态化">
                         
                         <span class="card-title">第6章 查询优化技术之页面静态化</span>
                     </div>
@@ -1095,7 +1095,7 @@ GE
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="第4章 分布式扩展">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/22.jpg" class="responsive-img" alt="第4章 分布式扩展">
                         
                         <span class="card-title">第4章 分布式扩展</span>
                     </div>
@@ -1210,7 +1210,7 @@ nginx反向代理负载均衡
 </div>
 
 
-<script src="/libs/tocbot/tocbot.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.min.js"></script>
 <script>
     $(function () {
         tocbot.init({
@@ -1299,7 +1299,7 @@ I<footer class="page-footer bg-color">
 
             I
                 I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                I<span class="white-color">54.7k</span>
+                I<span class="white-color">117.9k</span>
             I
 
             I
@@ -1356,11 +1356,11 @@ $(function () {
 </div>
 
 
-<script src="/libs/materialize/materialize.min.js"></script>
-<script src="/libs/masonry/masonry.pkgd.min.js"></script>
-<script src="/libs/aos/aos.js"></script>
-<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/js/lightgallery-all.min.js"></script>
 <script src="/js/matery.js"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

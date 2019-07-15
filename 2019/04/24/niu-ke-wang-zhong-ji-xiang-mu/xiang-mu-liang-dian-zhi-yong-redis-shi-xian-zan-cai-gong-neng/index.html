@@ -1,0 +1,1336 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="项目亮点之赞踩功能, xxh&#39;s blog">
+    <meta name="description" content="#赞踩功能的实现
+##1.LikeController
+@Controller
+public class LikeController {
+    @Autowired
+    HostHolder hostHolder;
+    @Aut">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>项目亮点之赞踩功能 | xxh&#39;s blog</title>
+    <link rel="icon" type="image/png" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">xxh's blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">xxh's blog</div>
+        <div class="logo-desc">
+            
+            这是xxh同学的个人博客
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/20.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        项目亮点之赞踩功能
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Redis/" target="_blank">
+                                <span class="chip bg-color">Redis</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/牛客中级项目/" class="post-category" target="_blank">
+                                牛客中级项目
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-04-24
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        3.4k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        16 分
+                    </div>
+                    
+                
+				
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>#赞踩功能的实现</p>
+<p>##1.LikeController</p>
+<pre><code class="java">@Controller
+public class LikeController {
+    @Autowired
+    HostHolder hostHolder;
+    @Autowired
+    LikeService likeService;
+    @Autowired
+    NewsService newsService;
+    @Autowired
+    EventProducer eventProducer;
+
+    @RequestMapping(path = {&quot;/like&quot;}, method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String like(@Param(&quot;newId&quot;) int newsId) {
+       //在likeService中进行点赞具体操作
+        long likeCount = likeService.like(hostHolder.getUser().getId(), EntityType.ENTITY_NEWS, newsId);
+        // 更新new的被点赞数，其实就是调用DAO层更新数据库里的likeCount
+        newsService.updateLikeCount(newsId, (int) likeCount);
+        return ToutiaoUtil.getJSONString(0, String.valueOf(likeCount));
+    }
+    @RequestMapping(value = &quot;/dislike&quot;,method = {RequestMethod.POST,RequestMethod.GET})
+    @ResponseBody
+    public String dislike(@RequestParam(&quot;newsId&quot;) int newsId){
+        int userId=hostHolder.getUser().getId();
+        long likeCount=likeService.disLike(userId, EntityType.ENTITY_NEWS,newsId);
+        //更新数据库里的likecount值
+        newsService.updateLikeCount(newsId,(int)likeCount);
+        return ToutiaoUtil.getJSONString(0,String.valueOf(likeCount));
+    }
+}</code></pre>
+<p>##2.前端：</p>
+<p>###home.html </p>
+<pre><code class="html">&lt;div class=&quot;post&quot;&gt;
+    &lt;div class=&quot;votebar&quot;&gt;
+     有关点赞的操作
+        #if ($vo.like &gt; 0)
+        &lt;button class=&quot;click-like up pressed&quot; data-id=&quot;$!{vo.news.id}&quot; title=&quot;赞同&quot;&gt;&lt;i class=&quot;vote-arrow&quot;&gt;&lt;/i&gt;&lt;span class=&quot;count&quot;&gt;$!{vo.news.likeCount}&lt;/span&gt;&lt;/button&gt;
+        #else
+        &lt;button class=&quot;click-like up&quot; data-id=&quot;$!{vo.news.id}&quot; title=&quot;赞同&quot;&gt;&lt;i class=&quot;vote-arrow&quot;&gt;&lt;/i&gt;&lt;span class=&quot;count&quot;&gt;$!{vo.news.likeCount}&lt;/span&gt;&lt;/button&gt;
+        #end
+      #有关灭赞的操作
+        #if($vo.like &lt; 0)
+        &lt;button class=&quot;click-dislike down pressed&quot; data-id=&quot;$!{vo.news.id}&quot; title=&quot;反对&quot;&gt;&lt;i class=&quot;vote-arrow&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        #else
+        &lt;button class=&quot;click-dislike down&quot; data-id=&quot;$!{vo.news.id}&quot; title=&quot;反对&quot;&gt;&lt;i class=&quot;vote-arrow&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        #end</code></pre>
+<p>可以看到点赞和撤赞操作都有对应的<strong>button</strong></p>
+<p>###static/scripts/main/site/home.js</p>
+<pre><code class="javascript">(function (window, undefined) {
+    var PopupLogin = Base.getClass(&#39;main.component.PopupLogin&#39;);
+    var PopupUpload = Base.getClass(&#39;main.component.PopupUpload&#39;);
+    var ActionUtil = Base.getClass(&#39;main.util.Action&#39;);
+
+    Base.ready({
+        initialize: fInitialize,
+        binds: {
+            //.表示class #表示id
+            &#39;click .js-login&#39;: fClickLogin,
+            &#39;click .js-share&#39;: fClickShare
+        },
+        events: {
+          //一个点赞操作，一个撤赞操作
+            &#39;click button.click-like&#39;: fClickLike,
+            &#39;click button.click-dislike&#39;: fClickDisLike
+        }
+    });
+  //其他方法略过
+
+    function fClickLike(oEvent) {
+        var that = this;
+        var oEl = $(oEvent.currentTarget);
+        var sId = $.trim(oEl.attr(&#39;data-id&#39;));
+        // 已经操作过 || 不存在Id || 正在提交 ，则忽略
+        if (oEl.hasClass(&#39;pressed&#39;) || !sId || that.actioning) {
+            return;
+        }
+        that.actioning = true;
+        ActionUtil.like({
+            newsId: sId,
+            call: function (oResult) {
+                oEl.find(&#39;span.count&#39;).html(oResult.msg);
+                oEl.addClass(&#39;pressed&#39;);
+                oEl.parent().find(&#39;.click-dislike&#39;).removeClass(&#39;pressed&#39;);
+            },
+            error: function () {
+                alert(&#39;出现错误，请重试&#39;);
+            },
+            always: function () {
+                that.actioning = false;
+            }
+        });
+    }
+
+    function fClickDisLike(oEvent) {
+        var that = this;
+        var oEl = $(oEvent.currentTarget);
+        var sId = $.trim(oEl.attr(&#39;data-id&#39;));
+        // 已经操作过 || 不存在Id || 正在提交 ，则忽略
+        if (oEl.hasClass(&#39;pressed&#39;) || !sId || that.actioning) {
+            return;
+        }
+        that.actioning = true;
+        ActionUtil.dislike({
+            newsId: sId,
+            call: function (oResult) {
+                oEl.addClass(&#39;pressed&#39;);
+                var oLikeBtn = oEl.parent().find(&#39;.click-like&#39;);
+                oLikeBtn.removeClass(&#39;pressed&#39;);
+                oLikeBtn.find(&#39;span.count&#39;).html(oResult.msg);
+            },
+            error: function () {
+                alert(&#39;出现错误，请重试&#39;);
+            },
+            always: function () {
+                that.actioning = false;
+            }
+        });
+    }
+
+})(window);</code></pre>
+<p>###static/scripts/main/util/action.js中</p>
+<pre><code class="javascript">/**
+ * 喜欢
+ * @param   {Object} oConf
+ *  @param  {String} oConf.newsId 对象id
+ *  @param  {Function} oConf.call 成功回调
+ *  @param  {Function} oConf.error 失败回调
+ *  @param  {Function} oConf.always 操作的回调
+ */
+function fLike(oConf) {
+    var that = this;
+    that.post({
+        url: &#39;/like&#39;,
+        data: {newsId: oConf.newsId},
+        call: oConf.call,
+        error: oConf.error,
+        always: oConf.always
+    });
+}
+
+/**
+ * 不喜欢
+ * @param   {Object} oConf
+ *  @param  {String} oConf.newsId 对象id
+ *  @param  {Function} oConf.call 成功回调
+ *  @param  {Function} oConf.error 失败回调
+ *  @param  {Function} oConf.always 操作的回调
+ */
+function fDislike(oConf) {
+    var that = this;
+    that.post({
+        url: &#39;/dislike&#39;,
+        data: {newsId: oConf.newsId},
+        call: oConf.call,
+        error: oConf.error,
+        always: oConf.always
+    });
+}</code></pre>
+<p>简单的说就是当我们点赞时，会激发<strong>url：”/like”</strong>也就是会调用<strong>LikeController</strong>中与<strong>/like</strong>绑定的方法</p>
+<p>##3.LikeService</p>
+<p>###com.nowcoder.service.LikeService</p>
+<pre><code class="java">@Service
+public class LikeService {
+    @Autowired
+    JedisAdapter jedisAdapter;
+    //判断某个用户对某一项元素是否喜欢,思路就是在redis中找likeKey对应的set里是否有这个点赞人的userid
+    public int getLikeStatus(int userId,int entityType,int entityId){
+        String likeKey= RedisKeyUtil.getLikeKey(entityType,entityId);
+        if (jedisAdapter.sismember(likeKey,String.valueOf(userId))){
+            return 1;
+        }
+        String dislikeKey= RedisKeyUtil.getDisLikeKey(entityType,entityId);
+        return jedisAdapter.sismember(dislikeKey,String.valueOf(userId))?-1:0;
+    }
+    /**
+     * 喜欢点赞操作
+     * 返回 喜欢的数量
+     */
+    public long like(int userId,int entityType,int entityId){
+        String likeKey=RedisKeyUtil.getLikeKey(entityType,entityId);
+        //把用户加到喜欢的likeKey的KV中,就是说这条咨询有多少人喜欢
+        //也就是说redis里面不同的likeKey作为k，每个likeKey代表的是不同类型(entityType)的特定ID的新闻有多少人喜欢
+        //V是一个set集合，里面就是为这条新闻点赞的userID们
+        jedisAdapter.sadd(likeKey,String.valueOf(userId));
+        //删除不喜欢中的userId
+        String disLikeKey=RedisKeyUtil.getDisLikeKey(entityType,entityId);
+        jedisAdapter.srem(disLikeKey,String.valueOf(userId));
+        //在返回有多少人喜欢
+        return jedisAdapter.scard(likeKey);
+    }
+    /**
+     * 不喜欢点赞操作
+     * 返回 喜欢的数量
+     */
+    public long disLike(int userId,int entityType,int entityId){
+        String disLikeKey=RedisKeyUtil.getDisLikeKey(entityType,entityId);
+        //把用户加到不喜欢的disLikeKey的KV中
+        jedisAdapter.sadd(disLikeKey,String.valueOf(userId));
+        //删除喜欢中的userId
+        String likeKey=RedisKeyUtil.getLikeKey(entityType,entityId);
+        jedisAdapter.srem(likeKey,String.valueOf(userId));
+        //在返回有多少人喜欢
+        return jedisAdapter.scard(likeKey);
+    }
+}</code></pre>
+<p>###com.nowcoder.util.ToutiaoUtil</p>
+<pre><code class="java">public class RedisKeyUtil {
+    public static String SPILT=&quot;:&quot;;
+    public  static String BIZ_LIKE=&quot;LIKE&quot;;
+    public  static String BIZ_DISLIKE=&quot;DISLIKE&quot;;
+    private static String BIZ_EVENT = &quot;EVENT&quot;;
+
+    public static String getEventQueueKey() {
+        return BIZ_EVENT;
+    }
+
+    public static String getLikeKey(int entityId,int entityType){
+        return BIZ_LIKE+SPILT+String.valueOf(entityType)+SPILT+String.valueOf(entityId);
+    }
+    public static String getDisLikeKey(int entityId,int entityType){
+        return BIZ_DISLIKE+SPILT+String.valueOf(entityType)+SPILT+String.valueOf(entityId);
+    }
+
+}</code></pre>
+<p>在redis中点赞事件存储的kv键值对的名：</p>
+<blockquote>
+<p>点赞：LIKE：int( entityType):int(entityId)</p>
+<p>撤赞：DISLIKE：int( entityType):int(entityId)</p>
+</blockquote>
+<h1 id="redis-常见数据结构以及使用场景分析"><a href="#redis-常见数据结构以及使用场景分析" class="headerlink" title="redis 常见数据结构以及使用场景分析"></a>redis 常见数据结构以及使用场景分析</h1><p>##1.String </p>
+<p>常用命令: set,get,decr,incr,mget 等。 String数据结构是简单的key-value类型，value其实不仅可以是String，也可以是数字。 常规key-value缓存应用; </p>
+<p>常规计数:微博数，粉丝数等。</p>
+<p>###举例：</p>
+<pre><code class="java">        jedis.set(&quot;hello&quot;, &quot;world&quot;);//设置指定 key 的值
+        print(1, jedis.get(&quot;hello&quot;));//world
+        jedis.rename(&quot;hello&quot;, &quot;newhello&quot;);//重命名
+        print(1, jedis.get(&quot;newhello&quot;));//world
+        jedis.setex(&quot;hello2&quot;, 15, &quot;world&quot;);//为指定的 key 设置值及其过期时间
+
+        // 数值操作
+        jedis.set(&quot;pv&quot;, &quot;100&quot;);
+        jedis.incr(&quot;pv&quot;);//默认加1
+        print(2, jedis.get(&quot;pv&quot;));//101
+        jedis.decrBy(&quot;pv&quot;, 5);//减5
+        print(2, jedis.get(&quot;pv&quot;));//96
+        print(3, jedis.keys(&quot;*&quot;));//[newhello, hello2, pv]</code></pre>
+<p>##2.Hash </p>
+<p>常用命令: hget,hset,hgetall 等。 </p>
+<p>Hash 是一个 string 类型的 field 和 value 的映射表，hash 特别适合用于存储对象，后续操作的时候，你可以直接仅 仅修改这个对象中的某个字段的值。 比如我们可以Hash数据结构来存储用户信息，商品信息等等。</p>
+<p>###举例：</p>
+<pre><code class="java">        // hash, 可变字段
+        String userKey = &quot;userxx&quot;;
+        jedis.hset(userKey, &quot;name&quot;, &quot;jim&quot;);//hash中添键值对
+        jedis.hset(userKey, &quot;age&quot;, &quot;12&quot;);
+        jedis.hset(userKey, &quot;phone&quot;, &quot;18666666666&quot;);
+        print(12, jedis.hget(userKey, &quot;name&quot;));//jim
+        print(13, jedis.hgetAll(userKey));//{phone=18666666666, name=jim, age=12}
+        jedis.hdel(userKey, &quot;phone&quot;);
+        print(14, jedis.hgetAll(userKey));//{name=jim, age=12},删除了个phone
+        print(15, jedis.hexists(userKey, &quot;email&quot;));//false
+        print(16, jedis.hexists(userKey, &quot;age&quot;));//true
+        print(17, jedis.hkeys(userKey));//[name, age]
+        print(18, jedis.hvals(userKey));//[jim, 12]
+        jedis.hsetnx(userKey, &quot;school&quot;, &quot;zju&quot;);//不存在就添加 
+        jedis.hsetnx(userKey, &quot;name&quot;, &quot;yxy&quot;);//存在就不添加
+        print(19, jedis.hgetAll(userKey));//{school=zju, name=jim, age=12}</code></pre>
+<p>##3.List </p>
+<p>常用命令: lpush,rpush,lpop,rpop,lrange等 </p>
+<p>list 就是链表，Redis list 的应用场景非常多，也是Redis最重要的数据结构之一，比如微博的关注列表，粉丝列表， 消息列表等功能都可以用Redis的 list 结构来实现。 </p>
+<p>Redis list 的实现为一个双向链表，即可以支持反向查找和遍历，更方便操作，不过带来了部分额外的内存开销。 另外可以通过 lrange 命令，就是从某个元素开始读取多少个元素，可以基于 list 实现分页查询，这个很棒的一个功能，基于 redis 实现简单的高性能分页，可以做类似微博那种下拉不断分页的东西(一页一页的往下走)，性能高。 </p>
+<p>###举例：</p>
+<pre><code class="java">        String listName = &quot;list&quot;;
+        jedis.del(listName);
+        for (int i = 0; i &lt; 10; ++i) {
+            jedis.lpush(listName, &quot;a&quot; + String.valueOf(i));
+        }
+        print(4, jedis.lrange(listName, 0, 12)); // 最近来访10个id:[a9, a8, a7, a6, a5, a4, a3, a2, a1, a0]
+        print(5, jedis.llen(listName));//10
+        print(6, jedis.lpop(listName));//a9
+        print(7, jedis.llen(listName));//9,出去了个a9
+        print(8, jedis.lrange(listName, 2, 6)); //[a6, a5, a4, a3, a2]
+        print(9, jedis.lindex(listName, 3));//a5</code></pre>
+<p>##4.Set </p>
+<p>常用命令: sadd,spop,smembers,sunion 等<br> set 对外提供的功能与list类似是一个列表的功能，特殊之处在于 set 是可以自动排重的。 </p>
+<p>当你需要存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择，并且set提供了判断某个成员是否在 一个set集合内的重要接口，这个也是list所不能提供的。可以基于 set 轻易实现交集、并集、差集的操作。 </p>
+<p>比如:在微博应用中，可以将一个用户所有的关注人存在一个集合中，将其所有粉丝存在一个集合。Redis可以非常 方便的实现如共同关注、共同粉丝、共同喜好等功能。 </p>
+<p>###项目中用到的：</p>
+<pre><code class="java">/**
+ * 喜欢点赞操作
+ * 返回 喜欢的数量
+ */
+public long like(int userId,int entityType,int entityId){
+    String likeKey=RedisKeyUtil.getLikeKey(entityType,entityId);
+    //把用户加到喜欢的likeKey的KV中,就是说这条咨询有多少人喜欢
+    jedisAdapter.sadd(likeKey,String.valueOf(userId));
+    //删除不喜欢中的userId
+    String disLikeKey=RedisKeyUtil.getDisLikeKey(entityType,entityId);
+    jedisAdapter.srem(disLikeKey,String.valueOf(userId));
+    //在返回有多少人喜欢
+    return jedisAdapter.scard(likeKey);
+}</code></pre>
+<p>补充：redis中的sadd对应redis中的sadd</p>
+<pre><code class="java">SADD KEY_NAME VALUE1..VALUEN</code></pre>
+<blockquote>
+<p>Redis Sadd 命令将一个或多个成员元素加入到集合中，==已经存在于集合的成员元素将被忽略==。</p>
+<p>假如集合 key 不存在，则创建一个只包含添加的元素作成员的集合。</p>
+<p>当集合 key 不是集合类型时，返回一个错误。</p>
+</blockquote>
+<p>实例:</p>
+<pre><code>redis 127.0.0.1:6379&gt; SADD myset &quot;hello&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; SADD myset &quot;foo&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; SADD myset &quot;hello&quot;
+(integer) 0
+redis 127.0.0.1:6379&gt; SMEMBERS myset
+1) &quot;hello&quot;
+2) &quot;foo&quot;</code></pre><pre><code>SISMEMBER KEY VALUE </code></pre><p>==返回值==：</p>
+<p>如果成员元素是集合的成员，返回 1 。 如果成员元素不是集合的成员，或 key 不存在，返回 0 。</p>
+<p>实例:</p>
+<pre><code>redis 127.0.0.1:6379&gt; SADD myset1 &quot;hello&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; SISMEMBER myset1 &quot;hello&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; SISMEMBER myset1 &quot;world&quot;
+(integer) 0</code></pre><p>###举例：</p>
+<pre><code class="java">        // 集合，点赞用户群, 共同好友
+        String likeKey1 = &quot;newsLike1&quot;;
+        String likeKey2 = &quot;newsLike2&quot;;
+        for (int i = 0; i &lt; 10; ++i) {
+            jedis.sadd(likeKey1, String.valueOf(i));
+            jedis.sadd(likeKey2, String.valueOf(i * 2));
+        }
+        print(20, jedis.smembers(likeKey1));//[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        print(21, jedis.smembers(likeKey2));//[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+        print(22, jedis.sunion(likeKey1, likeKey2));//取俩个set并集 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18]
+        print(23, jedis.sdiff(likeKey1, likeKey2));//求不同 [1, 9, 3, 5, 7]
+        print(24, jedis.sinter(likeKey1, likeKey2));//求交集 [0, 2, 4, 6, 8]
+        print(25, jedis.sismember(likeKey1, &quot;12&quot;));//false
+        print(26, jedis.sismember(likeKey2, &quot;12&quot;));//true
+        jedis.srem(likeKey1, &quot;5&quot;);//删除操作
+        print(27, jedis.smembers(likeKey1));//[0, 1, 2, 3, 4, 6, 7, 8, 9]
+        // 从1移动到2
+        jedis.smove(likeKey2, likeKey1, &quot;14&quot;);//将前一个集合中的指定元素移到后一个集合中
+        print(28, jedis.smembers(likeKey1));//[0, 1, 2, 3, 4, 6, 7, 8, 9, 14]
+        print(29, jedis.scard(likeKey1));//求集合中元素的总个数 10</code></pre>
+<p>##5.Sorted Set </p>
+<p>常用命令: zadd,zrange,zrem,zcard等<br> 和set相比，sorted set增加了一个权重参数score，使得集合中的元素能够按score进行有序排列。 </p>
+<p>举例: 在直播系统中，实时排行信息包含直播间在线用户列表，各种礼物排行榜，弹幕消息(可以理解为按消息维 度的消息排行榜)等信息，适合使用 Redis 中的 SortedSet 结构进行存储。 </p>
+<p>###举例：</p>
+<pre><code class="java">        // 排序集合，有限队列，排行榜
+        String rankKey = &quot;rankKey&quot;;
+        jedis.zadd(rankKey, 15, &quot;Jim&quot;);
+        jedis.zadd(rankKey, 60, &quot;Ben&quot;);
+        jedis.zadd(rankKey, 90, &quot;Lee&quot;);
+        jedis.zadd(rankKey, 75, &quot;Lucy&quot;);
+        jedis.zadd(rankKey, 80, &quot;Mei&quot;);
+        print(30, jedis.zcard(rankKey));//集合中元素的总个数 5
+        print(31, jedis.zcount(rankKey, 61, 100));//指定范围内元素的个数 3
+        // 改错卷了
+        print(32, jedis.zscore(rankKey, &quot;Lucy&quot;));//75.0
+        jedis.zincrby(rankKey, 2, &quot;Lucy&quot;);//增加指定数字
+        print(33, jedis.zscore(rankKey, &quot;Lucy&quot;));//77.0
+        jedis.zincrby(rankKey, 2, &quot;Luc&quot;);//增加指定数字，没有就创建
+        print(34, jedis.zscore(rankKey, &quot;Luc&quot;));//2.0
+        print(35, jedis.zcount(rankKey, 0, 100));//指定范围内元素的个数 5
+        // 1-4 名 Luc
+        print(36, jedis.zrange(rankKey, 0, 10));//在指定范围内根据value排key，默认升序 [Luc, Jim, Ben, Lucy, Mei, Lee]
+        print(36, jedis.zrange(rankKey, 1, 3));//[Jim, Ben, Lucy],默认从头到尾数
+        print(36, jedis.zrevrange(rankKey, 1, 3));//[Mei, Lucy, Ben] 从尾到头数
+        for (Tuple tuple : jedis.zrangeByScoreWithScores(rankKey, &quot;60&quot;, &quot;100&quot;)) {
+            print(37, tuple.getElement() + &quot;:&quot; + String.valueOf(tuple.getScore()));
+        }
+
+        print(38, jedis.zrank(rankKey, &quot;Ben&quot;));//从头到尾排第几 2
+        print(39, jedis.zrevrank(rankKey, &quot;Ben&quot;));//从尾到头排第几 3</code></pre>
+<h1 id="点赞流程分析："><a href="#点赞流程分析：" class="headerlink" title="点赞流程分析："></a>点赞流程分析：</h1><pre><code class="java">@Controller
+public class HomeController {
+    @Autowired
+    NewsService newsService;
+
+    @Autowired
+    UserService userService;
+    @Autowired
+    HostHolder hostHolder;
+    @Autowired
+    LikeService likeService;
+
+    private List&lt;ViewObject&gt; getNews(int userId, int offset, int limit) {
+        List&lt;News&gt; newsList = newsService.getLatestNews(userId, offset, limit);
+        int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
+        List&lt;ViewObject&gt; vos = new ArrayList&lt;&gt;();
+        for (News news : newsList) {
+            ViewObject vo = new ViewObject();
+            vo.set(&quot;news&quot;, news);
+            vo.set(&quot;user&quot;, userService.getUser(news.getUserId()));
+            if(localUserId!=0){
+                //从这在redis中取值
+                vo.set(&quot;like&quot;, likeService.getLikeStatus(localUserId, EntityType.ENTITY_NEWS, news.getId()));
+            }else{
+                vo.set(&quot;like&quot;,0);
+            }
+            vos.add(vo);
+        }
+        return vos;
+    }
+    @RequestMapping(path = {&quot;/&quot;, &quot;/index&quot;}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String index(Model model,@RequestParam(value = &quot;pop&quot;, defaultValue = &quot;0&quot;) int pop) {
+        model.addAttribute(&quot;vos&quot;, getNews(0, 0, 10));
+        if (hostHolder.getUser() != null) {
+            pop = 0;
+        }
+        model.addAttribute(&quot;pop&quot;, pop);
+        return &quot;home&quot;;
+    }
+
+}</code></pre>
+<p>从上述代码我们能知道：</p>
+<p>项目首页，也就是home.html，通过Model对象接受到从后端传来的vos链表对象。取到的key对应的value是从redis中去的，这就是真正使用redis的原因，存储在内存中，取值速度快。</p>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《项目亮点之赞踩功能》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/04/24/niu-ke-wang-zhong-ji-xiang-mu/xiang-mu-liang-dian-zhi-yong-redis-shi-xian-zan-cai-gong-neng/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                xuxinghua
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Wed Apr 24 2019 20:30:52 GMT+0800',
+    owner: 'Xumingmingming',
+    repo: 'Xumingmingming.github.io',
+    oauth: {
+        client_id: '245a2e1eb55054628f5c',
+        client_secret: 'd97a71996cc30d009cf61d4ccbe64b1e2897338a'
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/04/28/ji-suan-ji-wang-luo/hu-lian-wang-xie-yi-ru-men/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/9.jpg" class="responsive-img" alt="互联网协议入门">
+                        
+                        <span class="card-title">互联网协议入门</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            概述五层模型互联网的实现，分成好几层。每一层都有自己的功能，就像建筑物一样，每一层都靠下一层支持。
+用户接触到的，只是最上面的一层，根本没有感觉到下面的层。要理解互联网，必须从最下层开始，自下而上理解每一层的功能。
+
+
+如何分层有不同的模型
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-28
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/计算机网络/" class="post-category" target="_blank">
+                                    计算机网络
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/互联网入门/" target="_blank">
+                        <span class="chip bg-color">互联网入门</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/04/18/niu-ke-wang-zhong-ji-xiang-mu/xiang-mu-liang-dian-zhi-yi-bu-dui-lie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/6.jpg" class="responsive-img" alt="项目亮点之异步队列">
+                        
+                        <span class="card-title">项目亮点之异步队列</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            项目中简单实现异步消息队列
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/牛客中级项目/" class="post-category" target="_blank">
+                                    牛客中级项目
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/异步消息队列/" target="_blank">
+                        <span class="chip bg-color">异步消息队列</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: xxh's blog<br />'
+            + '作者: xuxinghua<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+I<footer class="page-footer bg-color">
+    I<div class="container row center-align">
+        I<div class="col s12 m8 l8 copy-right">
+            I本站由&copy;<a href="https://xumingmingming.github.io/" target="_blank">xuxinghua</a>基于
+            I<a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            I<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            I
+                I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                I<span class="white-color">117.9k</span>
+            I
+
+            I
+			I
+        I</div>
+        I<div class="col s12 m4 l4 social-link ">
+
+
+    <a href="mailto:393782936@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=393782936" class="tooltipped" data-tooltip="QQ联系我: 393782936" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    I</div>
+I</footer>
+
+I<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+
+
+</body>
+</html>

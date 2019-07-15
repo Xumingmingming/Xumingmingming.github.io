@@ -1,0 +1,954 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="CDN的原理, xxh&#39;s blog">
+    <meta name="description" content="#介绍
+
+CDN，全称Content Delivery Network，主要作用是为源站减少访问压力的同时，为客户端提供更快速的内容响应。除此之外，CDN还能对源站进行安全防护。其实真正为CDN付费的是源站，所以CDN的用户其实是源站，例如">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>CDN的原理 | xxh&#39;s blog</title>
+    <link rel="icon" type="image/png" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">xxh's blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">xxh's blog</div>
+        <div class="logo-desc">
+            
+            这是xxh同学的个人博客
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/14.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        CDN的原理
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CDN/" target="_blank">
+                                <span class="chip bg-color">CDN</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/计算机网络/" class="post-category" target="_blank">
+                                计算机网络
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-03-30
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        2.2k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        7 分
+                    </div>
+                    
+                
+				
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>#介绍</p>
+<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019/2019-07-15-034020.png" alt="屏幕快照 2019-04-05 下午8.17.33"></p>
+<p><strong>CDN</strong>，全称<code>Content Delivery Network</code>，主要作用是<strong>为源站减少访问压力的同时，为客户端提供更快速的内容响应</strong>。除此之外，CDN还能对源站进行安全防护。其实真正为CDN付费的是源站，所以CDN的用户其实是源站，例如新浪微博，youku视频，淘宝网啊之类的。而客户端，是CDN的用户的用户。所以CDN是夹在源站和源站的用户之间的，以下称客户端均指源站的用户。</p>
+<h1 id="CDN工作原理"><a href="#CDN工作原理" class="headerlink" title="CDN工作原理"></a><strong>CDN工作原理</strong></h1><h2 id="传统网站访问过程"><a href="#传统网站访问过程" class="headerlink" title="传统网站访问过程"></a><strong>传统网站访问过程</strong></h2><p>要说CDN的工作原理，就得先说说Internet资源的访问过程。传统的来说，在浏览器访问网站应当有这么一些步骤：</p>
+<ol>
+<li>在浏览器键入网址<a href="http://www.taobao.com" target="_blank" rel="noopener">www.taobao.com</a></li>
+<li>浏览器请求dns服务器，查询到<a href="http://www.taobao.com对应的IP" target="_blank" rel="noopener">www.taobao.com对应的IP</a></li>
+<li>浏览器向服务器发起TCP连接</li>
+<li>浏览器通过建立的TCP连接发送HTTP协议报文</li>
+<li>服务器向浏览器发送页面内容</li>
+<li>浏览器将页面展现出来</li>
+</ol>
+<p>对于上面提到的第2步，其实还是有需要来更加详细的说明一下dns的解析过程，因为它是CDN能工作的基本条件。</p>
+<h2 id="DNS工作过程"><a href="#DNS工作过程" class="headerlink" title="DNS工作过程"></a><strong>DNS工作过程</strong></h2><p>DNS的工作过程容易被人忽略，一般只知道DNS的输入是一个网址，输出的是一个IP。==DNS的<a href="http://www.ietf.org/rfc/rfc1035.txt" target="_blank" rel="noopener">协议</a>主要是基于UDP的<strong>，所以dns server的qps一般都是很惊人的，比web server（http是基于tcp的）的qps是高出几个量级的。有个基本概念就是</strong>dns的记录类型<strong>，常见的dns记录类型有</strong>A<strong>，</strong>AAAA<strong>，</strong>CNAME<strong>等。A记录是</strong>域名到IPV4地址的<strong>；AAAA记录是</strong>域名到IPV6地址的<strong>；**</strong>CNAME<strong>记录类似于查询过程中的转发</strong>，意思是你去问问这个个人，他管这事。好的，下面继续说说DNS的工作过程。</p>
+<ol>
+<li>在浏览器键入<strong><a href="http://www.taobao.com" target="_blank" rel="noopener">www.taobao.com</a></strong>,其实真正dns协议里用到的是<strong><a href="http://www.taobao.com" target="_blank" rel="noopener">www.taobao.com</a>.</strong>最后还有一个点，可能是因为美观等原因，一般都不显示</li>
+<li>查询本地缓存（host文件或者是浏览器的缓存）中有没有该域名对应的记录，有的话就直接用了</li>
+<li>向运营商的DNS服务器发起dns解析的请求，一般称运营商的DNS服务器为<strong>local dns</strong></li>
+<li>local dns会查询本地的缓存，local dns设置的缓存时间是有讲究的，过长过短都不好。另外local dns的查询是运营商的事，这里面水很深，外部不可控</li>
+<li>local dns如果没有缓存，会把域名<strong>从右往左扫描</strong>，依次请求对应的服务器，例如对于域名 <strong><a href="http://www.taobao.com" target="_blank" rel="noopener">www.taobao.com</a>.</strong>，先去问负责<strong>.</strong>的根域名服务器，就是传说中全球只有几台的那些服务器，他们会答复<strong>.com</strong>是谁管理的，然后local dns又去找管理<strong>.com</strong>的服务器（假设名字为S1），去问问<strong>taobao.com</strong>是谁管，一般来说，在S1查到的记录是一条<strong>cname记录</strong>（阿里毕竟大公司，自己管理自己旗下的域名），<strong>然后就转到了阿里自己的DNS服务器上来了</strong>，一般称之为<strong>权威服务器</strong></li>
+<li>权威服务器是阿里自己建的，然后根据公司内部的一些配置啊，调整啊，查到<strong><a href="http://www.taobao.com" target="_blank" rel="noopener">www.taobao.com</a>.</strong>对应的服务器是谁，返回一个IP地址</li>
+<li>local dns缓存这个IP地址，并且回复浏览器</li>
+<li>浏览器和对应的IP地址的服务器简历TCP连接，发送HTTP报文</li>
+</ol>
+<p>买过域名的朋友都知道，假如你在万网买了<strong>cstdlib.com</strong>，然后你想启用一个二级域名<strong>go.cstdlib.com</strong>，那么你要去万网的控制台（已经和阿里云合并）设置一条A记录的解析，将<strong>go.cstdlib.com</strong>指向你想要的IP。每次增加二级域名的过程都是这样子。那么，如果你知道了DNS的解析过程，你可以这么做：</p>
+<ol>
+<li>在服务器D1上起一个dns server，作为cstdlib.com的dns权威服务器</li>
+<li>在万网的控制台新增一条CNAME记录，将cstdlib.com的解析转到D1来</li>
+<li>D1想返回什么IP就返回什么IP</li>
+</ol>
+<p>这样一来，一切尽在掌控，毕竟D1是你的，而且以后你再也不用去万网的控制台了，这就是自建DNS服务器。</p>
+<h2 id="CDN-访问原理"><a href="#CDN-访问原理" class="headerlink" title="CDN 访问原理"></a>CDN 访问原理</h2><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019/2019-07-15-034021.png" alt="3593233181"></p>
+<p>首先，我们作为终端用户（END USERS）在地址栏中键入 <a href="http://www.baidu.com，浏览器发现本地没有关于" target="_blank" rel="noopener">www.baidu.com，浏览器发现本地没有关于</a> <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 的 DNS 缓存，于是向网站的 DNS 服务器发起请求。</p>
+<p>然后，网站的 DNS 域名服务器设置了 CName，指向了某个 CDN 服务（比如 <a href="http://www.baidu.com），去请求" target="_blank" rel="noopener">www.baidu.com），去请求</a> CDN 中的<strong>智能 DNS 均衡负载系统</strong>。</p>
+<p>均衡负载系统解析域名，把对用户响应最快的节点（<strong>CDN Node</strong>）返回给用户，然后用户向该节点发出请求。</p>
+<p>如果是第一次访问该内容，CDN 服务器会向源站（Origin Server）请求数据并缓存，否则的话，直接在缓存节点中找到该数据，将请求结果发给用户。</p>
+<p>对于最简单的 CDN 系统而言，只要一台 DNS 调度服务器和一个节点服务器即可，但在复杂的应用中，会存在多级缓存，多台 Cache 来协同工作。</p>
+<h2 id="CDN选择优质节点"><a href="#CDN选择优质节点" class="headerlink" title="CDN选择优质节点"></a>CDN选择优质节点</h2><p>回到正题，CDN如何为用户选择时延更小的源站。这次不以访问淘宝为例了，因为阿里有自己的CDN，要是以访问淘宝为例，容易混淆CDN的提供者和源站。这次举例以新浪微博为源站，假设微博使用了阿里的CDN，那么阿里CDN会告诉微博，你要我给你加速一张图片是吧，那你就把这个图片解析到我的服务器来（可以CNAME，也可以直接写阿里CDN的url，牛客项目中是直接写云的URL<strong>），那么，阿里CDN的dns权威服务器，会收到这么一个解析请求，</strong>“请告诉我，新浪微博的1.png的源站在哪”。这时CDN系统就要大展身手了。</p>
+<p>假设我们现在是阿里CDN的dns权威服务器，有人问我们<strong>“新浪微博的1.png的源站在哪”</strong>，那我会这么做：先看看问我的这个人IP是多少（回忆一下dns解析的过程，我们看到的应该是local dns的IP），然后根据这个IP查到他是哪里的，北京还是广州，上海还是深圳。如果是北京，那好，我就给你返回北京的源站的地址；如果是上海，那我就给你返回上海的源站的地址，这样就实现了就近访问。</p>
+<p>在把IP地址对应到地理位置的过程中，需要用到IP库，阿里CDN的<code>IP地址库</code>很NB，因为阿里CDN的负责人叔度在ArchSummit架构师峰会上说，他们可以用淘宝的包裹记录来校准，真是机智。</p>
+<p>当然，就近只是一个要考虑的因素之一，还有很多因素需要考虑的，例如网络成本，流量分布，源站负载等。这是个很复杂的过程，我只是举了一个直观的方面来说。</p>
+<h2 id="CDN减少源站压力"><a href="#CDN减少源站压力" class="headerlink" title="CDN减少源站压力"></a><strong>CDN减少源站压力</strong></h2><p>刚才说了CDN是如何选择优质节点的，那么对于客户端，算是有个交代了。所以接下来考虑怎么给源站一个交代：<strong>减小源站压力</strong>。如果每一个用户请求都让他直接去源站拿的话，那源站将会承受巨大的压力，所以要考虑为源站提供一个HTTP的缓存，通过提升缓存的命中率来减小源站的压力。</p>
+<p>比如刚才第一个用户请求了1.png，那么CDN先把这张图片缓存（缓存简单可以认为是一个哈希表，key是url，value是response）起来，下次再有人要1.png，就直接返回给他，从而减少回源流量。</p>
+<p>牛客项目中：</p>
+<p>项目中存放在云上的图片url:<strong>云上的外链接+图片在云上的名</strong>，所以在返回给客户端HTML页面中，图片的地址就是</p>
+<p><strong>云上的外链接+图片在云上的名</strong>，用户需要查看图片时，直接联系的是服务你的云，云会根据你发出请求的IP地址，就近为你选择一台离你最近的服务器为你服务。<strong>这样既加快的图片的传输，又因为源站不用处理获取图片的请求，达到了减少源站压力的目的</strong>。</p>
+<h1 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h1><p>CDN的工作原理：通过权威dns服务器来实现优质节点的选择，通过缓存来减少源站的压力。</p>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《CDN的原理》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/03/30/niu-ke-wang-zhong-ji-xiang-mu/cdn-de-yuan-li/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                xuxinghua
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sat Mar 30 2019 17:30:52 GMT+0800',
+    owner: 'Xumingmingming',
+    repo: 'Xumingmingming.github.io',
+    oauth: {
+        client_id: '245a2e1eb55054628f5c',
+        client_secret: 'd97a71996cc30d009cf61d4ccbe64b1e2897338a'
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/03/30/niu-ke-wang-zhong-ji-xiang-mu/xiang-mu-liang-dian-zhi-yun-cun-chu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/10.jpg" class="responsive-img" alt="项目亮点之云存储">
+                        
+                        <span class="card-title">项目亮点之云存储</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            项目中图片存储到云服务器中
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-30
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/牛客中级项目/" class="post-category" target="_blank">
+                                    牛客中级项目
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/云存储/" target="_blank">
+                        <span class="chip bg-color">云存储</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/30/niu-ke-wang-zhong-ji-xiang-mu/xiang-mu-liang-dian-zhi-ajax/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/5.jpg" class="responsive-img" alt="项目亮点之Ajax">
+                        
+                        <span class="card-title">项目亮点之Ajax</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            引入Ajax技术
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-30
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/牛客中级项目/" class="post-category" target="_blank">
+                                    牛客中级项目
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Ajax/" target="_blank">
+                        <span class="chip bg-color">Ajax</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: xxh's blog<br />'
+            + '作者: xuxinghua<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+I<footer class="page-footer bg-color">
+    I<div class="container row center-align">
+        I<div class="col s12 m8 l8 copy-right">
+            I本站由&copy;<a href="https://xumingmingming.github.io/" target="_blank">xuxinghua</a>基于
+            I<a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            I<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            I
+                I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                I<span class="white-color">117.9k</span>
+            I
+
+            I
+			I
+        I</div>
+        I<div class="col s12 m4 l4 social-link ">
+
+
+    <a href="mailto:393782936@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=393782936" class="tooltipped" data-tooltip="QQ联系我: 393782936" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    I</div>
+I</footer>
+
+I<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+
+
+</body>
+</html>

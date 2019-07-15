@@ -25,20 +25,20 @@ nginx反向代理负载均衡
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>第4章 分布式扩展 | xxh&#39;s blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/png" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/favicon.png">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/css/lightgallery.min.css">
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     <style type="text/css">
         
     </style>
 
-    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/jquery/jquery-2.2.0.min.js"></script>
 </head>
 
 
@@ -50,7 +50,7 @@ nginx反向代理负载均衡
             <div class="brand-logo">
                 <a href="/" class="waves-effect waves-light">
                     
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img" alt="LOGO">
                     
                     <span class="logo-span">xxh's blog</span>
                 </a>
@@ -125,7 +125,7 @@ nginx反向代理负载均衡
 
     <div class="mobile-head bg-color">
         
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img circle responsive-img">
         
         <div class="logo-name">xxh's blog</div>
         <div class="logo-desc">
@@ -208,7 +208,7 @@ nginx反向代理负载均衡
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/22.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -227,7 +227,7 @@ nginx反向代理负载均衡
 <main class="post-container content">
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.css">
 <style>
     #articleContent h1::before,
     #articleContent h2::before,
@@ -387,14 +387,14 @@ nginx反向代理负载均衡
 <a id="more"></a>
 
 <p>单机部署结构：</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130506.png" alt="未命名文件"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150840.png" alt="未命名文件"></p>
 <p>#nginx反向代理负载均衡</p>
 <h2 id="单机容量问题，水平扩展"><a href="#单机容量问题，水平扩展" class="headerlink" title="单机容量问题，水平扩展"></a>单机容量问题，水平扩展</h2><p>表象：单机cpu使用率增高，memory占用增加，网络带宽使用增加</p>
 <p>cpu us：用户空间的cpu使用情况(用户层代码)</p>
 <p>cpu sy：内核空间的cpu使用情况(系统调用)</p>
 <p>load average：1,5,15分钟load平均值，跟着核数系数（比如2核cpu，这个数字在2以下就是正常的），0代表通常，1代表打满，1+代表等待阻塞</p>
 <p>memory：free空闲内存，used使用内存</p>
-<h3 id="水平扩展方案"><a href="#水平扩展方案" class="headerlink" title="水平扩展方案"></a>水平扩展方案</h3><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130506-1.png" alt="未命名文件-2"></p>
+<h3 id="水平扩展方案"><a href="#水平扩展方案" class="headerlink" title="水平扩展方案"></a>水平扩展方案</h3><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150853.png" alt="未命名文件-2"></p>
 <p>我们需要4台服务器来完成上述的水平扩展，1台用于nginx，1台用户mysql，2台用于部署miaosha.jar(java Application)</p>
 <h3 id="mysql数据库开放远端连接"><a href="#mysql数据库开放远端连接" class="headerlink" title="mysql数据库开放远端连接"></a>mysql数据库开放远端连接</h3><p>默认情况下，mysql帐号不允许从远程登陆，只能在localhost登录。</p>
 <h4 id="添加用户权限"><a href="#添加用户权限" class="headerlink" title="添加用户权限"></a>添加用户权限</h4><ol>
@@ -414,7 +414,7 @@ nginx反向代理负载均衡
 <p><a href="http://202.117.35.221:8080/item/get?id=6" target="_blank" rel="noopener">http://202.117.35.221:8080/item/get?id=6</a></p>
 <p>是否访问正常</p>
 <h2 id="nginx反向代理"><a href="#nginx反向代理" class="headerlink" title="nginx反向代理"></a>nginx反向代理</h2><p>部署图：</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130508.png" alt="未命名文件-3"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150854.png" alt="未命名文件-3"></p>
 <p>nginx主要有3种功能：</p>
 <p>使用nginx做为web服务器</p>
 <p>使用nginx作为动静分离服务器</p>
@@ -482,7 +482,7 @@ nginx反向代理负载均衡
 <pre><code class="bash">netstat -an |grep 80</code></pre>
 <h4 id="mac上启动nginx"><a href="#mac上启动nginx" class="headerlink" title="mac上启动nginx"></a>mac上启动nginx</h4><p>由于使用homebrew安装openResty</p>
 <pre><code class="bash">xuxinghua@xxhdemac/usr/local/Cellar/openresty/1.15.8.1/nginx/sbin sudo ./nginx</code></pre>
-<h3 id="前端资源的部署"><a href="#前端资源的部署" class="headerlink" title="前端资源的部署"></a>前端资源的部署</h3><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130508.png" alt="未命名文件-3"></p>
+<h3 id="前端资源的部署"><a href="#前端资源的部署" class="headerlink" title="前端资源的部署"></a>前端资源的部署</h3><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150854.png" alt="未命名文件-3"></p>
 <h4 id="更改文件读写权限"><a href="#更改文件读写权限" class="headerlink" title="更改文件读写权限"></a>更改文件读写权限</h4><pre><code class="bash">sudo chmod 777 需要写入的文件名</code></pre>
 <p>例子：</p>
 <p>需要将 <code>~/java/项目/秒杀/Java电商秒杀系统深度优化 从容应对亿级流量挑战/源码/第四章.分布式扩展/htmlStable</code>目录下的前端资源传输到<code>202.117.35.221</code>服务器上</p>
@@ -596,7 +596,7 @@ http {
 <p><a href="http://202.117.35.221:80/login.html" target="_blank" rel="noopener">http://202.117.35.221:80/login.html</a></p>
 <p><code>nginx.config</code>中设置的<code>root</code>是<code>html</code></p>
 <p>所以在地址后面加上html目录下的html文件名，openresty会直接映射到服务端/usr/local/openresty/nginx/html目录下，找相应的html文件</p>
-<h3 id="前端资源路由"><a href="#前端资源路由" class="headerlink" title="前端资源路由"></a>前端资源路由</h3><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130508.png" alt="未命名文件-3"></p>
+<h3 id="前端资源路由"><a href="#前端资源路由" class="headerlink" title="前端资源路由"></a>前端资源路由</h3><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150854.png" alt="未命名文件-3"></p>
 <h4 id="1-修改nginx-config"><a href="#1-修改nginx-config" class="headerlink" title="1 修改nginx.config"></a>1 修改nginx.config</h4><pre><code>location /resources/ {
             alias /usr/local/openresty/nginx/html/resources/;
             index  index.html index.htm;
@@ -635,7 +635,7 @@ proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }</code></pre>
 <p>当从用户浏览器传来的URL:<code>nginx服务器的IP地址/</code>，如<code>115.154.255.245/user/get?id=6</code>,会把请求分发到后端部署了<code>miaosha.jar</code>的服务器上处理</p>
-<h2 id="使用nginx作为反向代理服务器"><a href="#使用nginx作为反向代理服务器" class="headerlink" title="使用nginx作为反向代理服务器"></a>使用nginx作为反向代理服务器</h2><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130508.png" alt="未命名文件-3"></p>
+<h2 id="使用nginx作为反向代理服务器"><a href="#使用nginx作为反向代理服务器" class="headerlink" title="使用nginx作为反向代理服务器"></a>使用nginx作为反向代理服务器</h2><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150854.png" alt="未命名文件-3"></p>
 <h3 id="设置upstream-server"><a href="#设置upstream-server" class="headerlink" title="设置upstream server"></a>设置upstream server</h3><p>视频上：</p>
 <pre><code class="bash">upstream backend_server{
 server 202.117.35.220 weight=1;
@@ -708,8 +708,8 @@ proxy_set_header Connection &quot;&quot;;
 <h1 id="nginx高性能原因"><a href="#nginx高性能原因" class="headerlink" title="nginx高性能原因"></a>nginx高性能原因</h1><h2 id="epoll多路复用"><a href="#epoll多路复用" class="headerlink" title="epoll多路复用"></a>epoll多路复用</h2><p>java BIO模型：阻塞进程式</p>
 <p>linux select模型，变更触发轮询查找，有1024数量上限</p>
 <p>epoll模型，变更触发回调直接读取，理论上没有上限</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130513.png" alt="未命名文件-4"></p>
-<h2 id="master-worker进程模型"><a href="#master-worker进程模型" class="headerlink" title="master-worker进程模型"></a>master-worker进程模型</h2><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130515.png" alt="屏幕快照 2019-06-19 下午3.16.29"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150858.png" alt="未命名文件-4"></p>
+<h2 id="master-worker进程模型"><a href="#master-worker进程模型" class="headerlink" title="master-worker进程模型"></a>master-worker进程模型</h2><p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150859.png" alt="屏幕快照 2019-06-19 下午3.16.29"></p>
 <h3 id="图形介绍"><a href="#图形介绍" class="headerlink" title="图形介绍"></a>图形介绍</h3><p>管理员：可以理解为root操作用户，用于启动和管理nginx进程</p>
 <p>信号：启动nginx，<code>sbin/nginx -c conf/nginx.conf</code></p>
 <p>master根据nignx.congif中的<code>worker_processes  1;</code>fork出worker进程，它们主子进程的关系</p>
@@ -752,7 +752,7 @@ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (
 <h3 id="基于token传输类似sessionid"><a href="#基于token传输类似sessionid" class="headerlink" title="基于token传输类似sessionid"></a>基于token传输类似sessionid</h3><p>移动手机端常用</p>
 <h2 id="分布式会话"><a href="#分布式会话" class="headerlink" title="分布式会话"></a>分布式会话</h2><h3 id="会话管理出现的问题分析"><a href="#会话管理出现的问题分析" class="headerlink" title="会话管理出现的问题分析"></a>会话管理出现的问题分析</h3><p>基于分布式会话，上面<code>基于cookie传输sessionid</code>和<code>基于token传输类似sessionid</code>都是不能生效的。</p>
 <p>来看看部署结构图：</p>
-<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019-07-down/130508.png" alt="未命名文件-3"></p>
+<p><img src="http://xxh-blog.oss-cn-beijing.aliyuncs.com/2019-07-03-150854.png" alt="未命名文件-3"></p>
 <p>因为上述两种策略都是在；单机的内存当中，</p>
 <p>基于cookie传输sessionid：基于的是Springboot内嵌的Tomcat容器实现的，是居于内存，只在单机上起作用</p>
 <p>基于token传输类似sessionid：基于java代码的，也是在内存里，只在单机上起作用</p>
@@ -967,10 +967,10 @@ spring.redis.jedis.pool.min-idle=20</code></pre>
                         <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
                     </ul>
                     <div id="alipay">
-                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
                     </div>
                     <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
                     </div>
                 </div>
             </div>
@@ -1085,7 +1085,7 @@ gitment.render('gitment-content');
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="第5章 查询优化技术之多级缓存">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/22.jpg" class="responsive-img" alt="第5章 查询优化技术之多级缓存">
                         
                         <span class="card-title">第5章 查询优化技术之多级缓存</span>
                     </div>
@@ -1151,7 +1151,7 @@ gitment.render('gitment-content');
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="第3章 云端部署 性能压测">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/17.jpg" class="responsive-img" alt="第3章 云端部署 性能压测">
                         
                         <span class="card-title">第3章 云端部署 性能压测</span>
                     </div>
@@ -1260,7 +1260,7 @@ gitment.render('gitment-content');
 </div>
 
 
-<script src="/libs/tocbot/tocbot.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.min.js"></script>
 <script>
     $(function () {
         tocbot.init({
@@ -1349,7 +1349,7 @@ I<footer class="page-footer bg-color">
 
             I
                 I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                I<span class="white-color">54.7k</span>
+                I<span class="white-color">117.9k</span>
             I
 
             I
@@ -1406,11 +1406,11 @@ $(function () {
 </div>
 
 
-<script src="/libs/materialize/materialize.min.js"></script>
-<script src="/libs/masonry/masonry.pkgd.min.js"></script>
-<script src="/libs/aos/aos.js"></script>
-<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/js/lightgallery-all.min.js"></script>
 <script src="/js/matery.js"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

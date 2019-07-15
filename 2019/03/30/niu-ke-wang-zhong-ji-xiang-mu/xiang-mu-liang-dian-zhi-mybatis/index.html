@@ -1,0 +1,1189 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="项目亮点之Mybatis, xxh&#39;s blog">
+    <meta name="description" content="#原始的JDBC操作：
+##原始JDBC源代码：
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+i">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>项目亮点之Mybatis | xxh&#39;s blog</title>
+    <link rel="icon" type="image/png" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">xxh's blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">xxh's blog</div>
+        <div class="logo-desc">
+            
+            这是xxh同学的个人博客
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/0.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        项目亮点之Mybatis
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Mybatis/" target="_blank">
+                                <span class="chip bg-color">Mybatis</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/牛客中级项目/" class="post-category" target="_blank">
+                                牛客中级项目
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-03-30
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                        2.5k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                        10 分
+                    </div>
+                    
+                
+				
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>#原始的JDBC操作：</p>
+<p>##原始JDBC源代码：</p>
+<pre><code class="java">import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * @ClassName: TestJDBC
+ * @Description: TODO(原始的JDBC操作数据库)
+ */
+public class TestJDBC {
+    public static void main(String[] args) {
+
+        // 数据库连接
+        Connection connection = null;
+        // 预编译的Statement，使用预编译的Statement提高数据库性能
+        PreparedStatement preparedStatement = null;
+        // 结果集
+        ResultSet resultSet = null;
+
+        try {
+            // 加载数据库驱动
+            Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);
+
+            // 通过驱动管理类获取数据库链接
+            connection = DriverManager
+                    .getConnection(
+                            &quot;jdbc:mysql://localhost:3306/toutiao?characterEncoding=utf-8&quot;,
+                            &quot;root&quot;, &quot;xxh171015&quot;);
+            // 定义sql语句 ?表示占位符
+            String sql = &quot;select * from user where name = ?&quot;;
+            // 获取预处理statement
+            preparedStatement = connection.prepareStatement(sql);
+            // 设置参数，第一个参数为sql语句中参数的序号（从1开始），第二个参数为设置的参数值
+            preparedStatement.setString(1, &quot;x&quot;);
+            // 向数据库发出sql执行查询，查询出结果集
+            resultSet = preparedStatement.executeQuery();
+            // 遍历查询结果集
+            while (resultSet.next()) {
+                System.out.println(&quot;id:&quot;+resultSet.getString(&quot;id&quot;) + &quot;  name:&quot;
+                        + resultSet.getString(&quot;name&quot;)+&quot; head_url:&quot;+resultSet.getString(&quot;head_url&quot;));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 释放资源
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+}</code></pre>
+<p>##存在的问题</p>
+<p>1、数据库连接，使用时就创建，不使用立即释放，对数据库进行频繁连接开启和关闭，造成数据库资源浪费，影响数据库性能。</p>
+<p>解决方案：<strong>使用数据库连接池管理数据库连接</strong>。</p>
+<p>2、将sql语句硬编码到java代码中，如果sql 语句修改，需要重新编译java代码，不利于系统维护。</p>
+<p>解决方案：<strong>将sql语句配置在xml配置文件中，即使sql变化，不需要对java代码进行重新编译</strong>。</p>
+<p>3、向<strong>preparedStatement</strong>中设置参数，对占位符号位置和设置参数值，硬编码在java代码中，不利于系统维护。</p>
+<p>解决方案：<strong>将sql语句及占位符号和参数全部配置在xml中</strong>。</p>
+<p>4、从<strong>resultSet</strong>中遍历结果集数据时，存在硬编码，将获取表的字段进行硬编码，，不利于系统维护。</p>
+<p>解决方案：<strong>将查询的结果集，自动映射成java对象</strong>。</p>
+<h1 id="MyBatis是什么？"><a href="#MyBatis是什么？" class="headerlink" title="MyBatis是什么？"></a>MyBatis是什么？</h1><p>MyBatis是一个优秀的持久层<strong>ORM</strong>（Object Relational Mapping）框架，它对jdbc的操作数据库的过程进行封装，<strong>使开发者只需要关注 SQL 本身</strong>，而不需要花费精力去处理例如<strong>注册驱动</strong>、<strong>创建connection</strong>、<strong>创建statement</strong>、<strong>手动设置参数</strong>、<strong>结果集检索</strong>等jdbc繁杂的过程代码。</p>
+<p>Mybatis通过==xml==或<strong>注解</strong>的方式将要执行的各种statement（statement、preparedStatemnt、CallableStatement）配置起来，并<strong>通过java对象和statement中的sql进行映射生成最终执行的sql语句，最后由mybatis框架执行sql并将结果映射成java对象并返回</strong>。</p>
+<p>##MyBatis架构图</p>
+<p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019/2019-07-15-034027.gif" alt="7378149-dff06e3ae5947d57"></p>
+<p>架构图简单讲解：</p>
+<p>1、mybatis配置<strong>SqlMapConfig.xml</strong>，此文件作为mybatis的全局配置文件，配置了mybatis的运行环境等信息。</p>
+<p><strong>mapper.xml</strong>文件即sql映射文件，文件中配置了操作数据库的sql语句。此文件需要在SqlMapConfig.xml中加载；</p>
+<p> 2、通过mybatis环境等配置信息构造SqlSessionFactory即会话工厂；</p>
+<p> 3、由会话工厂创建<strong>sqlSession</strong>即会话，<strong>操作数据库需要通过sqlSession进行</strong>；</p>
+<p> 4、mybatis底层自定义了Executor执行器接口操作数据库，Executor接口有两个实现，一个是基本执行器、一个是缓存执行器；</p>
+<p> 5、<strong>Mapped Statement</strong>也是mybatis一个底层封装对象，它<strong>包装了mybatis配置信息及sql映射信息</strong>等。mapper.xml文件中一个sql对应一个Mapped Statement对象，sql的id即是Mapped statement的id；</p>
+<p> 6、Mapped Statement对sql执行输入参数进行定义，包括<strong>HashMap、基本类型、pojo</strong>，Executor通过Mapped Statement在执行sql前将输入的java对象映射至sql中，<strong>输入参数映射就是jdbc编程中对preparedStatement设置参数</strong>；</p>
+<p> 7、Mapped Statement对sql执行输出结果进行定义，包括HashMap、基本类型（String、Integer）、pojo，Executor通过Mapped Statement在执行sql后将输出结果映射至java对象中，<strong>输出结果映射过程相当于jdbc编程中对结果的解析处理过程</strong>。</p>
+<h2 id="简单举例："><a href="#简单举例：" class="headerlink" title="简单举例："></a>简单举例：</h2><p>这个例子中使用注解的方式使用mybatis</p>
+<p>拿UserService中的登录功能举例：</p>
+<pre><code class="java">    public Map&lt;String, Object&gt; login(String username, String password){
+        Map&lt;String,Object&gt; map=new HashMap&lt;String,Object&gt;();
+        if (StringUtils.isBlank(username)){
+            map.put(&quot;msgname&quot;,&quot;用户名不能为空&quot;);
+            return map;
+        }
+        if (StringUtils.isBlank(password)){
+            map.put(&quot;msgpwd&quot;,&quot;密码不能为空&quot;);
+            return map;
+        }
+      //这句是我们要注意的，用到了被依赖注入的userDAO中的selectByName()方法
+        User user = userDAO.selectByName(username);
+        if(user==null){
+            map.put(&quot;msgname&quot;,&quot;用户名不存在&quot;);
+            return map;
+        }
+        if(!ToutiaoUtil.MD5(password+user.getSalt()).equals(user.getPassword())){
+            map.put(&quot;msgpwd&quot;,&quot;密码不正确&quot;);
+            return map;
+        }
+        map.put(&quot;userId&quot;, user.getId());
+
+        String ticket=addLoginTicket(user.getId());
+        map.put(&quot;ticket&quot;,ticket);
+        return map;
+    }</code></pre>
+<p>UserDAO中：</p>
+<pre><code class="java">    String TABLE_NAME = &quot;user&quot;;
+    String INSET_FIELDS = &quot; name, password, salt, head_url &quot;;
+    String SELECT_FIELDS = &quot; id, name, password, salt, head_url&quot;;
+@Select({&quot;select &quot;, SELECT_FIELDS, &quot; from &quot;, TABLE_NAME, &quot; where id=#{id}&quot;})
+    User selectById(int id);</code></pre>
+<ol>
+<li><p>上面中<strong>@Select注解中一个sql对应一个Mapped Statement对象，Mapped Statement对sql执行输入参数进行定义，包括HashMap、基本类型、pojo（java对象），这里的输入对象是(Integer)id</strong>；</p>
+</li>
+<li><p>Executor通过Mapped Statement在执行sql前<strong>将输入的java对象映射至sql中，输入参数映射就是jdbc编程中对preparedStatement设置参数(这步中的映射操作是，上述由@Select注解的内容，经过java对象最后映射成了sql语句，其实就是将</strong>#{id}<strong>映射成方法中的形参</strong>id)；然后执行映射后的sql语句；</p>
+</li>
+</ol>
+<p>会被映射成如下：</p>
+<pre><code class="sql">select id, name, password, salt, head_url from user where id=(方法中传入的id)</code></pre>
+<ol start="3">
+<li><p>Executor执行完sql后，会将输出结果映射至java对象中，<strong>输出结果映射过程相当于jdbc编程中对结果的解析处理过程</strong>。</p>
+<p>我们从UserDAO的selectById()方法中就可以看出来，最后返回的是User对象。</p>
+</li>
+</ol>
+<h1 id="MyBatis的执行流程"><a href="#MyBatis的执行流程" class="headerlink" title="MyBatis的执行流程"></a>MyBatis的执行流程</h1><p><img src="http://xuxinghua-blog.oss-cn-zhangjiakou.aliyuncs.com/2019/2019-07-15-034028.jpg" alt="v2-771a68ce10ea003a11e7fd7751bec30c_1200x500"></p>
+<h2 id="1-Resources"><a href="#1-Resources" class="headerlink" title="1 Resources"></a>1 <strong>Resources</strong></h2><p><strong>首先Mybaitis自己的一个Resources类会去调用一个叫getResourceAsStream()的方法</strong></p>
+<p><strong>加载配置MyBatis的核心配置文件，得到一个</strong>流对象（InputStream类）<strong>。（本质上还是走的java.lang包下的ClassLoader类加载器的getResourceAsStream）</strong></p>
+<p>是在mybatis自己的包下：</p>
+<pre><code class="java">package org.apache.ibatis.io;
+/*
+   * Returns a resource on the classpath as a Stream object
+   *
+   * @param resource The resource to find
+   * @return The resource
+   * @throws java.io.IOException If the resource cannot be found or read
+   */
+  public static InputStream getResourceAsStream(String resource) throws IOException {
+    return getResourceAsStream(null, resource);
+  }
+/*
+   * Returns a resource on the classpath as a Stream object
+   *
+   * @param loader   The classloader used to fetch the resource
+   * @param resource The resource to find
+   * @return The resource
+   * @throws java.io.IOException If the resource cannot be found or read
+   */
+  public static InputStream getResourceAsStream(ClassLoader loader, String resource) throws IOException {
+    InputStream in = classLoaderWrapper.getResourceAsStream(resource, loader);
+    if (in ** null) {
+      throw new IOException(&quot;Could not find resource &quot; + resource);
+    }
+    return in;
+  }</code></pre>
+<pre><code class="java">package java.lang;
+public abstract class ClassLoader {
+public InputStream getResourceAsStream(String name) {
+        URL url = getResource(name);
+        try {
+            return url != null ? url.openStream() : null;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+}</code></pre>
+<h2 id="2-SqlSessionFactoryBuilder"><a href="#2-SqlSessionFactoryBuilder" class="headerlink" title="2 SqlSessionFactoryBuilder"></a>2 <strong>SqlSessionFactoryBuilder</strong></h2><p><strong>有了这个流对象，下面执行这个方法</strong></p>
+<pre><code class="java">package org.apache.ibatis.session;
+public class SqlSessionManager implements SqlSessionFactory, SqlSession {
+public static SqlSessionManager newInstance(InputStream inputStream) {
+    return new SqlSessionManager(new SqlSessionFactoryBuilder().build(inputStream, null, null));
+  }
+}</code></pre>
+<pre><code class="java">package org.apache.ibatis.session;
+public class SqlSessionFactoryBuilder {
+public SqlSessionFactory build(InputStream inputStream) {
+    return build(inputStream, null, null);
+  }
+public SqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
+    try {
+      XMLConfigBuilder parser = new XMLConfigBuilder(inputStream, environment, properties);
+      return build(parser.parse());
+    } catch (Exception e) {
+      throw ExceptionFactory.wrapException(&quot;Error building SqlSession.&quot;, e);
+    } finally {
+      ErrorContext.instance().reset();
+      try {
+        inputStream.close();
+      } catch (IOException e) {
+        // Intentionally ignore. Prefer previous error.
+      }
+    }
+  }
+  public SqlSessionFactory build(Configuration config) {
+    return new DefaultSqlSessionFactory(config);
+  }
+}</code></pre>
+<p>会先去创建一个<strong>SqlSessionFactoryBuilder</strong>对象（构建者对象），调用build()方法，传入第一步我们得到的那个<strong>流对象</strong>。</p>
+<p>在这个过程中，首先，MyBatis会先去创建一个<strong>XMLConfigBuilder解析器对象</strong>，</p>
+<pre><code class="java">XMLConfigBuilder parser = new XMLConfigBuilder(inputStream, environment, properties);
+return build(parser.parse());</code></pre>
+<p>解析我们刚才传进来的那个流对象，</p>
+<pre><code class="java">package org.apache.ibatis.builder.xml;
+public class XMLConfigBuilder extends BaseBuilder {
+
+public Configuration parse() {
+    if (parsed) {
+      throw new BuilderException(&quot;Each XMLConfigBuilder can only be used once.&quot;);
+    }
+    parsed = true;
+    parseConfiguration(parser.evalNode(&quot;/configuration&quot;));
+    return configuration;
+  }
+
+}</code></pre>
+<p>解析完成之后，返回一个<strong>configuration</strong>对象，这个对象里面封装了解析之后我们配置的信息</p>
+<p>正好这个configuration对象，就是我们这个方法创建（I）SqlSessionFactory类型对象需要的参数</p>
+<pre><code class="java">public SqlSessionFactory build(Configuration config) {
+    return new DefaultSqlSessionFactory(config);
+  }</code></pre>
+<p><strong>返回的就是一个实现了SqlSessionFactory接口的==DefaultSqlSessionFactory==对象</strong></p>
+<h2 id="3-SqlSesionFactory"><a href="#3-SqlSesionFactory" class="headerlink" title="3 SqlSesionFactory"></a>3 SqlSesionFactory</h2><p>有了这个<strong>SqlSesionFactory</strong>实现类的对象之后，我们调用<strong>openSession()</strong>的方法，这个过程中</p>
+<pre><code class="java">package org.apache.ibatis.session.defaults;
+public class DefaultSqlSessionFactory implements SqlSessionFactory {
+
+public SqlSession openSession() {
+    return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, false);
+  }
+
+  private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionIsolationLevel level, boolean autoCommit) {
+    Transaction tx = null;
+    try {
+      final Environment environment = configuration.getEnvironment();
+      final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
+      tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
+      final Executor executor = configuration.newExecutor(tx, execType);
+      return new DefaultSqlSession(configuration, executor, autoCommit);
+    } catch (Exception e) {
+      closeTransaction(tx); // may have fetched a connection so lets call close()
+      throw ExceptionFactory.wrapException(&quot;Error opening session.  Cause: &quot; + e, e);
+    } finally {
+      ErrorContext.instance().reset();
+    }
+  }
+
+}</code></pre>
+<p>需 要 通 过<strong>TransactionFactory</strong> 生成 <strong>Transaction 对象</strong>, 并且还需要创建<strong><strong>核心执行器 Executor</strong></strong>对象,基于这些条件，最终创建了实现SqlSession接口的DefaultSqlSession对象</p>
+<h2 id="4-SqlSession"><a href="#4-SqlSession" class="headerlink" title="4 SqlSession"></a>4 SqlSession</h2><p>之后, 通过 SqlSession 对象执行相应的操作, 如果执行成功, 调用 <strong>commit</strong> 方法提交事务; 如果失败, 调用<strong>rollback</strong> 方法事务回滚. 最后, 调用 <strong>close</strong> 方法关闭session 资源.</p>
+<p>##<strong>总结 MyBatis运行过程中涉及到的类和接口：</strong></p>
+<h3 id="Resources（C）-类"><a href="#Resources（C）-类" class="headerlink" title="Resources（C） 类"></a>Resources（C） 类</h3><p>用于加载MyBatis核心配置文件</p>
+<h3 id="XMLConfigBuilder-C-类"><a href="#XMLConfigBuilder-C-类" class="headerlink" title="XMLConfigBuilder(C) 类"></a>XMLConfigBuilder(C) 类</h3><p>用于解析xml文件（核心配置文件）</p>
+<h3 id="Configuration-C-类"><a href="#Configuration-C-类" class="headerlink" title="Configuration(C)类"></a>Configuration(C)类</h3><p>用于存放xml文件解析后的结果</p>
+<h3 id="DefaultSqlSessionFactory（C）类"><a href="#DefaultSqlSessionFactory（C）类" class="headerlink" title="DefaultSqlSessionFactory（C）类"></a>DefaultSqlSessionFactory（C）类</h3><p>是SqlSessionFactory（I）的实现类，创建时需要使用Configruation对象作为参数</p>
+<h3 id="SqlSession（I）接口"><a href="#SqlSession（I）接口" class="headerlink" title="SqlSession（I）接口"></a>SqlSession（I）接口</h3><p>是MyBatis操作的核心</p>
+<h3 id="DefaultSqlSession-C）类"><a href="#DefaultSqlSession-C）类" class="headerlink" title="DefaultSqlSession(C）类"></a>DefaultSqlSession(C）类</h3><p>是SqlSession接口的实现类</p>
+<h3 id="TransactionFactory（I）接口"><a href="#TransactionFactory（I）接口" class="headerlink" title="TransactionFactory（I）接口"></a>TransactionFactory（I）接口</h3><p>用于生产Trasaction对象（关于事务的）</p>
+<h3 id="Transaction-I-接口"><a href="#Transaction-I-接口" class="headerlink" title="Transaction(I) 接口"></a>Transaction(I) 接口</h3><p>用于表示操作数据库的事务对象</p>
+<h3 id="Executor（I）接口"><a href="#Executor（I）接口" class="headerlink" title="Executor（I）接口"></a>Executor（I）接口</h3><p>是MyBatis的核心执行器，类似于JDBC中的Statement，常用的实现类是SimpleExecutor</p>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《项目亮点之Mybatis》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/03/30/niu-ke-wang-zhong-ji-xiang-mu/xiang-mu-liang-dian-zhi-mybatis/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                xuxinghua
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sat Mar 30 2019 17:30:52 GMT+0800',
+    owner: 'Xumingmingming',
+    repo: 'Xumingmingming.github.io',
+    oauth: {
+        client_id: '245a2e1eb55054628f5c',
+        client_secret: 'd97a71996cc30d009cf61d4ccbe64b1e2897338a'
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/03/30/niu-ke-wang-zhong-ji-xiang-mu/xiang-mu-liang-dian-zhi-ajax/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/5.jpg" class="responsive-img" alt="项目亮点之Ajax">
+                        
+                        <span class="card-title">项目亮点之Ajax</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            引入Ajax技术
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-30
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/牛客中级项目/" class="post-category" target="_blank">
+                                    牛客中级项目
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Ajax/" target="_blank">
+                        <span class="chip bg-color">Ajax</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/30/niu-ke-wang-zhong-ji-xiang-mu/xiang-mu-liang-dian-zhi-springboot-yu-xian-cheng-an-quan-wen-ti/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/medias/featureimages/20.jpg" class="responsive-img" alt="springboot与线程安全问题">
+                        
+                        <span class="card-title">springboot与线程安全问题</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            使用ThreadLocal解决springboot中线程安全问题
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-30
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/牛客中级项目/" class="post-category" target="_blank">
+                                    牛客中级项目
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ThreadLocal/" target="_blank">
+                        <span class="chip bg-color">ThreadLocal</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: xxh's blog<br />'
+            + '作者: xuxinghua<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+I<footer class="page-footer bg-color">
+    I<div class="container row center-align">
+        I<div class="col s12 m8 l8 copy-right">
+            I本站由&copy;<a href="https://xumingmingming.github.io/" target="_blank">xuxinghua</a>基于
+            I<a href="https://hexo.io/" target="_blank">Hexo</a> 的
+            I<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>主题搭建.
+
+            I
+                I&nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                I<span class="white-color">117.9k</span>
+            I
+
+            I
+			I
+        I</div>
+        I<div class="col s12 m4 l4 social-link ">
+
+
+    <a href="mailto:393782936@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=393782936" class="tooltipped" data-tooltip="QQ联系我: 393782936" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    I</div>
+I</footer>
+
+I<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/materialize/materialize.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/aos/aos.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="https://blog-deploy.oss-cn-zhangjiakou.aliyuncs.com/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+
+
+</body>
+</html>
